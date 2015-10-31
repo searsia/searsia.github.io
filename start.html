@@ -90,11 +90,12 @@ Twente search server. Use the following command to start the java server.
 <code class="result">
 Searsia server v0.1<br>
 Copyright (c) 2015, Searsia. All rights reserved.<br>
-Connect to: http://www.utwente.nl:8080/searsia/<br>
-Web service endpoint at: http://localhost:16842/searsia/<br>
+Connected to: http://www.utwente.nl:8080/searsia/search?q={q?}&amp;r={r?}<br>
+API Template: http://localhost:16842/searsia/search?q={q?}&amp;r={r?}<br>
 Use Ctrl+c to stop.
 </code>
 </p>
+<p>Use the API Template in your <a href="#client">client</a> as explained above to connect.</p> 
 
 <h3 id="serveroptions">Server options</h3>
 <p>
@@ -109,36 +110,55 @@ The java server supports several command line options, shown in the following ta
 </tr>
 <tr><td><span style="white-space:nowrap">--interval &lt;arg&gt;</span></td>
   <td>Takes as argument an integer, which is the poll interval (in seconds). The 
-server sends a random query each interval to a search engine. An interval of 0
-disables polling (Polling also known as query-based sampling).</td>
+server sends a random query each interval to a search engine. 
+The default value is <code>120</code> seconds. 
+If your server contains 30 resources (search engines), a polling interval of 120
+seconds will poll each resource on average once per 120 * 30 = 3600 seconds, 
+so once each 60 minutes, about 24 queries a day. In scientific literature on
+distributed information retrieval, polling is usually called query-based sampling.
+An interval of <code>0</code> disables polling.</td>
 </tr>
 <tr>
   <td>--log &lt;arg&gt;</td><td>Takes as argument an integer, which is the 
 type of log messages produced by the server (on standard error). Supported levels 
 are: 0 = no logging; 1 = only errors; 2 =  errors and warnings; 3 = errors, warnings, 
-and information, 4 = all of level 3 plus debug information. The default level is 3.</td>
+and information, 4 = all of level 3 plus debug information. The default level is <code>3</code>.</td>
 </tr>
 <tr>
  <td>--mother &lt;arg&gt;</td>
- <td>Sets the API template of the mother. Use 'none' to run the in stand-alone
-mode.</td>
+ <td>Sets the API template of the mother. Use 'none' to run the in stand-alone mode. The 
+default is currently '<code>http://www.utwente.nl:8080/searsia/search?q={q?}&amp;r={r?}</code>'.
+  </td>
 </tr>
 <tr>
   <td>--name &lt;arg&gt;</td>
-  <td> Set the id (name) of this end point </td>
+  <td> Set the id (name) of this end point. The server generates a random string as its name
+if this setting is not provided.</td>
 </tr>
 <tr>
   <td>--path &lt;arg&gt;</td>
-  <td>Set the path on the file system where the index is stored.</td>
+  <td>Set the path on the file system where the index is stored. The default depends on your 
+operating system. Typically, the index ends up in your home directory under:  
+<code>.local/share/searsia</code> if your are on a Linux-based system,
+<code>Library/Application Support/Searsia</code> if you are on Apple,
+<code>Application Data/Searsia</code> on many Windows versions.
+</td>
 </tr>
 <tr>
+  <td>--trusted &lt;arg&gt;</td>
+  <td>Set the domain of the trusted client. The trusted client can add or update the 
+search engine definitions of the server. There is no default trusted client.</td>
+</tr> 
+<tr>
   <td>--url &lt;arg&gt;</td>
-  <td>Set the url of the web service endpoint.</td>
+  <td>Set the url of the web service endpoint. The default is '<code>http://localhost:16842/searsia/</code>'</td>
 </tr>
 </table>
 
 <p> For convenience, each option has a short-hand consisting of one hyphen and the first letter of the option, for instance <code>-h</code> for <code>--help</code>.
 </p>
+
+<p><strong>Next:</strong> <a href="engines.html">Adding search engines</a> to your server.</p>
 
           </div>
         </div>
