@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Search the web together">
+    <meta name="author" content="searsia.org">
+    <link rel="icon" href="images/search.png">
+    <title>Searsia - Quick start</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/searsia.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <!-- Static navbar -->
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Searsia</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="">Quick start</a></li>
+              <li><a href="engines.html">Adding Engines</a></li>
+              <li><a href="protocol.html">Protocol</a></li>
+            </ul>
+          <div class="col-sm-3 col-md-3 pull-right">
+            <form class="navbar-form" action="search.html">
+            <div class="input-group">
+            <input type="text" class="form-control" placeholder="search" name="q" id="query">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+            </div>
+            </div>
+            </form>
+          </div>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8"> 
+        <h1><img src="images/search.png" alt=""> Quick start</h1>
+        <p>Searsia comes with a client and a server.</p>
+
+        <h2 id="client">The client</h2>
+
+<p>The Searsia <strong>web client</strong> can be installed from Github using the following command:</p>
+
+<p>
+<code class="block">git clone 'https://github.com/searsia/search.git'</code>
+</p>
+
+<p>To use the web client, open <code>index.html</code> in a web browser. The client 
+will automatically connect to the University of Twente search server.
+To connect to another server, edit the following line in the file
+<code>js/searsia-0.1.js</code>, which contains the API template of the server.
+
+<p>
+<code class="block"> var API_TEMPLATE = 'http://www.utwente.nl:8080/searsia/search?q={q?}&amp;r={r?}'</code>
+</p>
+
+<p> If you run a server on your local machine (see next section), you can connect to your own server by setting the API template to:
+<code>'http://localhost:16842/searsia/search?q={q?}&amp;r={r?}'</code>
+</p>
+
+<h2 id="server">The server</h2>
+
+<p>You can run your own server by <a href="searsia-0.1.jar">downloading</a> and running the Searsia
+<strong>java server</strong>. The server requires Java 7 or higher. Just like 
+the web client, the java server will automatically connect to the University of 
+Twente search server. Use the following command to start the java server.
+
+<p><code class="block">  java -jar searsia-0.1.jar </code></p>
+
+<p> The program displays the following message: </p>
+<p>
+<code class="result">
+Searsia server v0.1<br>
+Copyright (c) 2015, Searsia. All rights reserved.<br>
+Connect to: http://www.utwente.nl:8080/searsia/<br>
+Web service endpoint at: http://localhost:16842/searsia/<br>
+Use Ctrl+c to stop.
+</code>
+</p>
+
+<h3 id="serveroptions">Server options</h3>
+<p>
+The java server supports several command line options, shown in the following table.
+</p>
+
+<table class="table table-bordered">
+<tr><th>Option</th><th>Explanation</th></tr>
+<tr>
+  <td> --help</td>
+  <td> Show help.</td>
+</tr>
+<tr><td><span style="white-space:nowrap">--interval &lt;arg&gt;</span></td>
+  <td>Takes as argument an integer, which is the poll interval (in seconds). The 
+server sends a random query each interval to a search engine. An interval of 0
+disables polling (Polling also known as query-based sampling).</td>
+</tr>
+<tr>
+  <td>--log &lt;arg&gt;</td><td>Takes as argument an integer, which is the 
+type of log messages produced by the server (on standard error). Supported levels 
+are: 0 = no logging; 1 = only errors; 2 =  errors and warnings; 3 = errors, warnings, 
+and information, 4 = all of level 3 plus debug information. The default level is 3.</td>
+</tr>
+<tr>
+ <td>--mother &lt;arg&gt;</td>
+ <td>Sets the API template of the mother. Use 'none' to run the in stand-alone
+mode.</td>
+</tr>
+<tr>
+  <td>--name &lt;arg&gt;</td>
+  <td> Set the id (name) of this end point </td>
+</tr>
+<tr>
+  <td>--path &lt;arg&gt;</td>
+  <td>Set the path on the file system where the index is stored.</td>
+</tr>
+<tr>
+  <td>--url &lt;arg&gt;</td>
+  <td>Set the url of the web service endpoint.</td>
+</tr>
+</table>
+
+<p> For convenience, each option has a short-hand consisting of one hyphen and the first letter of the option, for instance <code>-h</code> for <code>--help</code>.
+</p>
+
+          </div>
+        </div>
+      </div>
+    </div> <!-- /container -->
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
