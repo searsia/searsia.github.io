@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Search the web together">
     <meta name="author" content="searsia.org">
-    <link rel="icon" href="images/search.png">
-    <title>Searsia - Quick start</title>
+    <link rel="icon" href="images/searsia.png">
+    <title>Searsia - Start</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/searsia.css" rel="stylesheet">
   </head>
@@ -30,12 +30,12 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="">Quick start</a></li>
-              <li><a href="engines.html">Adding Engines</a></li>
+              <li class="active"><a href="">Start</a></li>
+              <li><a href="engines.html">Engines</a></li>
               <li><a href="protocol.html">Protocol</a></li>
             </ul>
-          <div class="col-sm-3 col-md-3 pull-right">
-            <form class="navbar-form" action="search.html">
+          <div class="col-sm-3 pull-right">
+            <form class="navbar-form" action="searsiaclient/search.html" method="get">
             <div class="input-group">
             <input type="text" class="form-control" placeholder="search" name="q" id="query">
             <div class="input-group-btn">
@@ -52,7 +52,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-8"> 
-        <h1><img src="images/search.png" alt=""> Quick start</h1>
+        <h1>Start <img src="images/searsia.png" alt=""></h1>
         <p>Searsia comes with a client and a server.</p>
 
         <h2 id="client">The client</h2>
@@ -60,20 +60,19 @@
 <p>The Searsia <strong>web client</strong> can be installed from Github using the following command:</p>
 
 <p>
-<code class="block">git clone 'https://github.com/searsia/search.git'</code>
+<code class="block">git clone 'https://github.com/searsia/searsiaclient.git'</code>
 </p>
 
 <p>To use the web client, open <code>index.html</code> in a web browser. Congratulations! You now run
 your own search page.</p> 
 
-<h3 id="clientoptions">Client options</h3>
-<p> The client 
-will automatically connect to the University of Twente search server.
-To connect to another server, edit the following line in the file
-<code>js/searsia-0.1.js</code>, which contains the API template of the server.
+<h2 id="clientoptions">Client options</h2>
+<p> The client will automatically connect to the University of Twente search server.
+To connect to another server, edit the second line in the file
+<code>js/searsia.js</code>, which contains the API template of the server.
 </p>
 <p>
-<code class="block"> var API_TEMPLATE = 'http://www.utwente.nl:8080/searsia/search?q={q?}&amp;r={r?}'</code>
+<code> var API_TEMPLATE = 'http://search.utwente.nl/searsia/search?q={q?}&amp;r={r?}'</code>
 </p>
 
 <p> If you run a server on your local machine (see next section), you can connect to your own server by setting the API template to:
@@ -82,37 +81,37 @@ To connect to another server, edit the following line in the file
 
 <h2 id="server">The server</h2>
 
-<p>You can run your own server by <a href="searsia-0.1.jar">downloading</a> and running the Searsia
+<p>You can run your own server by <a href="searsiaserver.jar">downloading</a> and running the Searsia
 <strong>java server</strong>. The server requires Java 7 or higher. Just like 
 the web client, the java server will automatically connect to the University of 
 Twente search server. Use the following command to start the java server.
 
-<p><code class="block">  java -jar searsia-0.1.jar </code></p>
+<p><code class="block">  java -jar searsiaserver.jar </code></p>
 
 <p> The program displays the following message: </p>
 <p>
 <code class="result">
-Searsia server v0.1<br>
-Copyright (c) 2015, Searsia. All rights reserved.<br>
-Connected to: http://www.utwente.nl:8080/searsia/search?q={q?}&amp;r={r?}<br>
+Searsia Server v0.1.3<br>
+Connected to: utwente<br>
 API Template: http://localhost:16842/searsia/search?q={q?}&amp;r={r?}<br>
 Use Ctrl+c to stop.
 </code>
 </p>
-<p>Use the API Template in your <a href="#client">client</a> as explained above to connect.</p> 
+<p>Use the reported API Template in your <a href="#client">client</a> as explained above to connect.</p> 
 
-<h3 id="serveroptions">Server options</h3>
+<h2 id="serveroptions">Server options</h2>
 <p>
 The java server supports several command line options, shown in the following table.
+For convenience, each option has a short-hand consisting of one hyphen and the first letter of the option, for instance <code>-h</code> for <code>--help</code>.
 </p>
 
 <table class="table table-bordered">
 <tr><th>Option</th><th>Explanation</th></tr>
-<tr>
+<tr id="option-help">
   <td> --help</td>
   <td> Show help.</td>
 </tr>
-<tr><td><span style="white-space:nowrap">--interval &lt;arg&gt;</span></td>
+<tr id="interval"><td><span style="white-space:nowrap">--interval &lt;arg&gt;</span></td>
   <td>Takes as argument an integer, which is the poll interval (in seconds). The 
 server sends a random query each interval to a search engine. 
 The default value is <code>120</code> seconds. 
@@ -122,24 +121,29 @@ so once each 60 minutes, about 24 queries a day. In scientific literature on
 distributed information retrieval, polling is usually called query-based sampling.
 An interval of <code>0</code> disables polling.</td>
 </tr>
-<tr>
+<tr id="option-log">
   <td>--log &lt;arg&gt;</td><td>Takes as argument an integer, which is the 
 type of log messages produced by the server (on standard error). Supported levels 
 are: 0 = no logging; 1 = only errors; 2 =  errors and warnings; 3 = errors, warnings, 
 and information, 4 = all of level 3 plus debug information. The default level is <code>3</code>.</td>
 </tr>
-<tr>
+<tr id="option-mother">
  <td>--mother &lt;arg&gt;</td>
  <td>Sets the API template of the mother. Use 'none' to run the in stand-alone mode. The 
-default is currently '<code>http://www.utwente.nl:8080/searsia/search?q={q?}&amp;r={r?}</code>'.
+default is currently '<code>http://search.utwente.nl/searsia/search?q={q?}&amp;r={r?}</code>'.
   </td>
 </tr>
-<tr>
+<tr id="option-name">
   <td>--name &lt;arg&gt;</td>
   <td> Set the id (name) of this end point. The server generates a random string as its name
 if this setting is not provided.</td>
 </tr>
-<tr>
+<tr id="option-open">
+  <td>--open </td>
+  <td>Enable on-line updates. This enables on-line updates for your server by anyone, 
+use this only for testing purposes.</td>
+</tr>
+<tr id="option-path">
   <td>--path &lt;arg&gt;</td>
   <td>Set the path on the file system where the index is stored. The default depends on your 
 operating system. Typically, the index ends up in your home directory under:  
@@ -148,19 +152,52 @@ operating system. Typically, the index ends up in your home directory under:
 <code>Application Data/Searsia</code> on many Windows versions.
 </td>
 </tr>
-<tr>
-  <td>--trusted &lt;arg&gt;</td>
-  <td>Set the domain of the trusted client. The trusted client can add or update the 
-search engine definitions of the server. There is no default trusted client.</td>
-</tr> 
-<tr>
+<tr id="option-url">
   <td>--url &lt;arg&gt;</td>
   <td>Set the url of the web service endpoint. The default is '<code>http://localhost:16842/searsia/</code>'</td>
 </tr>
 </table>
 
-<p> For convenience, each option has a short-hand consisting of one hyphen and the first letter of the option, for instance <code>-h</code> for <code>--help</code>.
-</p>
+
+<h2 id="serveroptions">Server trouble shooting</h2>
+
+The server might return the following error messages:
+
+<ul>
+<li id="error-create-directory"><code>Setup failed: Cannot create directory: </code><br>
+The server cannot create the index. Check if the server has write premissions in the reported directory. 
+Use the <a href="#option-path">--path</a> option to change the location of the index.
+</li>
+
+<li id="error-timed-out"><code>Setup failed: Lock obtain timed out: NativeFSLock</code><br>
+There is already running an instance of the Searsia server on the same index. 
+Kill the server, or run the server with a different name with the <a href="#option-name">--name</a> option.
+</li>
+
+<li id="error-start-server"><code>Server failed: Failed to start Grizzly HTTP server: Address already in use</code><br>
+There is already running an instance of the Searsia server on the same url.
+Kill the server, or run the server on a different url or port number with the <a href="#option-url">--url</a> option.
+</li>
+
+<li id="error-server-address"><code>Server failed: Failed to start Grizzly HTTP server: Unresolved address</code>, or<br>
+<code>Server failed: Failed to start Grizzly HTTP server: Permission denied</code><br>
+The provided url is invalid, or the url does not belong to the machine that runs the server, or the port is blocked or taken by another application.
+Change the url with the <a href="#option-url">--url</a> option.
+</li>
+
+<li id="error-resource-id"><code>Error: Resource id conflict</code>, or<br>
+<code>Error: The server id 'X' already exists.</code><br>
+This usually happens if you give your engine a name with the <a href="#option-name">--name</a> option that is
+already used by the mother. Give your server another name.
+</li>
+
+
+<li id="error-connection-failed"><code>Error: Connection failed: java.net.UnknownHostException.</code><br>
+Connection to the mother failed. Check your internet connection. Check the mother engine. 
+Change the mother with the <a href="#option-mother">--mother</a> option.
+</li>
+</ul>
+
 
 <p><strong>Next:</strong> <a href="engines.html">Adding search engines</a> to your server.</p>
 

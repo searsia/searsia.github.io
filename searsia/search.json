@@ -1,0 +1,35 @@
+{
+  "hits": [
+    {
+      "title": "Searsia",
+      "description": "Searsia is a protocol and implementation for large scale federated web search.",
+      "url": "http:\/\/searsia.org\/"
+    },
+    {
+      "title": "Searsia - Start",
+      "description": "Searsia comes with a client and a server.",
+      "url": "http:\/\/searsia.org\/start.html"
+    },
+    {
+      "title": "Searsia - Engines",
+      "description": "To see a list of all resources (engines) that are used by your server, open settings.html in your client. This will show a table with all resources, about 25 if you connect to the University of Twente Searsia server.",
+      "url": "http:\/\/searsia.org\/engines.html"
+    },
+    {
+      "title": "Searsia - Start: The client",
+      "description": "The client will automatically connect to the University of Twente search server. To connect to another server, edit the second line in the file js/searsia.js, which contains the API template of the server. If you run a server on your local machine (see next section), you can connect to your own server by setting the API template to: 'http://localhost:16842/searsia/search?q={q?}&r={r?}'",
+      "url": "http:\/\/searsia.org\/start.html#client"
+    }
+  ],
+  "resource": {
+    "id": "searsia.org",
+    "mimetype": "application\/searsia+json",
+    "favicon": "http:\/\/searsia.org\/images\/search.png",
+    "banner": "http:\/\/searsia.org\/images\/banner.png",
+    "name": "Searsia",
+    "rerank": "lm",
+    "apitemplate": "http:\/\/searsia.org\/searsia\/searsia.json",
+    "usertemplate": "http:\/\/searsia.org\/searsiaclient\/search.html?q={q}"
+  },
+  "searsia": "v0.1.3"
+}
