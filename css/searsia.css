@@ -12,17 +12,15 @@ body {
 }
 
 code {
-  background-color: #ebf4ff;
   color: black;
 }
 
 code.block {
-  background-color: #ebf4ff;
   border: 1px solid #ccc;
   border-radius: 3px;
   display: block;
   overflow-x: auto;
-  color: #124580;
+  color: #801245;
   padding: 0.5em 0.5em 0.5em 1em;
 }
 

@@ -53,33 +53,74 @@
         <div class="row">
           <div class="col-md-8"> 
         <h1>Engines <img src="images/searsia.png" alt=""></h1>
-        <p>To see a list of all resources (engines) that are used by your server, open <code>settings.html</code> in your client.
+        <p>To see a list of all resources (search engines) that are used by your server, open <code>settings.html</code> in your client.
            This will show a table with resources, about 25 if you connect to the University of
            Twente Searsia server.
            To enable updates, start the server with the <a href="start.html#serveroptions">--open</a> option.
+           Click on the "+Add" button on the bottom of the <code>settings.html</code> page. To add a search engine.
         </p>
-        <h2 id="definition">Resource definitions</h2>
+
+        <h2 id="adding-searsia">Adding a Searsia resource</h2>
         <p>
-          Each resource is defined by the following list of parameters:
+          To add a <b>Searsia</b> engine (an engine that implements the Searsia protocol, i.e., it returns results of mime-type <code>application/searsia+json</code>), you enter a unique Identifier (<em><a href="#field-id">Id</a></em>), and the search engine's <em><a href="#field-api-template">API template</a></em>. The <em><a href="#field-id">Id</a></em> should be unique in your server. The <em><a href="#field-api-template">API template</a></em> is the url of the search engine, where the query is replaced by <code>{q}</code> or <code>{q?}</code> (where the question mark should be used if the query is optional). After clicking "Update", the server tests the engine. A pop-up window appears with the results of the test, and a message explaining whether the engines is added or not.
+        </p>
+
+        <h2 id="adding-html">Adding an HTML resource</h2>
+        <p>
+         The server can add search engines by <a href="https://en.wikipedia.org/wiki/Data_scraping">scraping</a> the HTML that they return for their end users. To add an HTML engine, fill in <code>text/html</code> in the field <em><a href="#field-mime-type">Mime type</a></em>. As the field <em><a href="#field-api-template">API Template</a></em>, take the search engine's URL from your browser after querying the search engine, replacing the query in the url by <code>{q}</code>. If the URL does not contain a query, the search engine probably uses a <a href="https://en.wikipedia.org/wiki/POST_%28HTTP%29">POST request</a>. To find out what the POST request is, we recommend <a href="https://addons.mozilla.org/en-US/firefox/addon/live-http-headers/">Live HTTP Headers</a> for Firefox. Put the POST string, replacing the query by <code>{q}</code> in the field <em><a href="#field-post-string">Post string</a></em>.
+        </p>
+        <p id="scraping">
+         Searsia uses <a href="https://en.wikipedia.org/wiki/XPath">XPath 1.0</a> to extract the search results from the web page. XPath is a query language for selecting elements of semi-structured data. Suppose the search results are displayed as list elements on the page, then these are encode as <code>&lt;li&gt;</code> ... <code>&lt;/li&gt;</code> on the page, and they can be extracted from the page with the XPath query <code>//li</code>. To find the most likely XPath query, we recommend <a href="http://dolf.trieschnigg.nl/srf/">Search Result Finder</a> for Firefox. Fill in the XPath query in the field <em><a href="#field-item-xpath">Item XPath</a></em>. To tell Searsia how to extract the components of the search result, add <em><a href="#field-xpaths">XPaths</a></em> for the fields <code>title</code>, <code>description</code>, <code>link</code>, or any other field you like (the client also supports <code>image</code>). 
+        </p>
+
+        <h2 id="adding-xml">Adding an XML resource</h2>
+        <p>To add an XML engine, fill in <code>application/xml</code> in the field <em><a href="#field-mime-type">Mime type</a></em>. Then proceed as <a href="#adding-html">above</a>. The Firefox Search Result Finder cannot be used in this case.
+        </p>
+
+        <h2 id="adding-json">Adding a JSON resource</h2>
+        <p>To add a JSON engine, fill in <code>application/json</code> in the field <em><a href="#field-mime-type">Mime type</a></em>. Searsia also uses XPath queries to interpret JSON output, by internally converting JSON to XML, where each JSON attribute name is converted to an XML element; JSON lists are converted to repeated XML elements for list name. Searsia supports many API's by including API keys as secret <em><a href="#field-parameters">parameters</a></em> that will not be shared, as well the possibility to add custom HTTP <em><a href="#field-headers">headers</a></em>.
+        </p>
+
+        <h2 id="examples">Examples</h2>
+        <p>Look at the <a href="http://search.utwente.nl/settings.html">University of Twente settings</a> for examples of Searsia's search engines, including many examples of HTML scrapers, and examples for accessing the API's of Google, Twitter, Facebook, Flickr, Instagram and more.
+        </p>
+
+        <h2 id="fields">An overview of all fields</h2>
+        <p>
+          The table below contains a quick reference for all fields:
         </p>
 <table class="table table-bordered">
 <tr><th>Parameter</th><th>Explanation</th></tr>
-<tr><td>  *Id:</td><td>A unique string identifying this resource. Should be unique within the server. </td></tr>
+<tr id="field-id"><td>  *Id:</td><td>A unique string identifying this resource. Should be unique within the server. </td></tr>
+
 <tr><td>Name:</td><td>A short name for this resource, to be displayed to the user. </td></tr>
-<tr><td>Icon:</td><td>The url of the icon image, to be displayed to the user. Icons should have equal width and height.
+
+<tr id="field-icon"><td>Icon:</td><td>The url of the icon image, to be displayed to the user. Icons should have equal width and height.
 Icons are preferably png files, not smaller than 48x48 pixels. </td></tr>
-<tr><td><span style="white-space:nowrap">User template:</span></td><td>A url specified following the <a href="protocol.html#templates">searsia url template syntax</a>, to be used by users.  The mime type of this url must be <code>text/html</code> or <code>application/xml+xhtml</code>. </td></tr>
-<tr><td><span style="white-space:nowrap">*API template:</span></td><td>A url specified following the <a href="protocol.html#templates">searsia url template syntax</a>, to be used by the server.</td></tr>
-<tr><td>Post string:</td><td>Only set if the API template HTTP method is POST, empty if the HTTP method is GET. Like the template, the post string may include parameters.</td></tr>
-<tr><td>Mime type:</td><td>The format returned by the API Template. Supported formats are: <code>application/searsia+json</code>, <code>text/html</code>, <code>application/xml</code>, <code>application/json</code>. If omitted, the mime type <code>application/searsia+json</code> is assumed.</td></tr>
-<tr><td> Test query:</td><td>A query for which a search gives a non-empty result. If not set, the system should give a non-empty result for the query <code>searsia</code>.</td></tr>
-<tr><td> Rerank:</td><td>Specifies a ranking algorithm or filter that is used to rerank/refilter the search results. Currently, only <code>or</code> is supported, filtering the returned results such that results that do not match any of the query terms are removed.</td></tr>
+
+<tr id="field-user-template"><td><span style="white-space:nowrap">User template:</span></td><td>A url specified following the <a href="protocol.html#templates">searsia url template syntax</a>, to be used by users.  The mime type of this url must be <code>text/html</code> or <code>application/xml+xhtml</code>. </td></tr>
+
+<tr id="field-api-template"><td><span style="white-space:nowrap">*API template:</span></td><td>A url specified following the <a href="protocol.html#templates">searsia url template syntax</a>, to be used by the server.</td></tr>
+
+<tr id="field-post-string"><td>Post string:</td><td>Only set if the API template HTTP method is POST, empty if the HTTP method is GET. Like the template, the post string may include parameters.</td></tr>
+
+<tr id="field-mime-type"><td>Mime type:</td><td>The format returned by the API Template. Supported formats are: <code>application/searsia+json</code>, <code>text/html</code>, <code>application/xml</code>, <code>application/json</code>. If omitted, the mime type <code>application/searsia+json</code> is assumed.</td></tr>
+
+<tr id="field-test-query"><td> Test query:</td><td>A query for which a search gives a non-empty result. If not set, the system should give a non-empty result for the query <code>searsia</code>.</td></tr>
+
+<tr id="field-rerank"><td> Rerank:</td><td>Specifies a ranking algorithm or filter that is used to rerank/refilter the search results. Currently, only <code>or</code> is supported, filtering the returned results such that results that do not match any of the query terms are removed.</td></tr>
+
 <tr><td> Prior:</td><td>A value between 0 and 1 indicating the prior probability of a resource to be selected (prior to knowing the query). For instance, a value of 0.1 indicates that the resource gives relevant results for 1 in 10 queries. A value of 1 indicates that the resource <em>always</em> returns relevant results. In this case, the server likely returns the resource for every query. Values bigger than 1 are permitted to prioritize between multiple resources that are always selected. </td></tr>
-<tr><td> Item XPath:</td><td>An <a href="https://en.wikipedia.org/wiki/XPath">XPath 1.0</a> query that selects the search results from an HTML or XML result. XPath is also used to select results from JSON results, assuming a standard conversion to XML, where JSON lists are converted to repeated XML elements. </td></tr>
-<tr><td>XPaths:</td><td>Field names and XPath queries for selecting parts of search results such as the title, url, and description. For example, the <code>title</code> would typically be selected as the first anchor text in a search result, i.e., <code>(.//a)[1]</code>. The XPath queries are evaluated with respect to an Item XPath context node, and they typically start with <code>.</code> (the 'self' axis step).
+
+<tr id="field-item-xpath"><td> Item XPath:</td><td>An <a href="https://en.wikipedia.org/wiki/XPath">XPath 1.0</a> query that selects the search results from an HTML or XML result. XPath is also used to select results from JSON results, assuming a standard conversion to XML, where JSON lists are converted to repeated XML elements. </td></tr>
+
+<tr id="field-xpaths"><td>XPaths:</td><td>Field names and XPath queries for selecting parts of search results such as the title, url, and description. For example, the <code>title</code> would typically be selected as the first anchor text in a search result, i.e., <code>(.//a)[1]</code>. The XPath queries are evaluated with respect to an Item XPath context node, and they typically start with <code>.</code> (the 'self' axis step).
 </td></tr>
-<tr><td> Headers:</td><td>HTTP headers to be sent to the API Template, consisting of a field name (without ':') and the field value. Like API Template and Post String, the field value may include parameters. </td></tr>
-<tr><td> Parameters:</td><td>Secret parameter names and their values. Occurrences of the parameter names in the API Template, Post String or Headers will be replaced by the value. The server will not share the parameter names and values with other clients, so it is safe to use them for API keys and secrets. </td></tr>
+
+<tr id="field-headers"><td> Headers:</td><td>HTTP headers to be sent to the API Template, consisting of a field name (without ':') and the field value. Like API Template and Post String, the field value may include parameters. </td></tr>
+
+<tr id="field-parameters"><td> Parameters:</td><td>Secret parameter names and their values. Occurrences of the parameter names in the API Template, Post String or Headers will be replaced by the value. The server will not share the parameter names and values with other clients, so it is safe to use them for API keys and secrets. </td></tr>
+
 </table>
 <p>* mandatory settings</p>
 

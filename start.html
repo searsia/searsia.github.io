@@ -56,15 +56,10 @@
         <p>Searsia comes with a client and a server.</p>
 
         <h2 id="client">The client</h2>
-
-<p>The Searsia <strong>web client</strong> can be installed from Github using the following command:</p>
-
-<p>
-<code class="block">git clone 'https://github.com/searsia/searsiaclient.git'</code>
-</p>
-
-<p>To use the web client, open <code>index.html</code> in a web browser. Congratulations! You now run
-your own search page.</p> 
+        <p>The Searsia <strong>web client</strong> can be installed from Github using the following command:
+        <p> <code class="block">git clone 'https://github.com/searsia/searsiaclient.git'</code></p>
+        To use the web client, open <code>index.html</code> in a web browser. Congratulations! You now run
+        your own search page.</p> 
 
 <h2 id="clientoptions">Client options</h2>
 <p> The client will automatically connect to the University of Twente search server.
@@ -129,8 +124,7 @@ and information, 4 = all of level 3 plus debug information. The default level is
 </tr>
 <tr id="option-mother">
  <td>--mother &lt;arg&gt;</td>
- <td>Sets the API template of the mother. Use 'none' to run the in stand-alone mode. The 
-default is currently '<code>http://search.utwente.nl/searsia/search?q={q?}&amp;r={r?}</code>'.
+ <td>Sets the API template of the mother. Use <code>none</code> to run the in stand-alone mode. The default is currently '<code>http://search.utwente.nl/searsia/search?q={q?}&amp;r={r?}</code>'.
   </td>
 </tr>
 <tr id="option-name">
@@ -159,7 +153,7 @@ operating system. Typically, the index ends up in your home directory under:
 </table>
 
 
-<h2 id="serveroptions">Server trouble shooting</h2>
+<h2 id="troubleshooting">Server trouble shooting</h2>
 
 The server might return the following error messages:
 
@@ -185,17 +179,24 @@ The provided url is invalid, or the url does not belong to the machine that runs
 Change the url with the <a href="#option-url">--url</a> option.
 </li>
 
-<li id="error-resource-id"><code>Error: Resource id conflict</code>, or<br>
+<li id="error-resource-id"><code>Error: Local id conflict</code>, or<br>
 <code>Error: The server id 'X' already exists.</code><br>
 This usually happens if you give your engine a name with the <a href="#option-name">--name</a> option that is
 already used by the mother. Give your server another name.
 </li>
 
+<li id="error-unknownhost-exception"><code>Error: Connection failed: java.net.UnknownHostException</code>, or<br>
+<code>Error: Connection failed: java.io.FileNotFoundException</code>, or<br>
+<code>Error: Mother id conflict</code><br>
+Connection to the mother failed. Check your internet connection. Check the mother engine and mother template.
+Change the mother template with the <a href="#option-mother">--mother</a> option.
+</li>
 
-<li id="error-connection-failed"><code>Error: Connection failed: java.net.UnknownHostException.</code><br>
-Connection to the mother failed. Check your internet connection. Check the mother engine. 
+<li id="error-json-exception"><code>Error: Connection failed: org.json.JSONException</code><br>
+The mother is not a Searsia engine.  Check the mother engine and mother template.
 Change the mother with the <a href="#option-mother">--mother</a> option.
 </li>
+
 </ul>
 
 
