@@ -7,7 +7,7 @@
     <meta name="description" content="Search the web together">
     <meta name="author" content="searsia.org">
     <link rel="icon" href="images/searsia.png">
-    <title>Searsia - Adding engines</title>
+    <title>Searsia - Adding resources</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/searsia.css" rel="stylesheet">
   </head>
@@ -57,32 +57,32 @@
            This will show a table with resources, about 25 if you connect to the University of
            Twente Searsia server.
            To enable updates, start the server with the <a href="start.html#serveroptions">--open</a> option.
-           Click on the "+Add" button on the bottom of the <code>settings.html</code> page. To add a search engine.
+           To add a resource, click on the "+Add" button on the bottom of the <code>settings.html</code> page.
         </p>
 
         <h2 id="adding-searsia">Adding a Searsia resource</h2>
         <p>
-          To add a <b>Searsia</b> engine (an engine that implements the Searsia protocol, i.e., it returns results of mime-type <code>application/searsia+json</code>), you enter a unique Identifier (<em><a href="#field-id">Id</a></em>), and the search engine's <em><a href="#field-api-template">API template</a></em>. The <em><a href="#field-id">Id</a></em> should be unique in your server. The <em><a href="#field-api-template">API template</a></em> is the url of the search engine, where the query is replaced by <code>{q}</code> or <code>{q?}</code> (where the question mark should be used if the query is optional). After clicking "Update", the server tests the engine. A pop-up window appears with the results of the test, and a message explaining whether the engines is added or not.
+          To add a <b>Searsia</b> resource (an engine that implements the Searsia protocol, returning results of mime-type <code>application/searsia+json</code>), you enter a unique Identifier (<em><a href="#field-id">Id</a></em>), and the resource' <em><a href="#field-api-template">API template</a></em>. The <em><a href="#field-id">Id</a></em> should be unique in your server. The <em><a href="#field-api-template">API template</a></em> is the url of the resource, where the query is replaced by <code>{q}</code> or <code>{q?}</code> (where the question mark should be used if the query is optional). After clicking "Update", the server tests the resource. A pop-up window appears with the results of the test, and a message explaining whether the resource is added or not.
         </p>
 
         <h2 id="adding-html">Adding an HTML resource</h2>
         <p>
-         The server can add search engines by <a href="https://en.wikipedia.org/wiki/Data_scraping">scraping</a> the HTML that they return for their end users. To add an HTML engine, fill in <code>text/html</code> in the field <em><a href="#field-mime-type">Mime type</a></em>. As the field <em><a href="#field-api-template">API Template</a></em>, take the search engine's URL from your browser after querying the search engine, replacing the query in the url by <code>{q}</code>. If the URL does not contain a query, the search engine probably uses a <a href="https://en.wikipedia.org/wiki/POST_%28HTTP%29">POST request</a>. To find out what the POST request is, we recommend <a href="https://addons.mozilla.org/en-US/firefox/addon/live-http-headers/">Live HTTP Headers</a> for Firefox. Put the POST string, replacing the query by <code>{q}</code> in the field <em><a href="#field-post-string">Post string</a></em>.
+         The server can add resources by <a href="https://en.wikipedia.org/wiki/Data_scraping">scraping</a> the HTML that search engines return for their end users. To add an HTML resource, fill in <code>text/html</code> in the field <em><a href="#field-mime-type">Mime type</a></em>. As the field <em><a href="#field-api-template">API Template</a></em>, take the resource' URL from your browser after querying the search engine, replacing the query in the url by <code>{q}</code>. If the URL does not contain a query, the search engine probably uses a <a href="https://en.wikipedia.org/wiki/POST_%28HTTP%29">POST request</a>. To find out what the POST request is, we recommend <a href="https://addons.mozilla.org/en-US/firefox/addon/live-http-headers/">Live HTTP Headers</a> for Firefox. Put the POST string, replacing the query by <code>{q}</code> in the field <em><a href="#field-post-string">Post string</a></em>.
         </p>
         <p id="scraping">
          Searsia uses <a href="https://en.wikipedia.org/wiki/XPath">XPath 1.0</a> to extract the search results from the web page. XPath is a query language for selecting elements of semi-structured data. Suppose the search results are displayed as list elements on the page, then these are encode as <code>&lt;li&gt;</code> ... <code>&lt;/li&gt;</code> on the page, and they can be extracted from the page with the XPath query <code>//li</code>. To find the most likely XPath query, we recommend <a href="http://dolf.trieschnigg.nl/srf/">Search Result Finder</a> for Firefox. Fill in the XPath query in the field <em><a href="#field-item-xpath">Item XPath</a></em>. To tell Searsia how to extract the components of the search result, add <em><a href="#field-xpaths">XPaths</a></em> for the fields <code>title</code>, <code>description</code>, <code>link</code>, or any other field you like (the client also supports <code>image</code>). 
         </p>
 
         <h2 id="adding-xml">Adding an XML resource</h2>
-        <p>To add an XML engine, fill in <code>application/xml</code> in the field <em><a href="#field-mime-type">Mime type</a></em>. Then proceed as <a href="#adding-html">above</a>. The Firefox Search Result Finder cannot be used in this case.
+        <p>To add an XML resource, fill in <code>application/xml</code> in the field <em><a href="#field-mime-type">Mime type</a></em>. Then proceed as <a href="#adding-html">above</a>. The Firefox Search Result Finder cannot be used in this case.
         </p>
 
         <h2 id="adding-json">Adding a JSON resource</h2>
-        <p>To add a JSON engine, fill in <code>application/json</code> in the field <em><a href="#field-mime-type">Mime type</a></em>. Searsia also uses XPath queries to interpret JSON output, by internally converting JSON to XML, where each JSON attribute name is converted to an XML element; JSON lists are converted to repeated XML elements for list name. Searsia supports many API's by including API keys as secret <em><a href="#field-parameters">parameters</a></em> that will not be shared, as well the possibility to add custom HTTP <em><a href="#field-headers">headers</a></em>.
+        <p>To add a JSON resource, fill in <code>application/json</code> in the field <em><a href="#field-mime-type">Mime type</a></em>. Searsia also uses XPath queries to interpret JSON output, by internally converting JSON to XML, where each JSON attribute name is converted to an XML element; JSON lists are converted to repeated XML elements for list name. Searsia supports many API's by including API keys as secret <em><a href="#field-parameters">parameters</a></em> that will not be shared, as well the possibility to add custom HTTP <em><a href="#field-headers">headers</a></em>.
         </p>
 
         <h2 id="examples">Examples</h2>
-        <p>Look at the <a href="http://search.utwente.nl/settings.html">University of Twente settings</a> for examples of Searsia's search engines, including many examples of HTML scrapers, and examples for accessing the API's of Google, Twitter, Facebook, Flickr, Instagram and more.
+        <p>Look at the <a href="http://search.utwente.nl/settings.html">University of Twente settings</a> for examples of Searsia's resources, including many examples of HTML scrapers, and examples for accessing the API's of Google, Twitter, Facebook, Flickr, Instagram and more.
         </p>
 
         <h2 id="fields">An overview of all fields</h2>
@@ -124,12 +124,13 @@ Icons are preferably png files, not smaller than 48x48 pixels. </td></tr>
 </table>
 <p>* mandatory settings</p>
 
-<p><strong>Next:</strong> The <a href="protocol.html">Searsia protocol</a>.</p>
-
-        
           </div>
         </div>
       </div>
+      <footer>
+        <hr>
+        <p><strong>Next:</strong> The <a href="protocol.html">Searsia protocol</a>.</p>
+      </footer>
     </div> <!-- /container -->
 
     <script src="js/jquery.min.js"></script>

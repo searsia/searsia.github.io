@@ -53,8 +53,146 @@
         <div class="row">
           <div class="col-md-8"> 
         <h1>Protocol <img src="images/searsia.png" alt=""></h1>
-        <p> to be added </p>
-<p>The search client will process the URL template and attempt to replace each instance of a template parameter, generally represented in the form {name}, with a value determined at query time.</p>
+        <p>Searsia is designed such that each Searsia server manages multiple resources. These resources can be existing
+           web search engines, or they can be other Searsia servers. A Searsia server has a single query interface, 
+           which is shared with other servers (and clients) by means of an API template. For instance, the API template 
+           of the University of Twente search engine is:
+        </p>
+        <p><code class="block">http://search.utwente.nl/searsia/search?q={q?}&amp;r={r?}</code></p>
+        <p>
+           A search in Searsia typically follows the following stages:
+           <ol>
+           <li>The client first calls the Searsia server <a href="#query-only">with only a query</a>. 
+           The server returns search results, some (or all) of which were previously found by the server's 
+           resources. The client may present the search results, or get even better search results as follows;</li>
+           <li>The client may <a href="#query-resource">call the server with the query and the resource idenfitier</a> 
+           to forward the query to the resources that previously found the search results, or;</li>
+           <li>The client may query the resource directly after <a href="#resource-only">asking the server for the resources contact details</a>.
+           </ol>
+        </p>
+
+        <h2 id="query-only">Call with only a query</h2>
+        <p>A call to the server with only a query returns the server's local search results. 
+          For instance, for the query <em>searsia</em>, the University of Twente API:</p>
+        <p><code><a href="http://search.utwente.nl/searsia/search?q=searsia&amp;r=">http://search.utwente.nl/searsia/search?q=searsia&amp;r=</a></code></p>
+        <p>produces a result that is similar to one below:</p>
+<pre>
+{
+  "hits": [
+    {
+      "title": "Searsia",
+      "description": "Search for noobs",
+      "score": 3.319267,
+      "url": "http:\/\/searsia.org"
+    },
+    {
+      "rid": "googlecustom",
+      "title": "University of Twente presents its new search engine",
+      "description": "Our search engine is powered by Searsia.",
+      "score": 3.21234, 
+      "url": "http:\/\/www.utwente.nl\/news\/searsia.html"
+    },
+    {
+      "rid": "publications",
+      "score": 2.0
+    }
+  ],
+  "resource": {
+    "id": "utwente",
+    "mimetype": "application\/searsia+json",
+    "urltemplate": "http:\/\/search.utwente.nl\/search.html?q={q}",
+    "favicon": "http:\/\/search.utwente.nl\/images\/ut.png",
+    "testquery": "twente",
+    "name": "University of Twente",
+    "prior": 2,
+    "apitemplate": "http:\/\/search.utwente.nl\/searsia\/search?q={q?}&r={r?}",
+    "banner": "http:\/\/search.utwente.nl\/images\/utlogo-black.png"
+  },
+  "searsia": "v0.1.4"
+}
+</pre>
+       <p>The attribute <code>"hits"</code> contains search results that may have an attribute <code>"rid"</code>, 
+          which is the resource identifier of the resource that produced the result for a previous search. 
+          The attribute <code>"resource"</code> contains information about the server, such as its name and icon.
+          The attribite <code>"searsia"</code> contains the version number of the server.
+          Based on this results, the client may now decide to ask the server to forward the query to <code>"googlecustom"</code> 
+          and <code>"publications"</code>, which is done as follows:
+       </p> 
+
+        <h2 id="query-resource">Call with a query and a resource identifier</h2>
+        <p>A call to the server with a query and a resource identifier will let the server forward the query to the resource.
+        For instance, for the query <em>searsia</em>, the University of Twente API:</p>
+        <p><code><a href="http://search.utwente.nl/searsia/search?q=searsia&amp;r=publications">http://search.utwente.nl/searsia/search?q=searsia&amp;r=publications</a></code></p>
+        <p>produces a result that is similar to one below:</p>
+<pre>
+{
+  "hits": [
+    {
+      "title": "Searsia Documentation",
+      "description": "Djoerd Hiemstra, Dolf Trieschnigg, Thomas Demeester, ...",
+      "url": "http:\/\/doc.utwente.nl\/970499\/"
+    }  
+  ],
+  "resource": {
+    "id": "publications",
+    "mimetype": "text\/html",
+    "urltemplate": "http:\/\/doc.utwente.nl\/cgi\/search\/archive\/simple?q={q}",
+    "favicon": "http:\/\/doc.utwente.nl\/style\/images\/fileicons\/pdf.png",
+    "itempath": "\/\/div[@id='content']\/div\/table\/tbody\/tr[.\/td\/span\/a]",
+    "extractors": {
+      "title": "(.\/\/a)[1]",
+      "description": ".",
+      "image": "(.\/\/img)[last()]\/@src",
+      "url": ".\/\/@href"
+    },
+    "testquery": "test",
+    "name": "Publications",
+    "prior": 1,
+    "apitemplate": "http:\/\/doc.utwente.nl\/cgi\/search\/archive\/simple?q={q}"
+  },
+  "searsia": "v0.1.4"
+}
+</pre>
+        <p>The attribute <code>"hits"</code> contains search results of the resource <code>"publications"</code>. 
+          The attribute <code>"resource"</code> contains contact information for the Publications search engine. 
+          In some cases additional information such as API keys need to be provided.
+          In this example, however, the contact information suffices to contact Publications directly.
+          So, instead of the server forwarding the query, a client may only ask for the contact details to forward the query itself.
+        </p> 
+ 
+        <h2 id="resource-only">Call with only a resource identifier</h2>
+        <p>A call to the server with only a resource identifier returns the contact information of the resource.
+          For instance, for the resource <em>googlecustom</em>, the University of Twente API:</p>
+        <p><code><a href="http://search.utwente.nl/searsia/search?q=&amp;r=googlecustom">http://search.utwente.nl/searsia/search?q=&amp;r=googlecustom</a></code></p>
+        <p>produces a result that is similar to one below:</p>
+<pre>
+{
+  "resource": {
+    "id": "googlecustom",
+    "name": "University of Twente by Google",
+    "mimetype": "application\/json",
+    "urltemplate": "https:\/\/www.google.com\/cse?cx=003637895283361378319:95lv8knurmc",
+    "favicon": "http:\/\/www.google.com\/s2\/favicons?domain=google.com",
+    "itempath": "\/\/results",
+    "extractors": {
+      "title": ".\/titleNoFormatting",
+      "description": ".\/contentNoFormatting",
+      "image": ".\/richSnippet\/cseThumbnail\/src",
+      "url": ".\/unescapedUrl"
+    },
+    "testquery": "twente",
+    "prior": 2,
+    "apitemplate": "https:\/\/www.googleapis.com\/customsearch\/v1element?key={apikey}&#8230;
+  },
+  "searsia": "v0.1.4"
+}
+</pre> 
+        <p>The attribute <code>"resource"</code> contains contact information for Google's Custom search engine.
+           To use this resource directly, you will have to obtain a API key from Google, and add it as a 
+           <a href="engines.html#field-parameters">secret parameter</a>.
+        </p>
+
+
           </div>
         </div>
       </div>

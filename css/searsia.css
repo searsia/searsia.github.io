@@ -47,3 +47,9 @@ h1 img {
     padding-left: 2em;
   }
 }
+
+@media print {
+  footer {
+    display: none;
+  }
+}
