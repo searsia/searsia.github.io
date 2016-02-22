@@ -30,13 +30,14 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+              <li><a href="about.html">About</a></li>
               <li><a href="start.html">Start</a></li>
               <li><a href="engines.html">Engines</a></li>
               <li class="active"><a href="protocol.html">Protocol</a></li>
             </ul>
           <div class="col-sm-3 pull-right">
             <form class="navbar-form" action="searsiaclient/search.html" method="get">
-            <div class="input-group">
+            <div class="input-group input-group-sm">
             <input type="text" class="form-control" placeholder="search" name="q" id="query">
             <div class="input-group-btn">
                 <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
@@ -74,7 +75,7 @@
         <h2 id="query-only">Call with only a query</h2>
         <p>A call to the server with only a query returns the server's local search results. 
           For instance, for the query <em>searsia</em>, the University of Twente API:</p>
-        <p><code><a href="http://search.utwente.nl/searsia/search?q=searsia&amp;r=">http://search.utwente.nl/searsia/search?q=searsia&amp;r=</a></code></p>
+        <p><code><a rel="nofollow" href="http://search.utwente.nl/searsia/search?q=searsia&amp;r=">http://search.utwente.nl/searsia/search?q=searsia&amp;r=</a></code></p>
         <p>produces a result that is similar to one below:</p>
 <pre>
 {
@@ -122,7 +123,7 @@
         <h2 id="query-resource">Call with a query and a resource identifier</h2>
         <p>A call to the server with a query and a resource identifier will let the server forward the query to the resource.
         For instance, for the query <em>searsia</em>, the University of Twente API:</p>
-        <p><code><a href="http://search.utwente.nl/searsia/search?q=searsia&amp;r=publications">http://search.utwente.nl/searsia/search?q=searsia&amp;r=publications</a></code></p>
+        <p><code><a rel="nofollow" href="http://search.utwente.nl/searsia/search?q=searsia&amp;r=publications">http://search.utwente.nl/searsia/search?q=searsia&amp;r=publications</a></code></p>
         <p>produces a result that is similar to one below:</p>
 <pre>
 {
@@ -163,7 +164,7 @@
         <h2 id="resource-only">Call with only a resource identifier</h2>
         <p>A call to the server with only a resource identifier returns the contact information of the resource.
           For instance, for the resource <em>googlecustom</em>, the University of Twente API:</p>
-        <p><code><a href="http://search.utwente.nl/searsia/search?q=&amp;r=googlecustom">http://search.utwente.nl/searsia/search?q=&amp;r=googlecustom</a></code></p>
+        <p><code><a rel="nofollow" href="http://search.utwente.nl/searsia/search?q=&amp;r=googlecustom">http://search.utwente.nl/searsia/search?q=&amp;r=googlecustom</a></code></p>
         <p>produces a result that is similar to one below:</p>
 <pre>
 {
@@ -191,6 +192,9 @@
            To use this resource directly, you will have to obtain a API key from Google, and add it as a 
            <a href="engines.html#field-parameters">secret parameter</a>.
         </p>
+
+        <h2 id="hits">Design considerations</h2>
+        <p> </p>
 
 
           </div>

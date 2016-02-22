@@ -2,34 +2,249 @@
   "hits": [
     {
       "title": "Searsia",
-      "description": "Searsia is a protocol and implementation for large scale federated web search.",
-      "url": "http:\/\/searsia.org\/"
+      "url": "http:\/\/searsia.org\/http:\/\/searsia.org\/",
+      "description": "Build a beautiful search engine: Searsia is a protocol and implementation for large scale federated web search."
+    },
+    {
+      "title": "Searsia - About",
+      "url": "http:\/\/searsia.org\/about.html",
+      "description": "Today's web search engines need to combine search results from many independent sources, such as result from a web crawl, from advertisements, from video's, books, news, shopping. Additional sources might aid the user in getting better search results by providing for instance query autocompletion, related queries, spelling correction, instant answers, etc. Each of these sources is a search engine itself: It receives a query, and returns some data. Searsia provides an approach to search tha..."
+    },
+    {
+      "title": "Searsia - Adding resources",
+      "url": "http:\/\/searsia.org\/engines.html",
+      "description": "To see a list of all resources (search engines) that are used by your server, open settings.html in your client. This will show a table with resources, about 25 if you connect to the University of Twente Searsia server. To enable updates, start the server with the --open option. To add a resource, click on the \"+Add\" button on the bottom of the settings.html page. To add a Searsia resource (an engine that..."
+    },
+    {
+      "title": "Searsia",
+      "url": "http:\/\/searsia.org\/home.html",
+      "description": "Build a beautiful search engine: Searsia is a protocol and implementation for large scale federated web search. Start &raquo; University of Twente runs Searsia"
+    },
+    {
+      "title": "Searsia - Protocol",
+      "url": "http:\/\/searsia.org\/protocol.html",
+      "description": "Searsia is designed such that each Searsia server manages multiple resources. These resources can be existing web search engines, or they can be other Searsia servers. A Searsia server has a single query interface, which is shared with other servers (and clients) by means of an API template. For instance, the API template of the University of Twente search engine is: http:\/\/search.utwente.nl\/searsia\/search?q={q?}&amp;r={r?} ..."
     },
     {
       "title": "Searsia - Start",
-      "description": "Searsia comes with a client and a server.",
-      "url": "http:\/\/searsia.org\/start.html"
+      "url": "http:\/\/searsia.org\/start.html",
+      "description": "Searsia comes with a client and a server. The Searsia web client can be installed from Github using the following command: git clone 'https:\/\/github.com\/searsia\/searsiaclient.git' To use the web client, open index.html in a web browser. Congratulations! You now run your own search page. The client will automatically connect to the University of Twente search server. To connect to another server, edit the second line in the file js\/searsi..."
     },
     {
-      "title": "Searsia - Engines",
-      "description": "To see a list of all resources (engines) that are used by your server, open settings.html in your client. This will show a table with all resources, about 25 if you connect to the University of Twente Searsia server.",
-      "url": "http:\/\/searsia.org\/engines.html"
+      "title": "Searsia - Adding resources: Adding a Searsia resource",
+      "url": "http:\/\/searsia.org\/engines.html#adding-searsia",
+      "description": "To add a Searsia resource (an engine that implements the Searsia protocol, returning results of mime-type application\/searsia+json ), you enter a unique Identifier ( Id ), and the resource' API template . The Id should be unique in your server. The API template is the url of the resource, where the query is replaced by {q} or {q?} (where the question mark should be used if the query is optional). After clicking \"Update\", the server tests the resource. A po..."
+    },
+    {
+      "title": "Searsia - Adding resources: Adding an HTML resource",
+      "url": "http:\/\/searsia.org\/engines.html#adding-html",
+      "description": "The server can add resources by scraping the HTML that search engines return for their end users. To add an HTML resource, fill in text\/html in the field Mime type . As the field API Template , take the resource' URL from your browser after querying the search engine, replacing the query in the url by {q} . If the URL does not contain a query, the search engine probably uses a POST request . To find out what the POST request is, we recommend Live HTTP Headers for..."
+    },
+    {
+      "title": "Searsia - Adding resources: Adding an XML resource",
+      "url": "http:\/\/searsia.org\/engines.html#adding-xml",
+      "description": "To add an XML resource, fill in application\/xml in the field Mime type . Then proceed as above . The Firefox Search Result Finder cannot be used in this case."
+    },
+    {
+      "title": "Searsia - Adding resources: Adding a JSON resource",
+      "url": "http:\/\/searsia.org\/engines.html#adding-json",
+      "description": "To add a JSON resource, fill in application\/json in the field Mime type . Searsia also uses XPath queries to interpret JSON output, by internally converting JSON to XML, where each JSON attribute name is converted to an XML element; JSON lists are converted to repeated XML elements for list name. Searsia supports many API's by including API keys as secret parameters that will not be shared, as well the possibility to add custom HTTP headers ."
+    },
+    {
+      "title": "Searsia - Adding resources: Examples",
+      "url": "http:\/\/searsia.org\/engines.html#examples",
+      "description": "Look at the University of Twente settings for examples of Searsia's resources, including many examples of HTML scrapers, and examples for accessing the API's of Google, Twitter, Facebook, Flickr, Instagram and more."
+    },
+    {
+      "title": "Searsia - Adding resources: An overview of all fields",
+      "url": "http:\/\/searsia.org\/engines.html#fields",
+      "description": "The table below contains a quick reference for all fields: Parameter Explanation"
+    },
+    {
+      "title": "Searsia - Adding resources:   *Id:",
+      "url": "http:\/\/searsia.org\/engines.html#field-id",
+      "description": "A unique string identifying this resource. Should be unique within the server. Name: A short name for this resource, to be displayed to the user."
+    },
+    {
+      "title": "Searsia - Adding resources: Icon:",
+      "url": "http:\/\/searsia.org\/engines.html#field-icon",
+      "description": "The url of the icon image, to be displayed to the user. Icons should have equal width and height. Icons are preferably png files, not smaller than 48x48 pixels."
+    },
+    {
+      "title": "Searsia - Adding resources: User template:",
+      "url": "http:\/\/searsia.org\/engines.html#field-user-template",
+      "description": "A url specified following the searsia url template syntax , to be used by users. The mime type of this url must be text\/html or application\/xml+xhtml ."
+    },
+    {
+      "title": "Searsia - Adding resources: *API template:",
+      "url": "http:\/\/searsia.org\/engines.html#field-api-template",
+      "description": "A url specified following the searsia url template syntax , to be used by the server."
+    },
+    {
+      "title": "Searsia - Adding resources: Post string:",
+      "url": "http:\/\/searsia.org\/engines.html#field-post-string",
+      "description": "Only set if the API template HTTP method is POST, empty if the HTTP method is GET. Like the template, the post string may include parameters."
+    },
+    {
+      "title": "Searsia - Adding resources: Mime type:",
+      "url": "http:\/\/searsia.org\/engines.html#field-mime-type",
+      "description": "The format returned by the API Template. Supported formats are: application\/searsia+json , text\/html , application\/xml , application\/json . If omitted, the mime type application\/searsia+json is assumed."
+    },
+    {
+      "title": "Searsia - Adding resources:  Test query:",
+      "url": "http:\/\/searsia.org\/engines.html#field-test-query",
+      "description": "A query for which a search gives a non-empty result. If not set, the system should give a non-empty result for the query searsia ."
+    },
+    {
+      "title": "Searsia - Adding resources:  Rerank:",
+      "url": "http:\/\/searsia.org\/engines.html#field-rerank",
+      "description": "Prior: A value between 0 and 1 indicating the prior probability of a resource to be selected (prior to knowing the query). For instance, a value of 0.1 indicates that the resource gives relevant results for 1 in 10 queries. A value of 1 indicates that the resource always returns relevant results. In this case, the server likely returns the resource for every query. Values bigger than 1 are permitted to prioritize between multiple resources that are always selected."
+    },
+    {
+      "title": "Searsia - Adding resources:  Item XPath:",
+      "url": "http:\/\/searsia.org\/engines.html#field-item-xpath",
+      "description": "An XPath 1.0 query that selects the search results from an HTML or XML result. XPath is also used to select results from JSON results, assuming a standard conversion to XML, where JSON lists are converted to repeated XML elements."
+    },
+    {
+      "title": "Searsia - Adding resources: XPaths:",
+      "url": "http:\/\/searsia.org\/engines.html#field-xpaths",
+      "description": "Field names and XPath queries for selecting parts of search results such as the title, url, and description. For example, the title would typically be selected as the first anchor text in a search result, i.e., (.\/\/a)[1] . The XPath queries are evaluated with respect to an Item XPath context node, and they typically start with . (the 'self' axis step)."
+    },
+    {
+      "title": "Searsia - Adding resources:  Headers:",
+      "url": "http:\/\/searsia.org\/engines.html#field-headers",
+      "description": "HTTP headers to be sent to the API Template, consisting of a field name (without ':') and the field value. Like API Template and Post String, the field value may include parameters."
+    },
+    {
+      "title": "Searsia - Adding resources:  Parameters:",
+      "url": "http:\/\/searsia.org\/engines.html#field-parameters",
+      "description": "Secret parameter names and their values. Occurrences of the parameter names in the API Template, Post String or Headers will be replaced by the value. The server will not share the parameter names and values with other clients, so it is safe to use them for API keys and secrets. * mandatory settings Next: The Searsia protocol ."
+    },
+    {
+      "title": "Searsia - Protocol: Call with only a query",
+      "url": "http:\/\/searsia.org\/protocol.html#query-only",
+      "description": "A call to the server with only a query returns the server's local search results. For instance, for the query searsia , the University of Twente API: http:\/\/search.utwente.nl\/searsia\/search?q=searsia&amp;r= produces a result that is similar to one below: { \"hits\": [ { \"title\": \"Searsia\", \"description\": \"Search for noobs\", \"score\": 3.319267, \"url\": \"http:\\/\\/searsia.org\" }, { \"rid\": \"googlecustom\", \"..."
+    },
+    {
+      "title": "Searsia - Protocol: Call with a query and a resource identifier",
+      "url": "http:\/\/searsia.org\/protocol.html#query-resource",
+      "description": "A call to the server with a query and a resource identifier will let the server forward the query to the resource. For instance, for the query searsia , the University of Twente API: http:\/\/search.utwente.nl\/searsia\/search?q=searsia&amp;r=publications produces a result that is similar to one below: { \"hits\": [ { \"title\": \"Searsia Documentation\", \"description\": \"Djoerd Hiemstra, Dolf Trieschnigg, Thomas Demeester, ...\", \"url\": \"..."
+    },
+    {
+      "title": "Searsia - Protocol: Call with only a resource identifier",
+      "url": "http:\/\/searsia.org\/protocol.html#resource-only",
+      "description": "A call to the server with only a resource identifier returns the contact information of the resource. For instance, for the resource googlecustom , the University of Twente API: http:\/\/search.utwente.nl\/searsia\/search?q=&amp;r=googlecustom produces a result that is similar to one below: { \"resource\": { \"id\": \"googlecustom\", \"name\": \"University of Twente by Google\", \"mimetype\": \"application\\/json\", \"urltemplate\": \"https:\\/\\/www.goog..."
     },
     {
       "title": "Searsia - Start: The client",
-      "description": "The client will automatically connect to the University of Twente search server. To connect to another server, edit the second line in the file js/searsia.js, which contains the API template of the server. If you run a server on your local machine (see next section), you can connect to your own server by setting the API template to: 'http://localhost:16842/searsia/search?q={q?}&r={r?}'",
-      "url": "http:\/\/searsia.org\/start.html#client"
+      "url": "http:\/\/searsia.org\/start.html#client",
+      "description": "The Searsia web client can be installed from Github using the following command: git clone 'https:\/\/github.com\/searsia\/searsiaclient.git' To use the web client, open index.html in a web browser. Congratulations! You now run your own search page."
+    },
+    {
+      "title": "Searsia - Start: Client options",
+      "url": "http:\/\/searsia.org\/start.html#clientoptions",
+      "description": "The client will automatically connect to the University of Twente search server. To connect to another server, edit the second line in the file js\/searsia.js , which contains the API template of the server. var API_TEMPLATE = 'http:\/\/search.utwente.nl\/searsia\/search?q={q?}&amp;r={r?}' If you run a server on your local machine (see next section), you can connect to your own server by setting the API template to: 'http:\/\/localhost:16842\/searsia\/search?q={q?}&amp;r={r?}'"
+    },
+    {
+      "title": "Searsia - Start: The server",
+      "url": "http:\/\/searsia.org\/start.html#server",
+      "description": "You can run your own server by downloading and running the Searsia java server . The server requires Java 7 or higher. Just like the web client, the java server will automatically connect to the University of Twente search server. Use the following command to start the java server. java -jar searsiaserver.jar The program displays the following message: Searsia Server v0.1.3 Connected to: utwente API Template: http:\/\/localhost:16842\/searsia\/search?q={q?}&amp;r={r?} Use ..."
+    },
+    {
+      "title": "Searsia - Start: Server options",
+      "url": "http:\/\/searsia.org\/start.html#serveroptions",
+      "description": "The java server supports several command line options, shown in the following table. For convenience, each option has a short-hand consisting of one hyphen and the first letter of the option, for instance -h for --help . Option Explanation"
+    },
+    {
+      "title": "Searsia - Start:  --help",
+      "url": "http:\/\/searsia.org\/start.html#option-help",
+      "description": "Show help."
+    },
+    {
+      "title": "Searsia - Start: --interval <arg>",
+      "url": "http:\/\/searsia.org\/start.html#interval",
+      "description": "Takes as argument an integer, which is the poll interval (in seconds). The server sends a random query each interval to a search engine. The default value is 120 seconds. If your server contains 30 resources (search engines), a polling interval of 120 seconds will poll each resource on average once per 120 * 30 = 3600 seconds, so once each 60 minutes, about 24 queries a day. In scientific literature on distributed information retrieval, polling is usually called query-based sampling. An..."
+    },
+    {
+      "title": "Searsia - Start: --log <arg>",
+      "url": "http:\/\/searsia.org\/start.html#option-log",
+      "description": "type of log messages produced by the server (on standard error). Supported levels are: 0 = no logging; 1 = only errors; 2 = errors and warnings; 3 = errors, warnings, and information, 4 = all of level 3 plus debug information. The default level is 3 ."
+    },
+    {
+      "title": "Searsia - Start: --mother <arg>",
+      "url": "http:\/\/searsia.org\/start.html#option-mother",
+      "description": "Sets the API template of the mother. Use none to run the in stand-alone mode. The default is currently ' http:\/\/search.utwente.nl\/searsia\/search?q={q?}&amp;r={r?} '."
+    },
+    {
+      "title": "Searsia - Start: --name <arg>",
+      "url": "http:\/\/searsia.org\/start.html#option-name",
+      "description": "Set the id (name) of this end point. The server generates a random string as its name if this setting is not provided."
+    },
+    {
+      "title": "Searsia - Start: --open ",
+      "url": "http:\/\/searsia.org\/start.html#option-open",
+      "description": "Enable on-line updates. This enables on-line updates for your server by anyone, use this only for testing purposes."
+    },
+    {
+      "title": "Searsia - Start: --path <arg>",
+      "url": "http:\/\/searsia.org\/start.html#option-path",
+      "description": "Set the path on the file system where the index is stored. The default depends on your operating system. Typically, the index ends up in your home directory under: .local\/share\/searsia if your are on a Linux-based system, Library\/Application Support\/Searsia if you are on Apple, Application Data\/Searsia on many Windows versions."
+    },
+    {
+      "title": "Searsia - Start: --url <arg>",
+      "url": "http:\/\/searsia.org\/start.html#option-url",
+      "description": "Set the url of the web service endpoint. The default is ' http:\/\/localhost:16842\/searsia\/ '"
+    },
+    {
+      "title": "Searsia - Start: Server trouble shooting",
+      "url": "http:\/\/searsia.org\/start.html#troubleshooting",
+      "description": "The server might return the following error messages:"
+    },
+    {
+      "title": "Searsia - Start: Setup failed: Cannot create directory: ",
+      "url": "http:\/\/searsia.org\/start.html#error-create-directory",
+      "description": "The server cannot create the index. Check if the server has write premissions in the reported directory. Use the --path option to change the location of the index."
+    },
+    {
+      "title": "Searsia - Start: Setup failed: Lock obtain timed out: NativeFSLock",
+      "url": "http:\/\/searsia.org\/start.html#error-timed-out",
+      "description": "There is already running an instance of the Searsia server on the same index. Kill the server, or run the server with a different name with the --name option."
+    },
+    {
+      "title": "Searsia - Start: Server failed: Failed to start Grizzly HTTP server: Address already in use",
+      "url": "http:\/\/searsia.org\/start.html#error-start-server",
+      "description": "There is already running an instance of the Searsia server on the same url. Kill the server, or run the server on a different url or port number with the --url option."
+    },
+    {
+      "title": "Searsia - Start: Server failed: Failed to start Grizzly HTTP server: Unresolved address",
+      "url": "http:\/\/searsia.org\/start.html#error-server-address",
+      "description": "Server failed: Failed to start Grizzly HTTP server: Permission denied The provided url is invalid, or the url does not belong to the machine that runs the server, or the port is blocked or taken by another application. Change the url with the --url option."
+    },
+    {
+      "title": "Searsia - Start: Error: Local id conflict",
+      "url": "http:\/\/searsia.org\/start.html#error-resource-id",
+      "description": "Error: The server id 'X' already exists. This usually happens if you give your engine a name with the --name option that is already used by the mother. Give your server another name."
+    },
+    {
+      "title": "Searsia - Start: Error: Connection failed: java.net.UnknownHostException",
+      "url": "http:\/\/searsia.org\/start.html#error-unknownhost-exception",
+      "description": "Error: Connection failed: java.io.FileNotFoundException , or Error: Mother id conflict Connection to the mother failed. Check your internet connection. Check the mother engine and mother template. Change the mother template with the --mother option."
+    },
+    {
+      "title": "Searsia - Start: Error: Connection failed: org.json.JSONException",
+      "url": "http:\/\/searsia.org\/start.html#error-json-exception",
+      "description": "The mother is not a Searsia engine. Check the mother engine and mother template. Change the mother with the --mother option. Next: Adding search engines to your server."
     }
   ],
   "resource": {
     "id": "searsia.org",
-    "mimetype": "application\/searsia+json",
-    "favicon": "http:\/\/searsia.org\/images\/search.png",
+    "mimetype": "application/searsia+json",
+    "favicon": "http:\/\/searsia.org\/images\/searsia.png",
     "banner": "http:\/\/searsia.org\/images\/banner.png",
     "name": "Searsia",
     "rerank": "lm",
     "apitemplate": "http:\/\/searsia.org\/searsia\/searsia.json",
     "usertemplate": "http:\/\/searsia.org\/searsiaclient\/search.html?q={q}"
   },
-  "searsia": "v0.1.3"
+  "searsia": "v0.1.4"
 }

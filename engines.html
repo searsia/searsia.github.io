@@ -30,13 +30,14 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+              <li><a href="about.html">About</a></li>
               <li><a href="start.html">Start</a></li>
               <li class="active"><a href="engines.html">Engines</a></li>
               <li><a href="protocol.html">Protocol</a></li>
             </ul>
           <div class="col-sm-3 pull-right">
             <form class="navbar-form" action="searsiaclient/search.html" method="get">
-            <div class="input-group">
+            <div class="input-group input-group-sm">
             <input type="text" class="form-control" placeholder="search" name="q" id="query">
             <div class="input-group-btn">
                 <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
@@ -91,35 +92,48 @@
         </p>
 <table class="table table-bordered">
 <tr><th>Parameter</th><th>Explanation</th></tr>
-<tr id="field-id"><td>  *Id:</td><td>A unique string identifying this resource. Should be unique within the server. </td></tr>
+<tr id="field-id"><td>  *Id:</td>
+  <td>A unique string identifying this resource. Should be unique within the server. </td></tr>
 
-<tr><td>Name:</td><td>A short name for this resource, to be displayed to the user. </td></tr>
+<tr><td>Name:</td>
+  <td>A short name for this resource, to be displayed to the user. </td></tr>
 
-<tr id="field-icon"><td>Icon:</td><td>The url of the icon image, to be displayed to the user. Icons should have equal width and height.
+<tr id="field-icon"><td>Icon:</td>
+  <td>The url of the icon image, to be displayed to the user. Icons should have equal width and height.
 Icons are preferably png files, not smaller than 48x48 pixels. </td></tr>
 
-<tr id="field-user-template"><td><span style="white-space:nowrap">User template:</span></td><td>A url specified following the <a href="protocol.html#templates">searsia url template syntax</a>, to be used by users.  The mime type of this url must be <code>text/html</code> or <code>application/xml+xhtml</code>. </td></tr>
+<tr id="field-user-template"><td style="white-space:nowrap">User template:</td>
+  <td>A url specified following the <a href="protocol.html#templates">searsia url template syntax</a>, to be used by users.  The mime type of this url must be <code>text/html</code> or <code>application/xml+xhtml</code>. </td></tr>
 
-<tr id="field-api-template"><td><span style="white-space:nowrap">*API template:</span></td><td>A url specified following the <a href="protocol.html#templates">searsia url template syntax</a>, to be used by the server.</td></tr>
+<tr id="field-api-template"><td style="white-space:nowrap">*API template:</td>
+  <td>A url specified following the <a href="protocol.html#templates">searsia url template syntax</a>, to be used by the server.</td></tr>
 
-<tr id="field-post-string"><td>Post string:</td><td>Only set if the API template HTTP method is POST, empty if the HTTP method is GET. Like the template, the post string may include parameters.</td></tr>
+<tr id="field-post-string"><td>Post string:</td>
+  <td>Only set if the API template HTTP method is POST, empty if the HTTP method is GET. Like the template, the post string may include parameters.</td></tr>
 
-<tr id="field-mime-type"><td>Mime type:</td><td>The format returned by the API Template. Supported formats are: <code>application/searsia+json</code>, <code>text/html</code>, <code>application/xml</code>, <code>application/json</code>. If omitted, the mime type <code>application/searsia+json</code> is assumed.</td></tr>
+<tr id="field-mime-type"><td>Mime type:</td>
+  <td>The format returned by the API Template. Supported formats are: <code>application/searsia+json</code>, <code>text/html</code>, <code>application/xml</code>, <code>application/json</code>. If omitted, the mime type <code>application/searsia+json</code> is assumed.</td></tr>
 
-<tr id="field-test-query"><td> Test query:</td><td>A query for which a search gives a non-empty result. If not set, the system should give a non-empty result for the query <code>searsia</code>.</td></tr>
+<tr id="field-test-query"><td> Test query:</td>
+  <td>A query for which a search gives a non-empty result. If not set, the system should give a non-empty result for the query <code>searsia</code>.</td></tr>
 
 <tr id="field-rerank"><td> Rerank:</td><td>Specifies a ranking algorithm or filter that is used to rerank/refilter the search results. Currently, only <code>or</code> is supported, filtering the returned results such that results that do not match any of the query terms are removed.</td></tr>
 
-<tr><td> Prior:</td><td>A value between 0 and 1 indicating the prior probability of a resource to be selected (prior to knowing the query). For instance, a value of 0.1 indicates that the resource gives relevant results for 1 in 10 queries. A value of 1 indicates that the resource <em>always</em> returns relevant results. In this case, the server likely returns the resource for every query. Values bigger than 1 are permitted to prioritize between multiple resources that are always selected. </td></tr>
+<tr><td> Prior:</td>
+  <td>A value between 0 and 1 indicating the prior probability of a resource to be selected (prior to knowing the query). For instance, a value of 0.1 indicates that the resource gives relevant results for 1 in 10 queries. A value of 1 indicates that the resource <em>always</em> returns relevant results. In this case, the server likely returns the resource for every query. Values bigger than 1 are permitted to prioritize between multiple resources that are always selected. </td></tr>
 
-<tr id="field-item-xpath"><td> Item XPath:</td><td>An <a href="https://en.wikipedia.org/wiki/XPath">XPath 1.0</a> query that selects the search results from an HTML or XML result. XPath is also used to select results from JSON results, assuming a standard conversion to XML, where JSON lists are converted to repeated XML elements. </td></tr>
+<tr id="field-item-xpath"><td> Item XPath:</td>
+  <td>An <a href="https://en.wikipedia.org/wiki/XPath">XPath 1.0</a> query that selects the search results from an HTML or XML result. XPath is also used to select results from JSON results, assuming a standard conversion to XML, where JSON lists are converted to repeated XML elements. </td></tr>
 
-<tr id="field-xpaths"><td>XPaths:</td><td>Field names and XPath queries for selecting parts of search results such as the title, url, and description. For example, the <code>title</code> would typically be selected as the first anchor text in a search result, i.e., <code>(.//a)[1]</code>. The XPath queries are evaluated with respect to an Item XPath context node, and they typically start with <code>.</code> (the 'self' axis step).
+<tr id="field-xpaths"><td>XPaths:</td>
+  <td>Field names and XPath queries for selecting parts of search results such as the title, url, and description. For example, the <code>title</code> would typically be selected as the first anchor text in a search result, i.e., <code>(.//a)[1]</code>. The XPath queries are evaluated with respect to an Item XPath context node, and they typically start with <code>.</code> (the 'self' axis step).
 </td></tr>
 
-<tr id="field-headers"><td> Headers:</td><td>HTTP headers to be sent to the API Template, consisting of a field name (without ':') and the field value. Like API Template and Post String, the field value may include parameters. </td></tr>
+<tr id="field-headers"><td> Headers:</td>
+  <td>HTTP headers to be sent to the API Template, consisting of a field name (without ':') and the field value. Like API Template and Post String, the field value may include parameters. </td></tr>
 
-<tr id="field-parameters"><td> Parameters:</td><td>Secret parameter names and their values. Occurrences of the parameter names in the API Template, Post String or Headers will be replaced by the value. The server will not share the parameter names and values with other clients, so it is safe to use them for API keys and secrets. </td></tr>
+<tr id="field-parameters"><td> Parameters:</td>
+  <td>Secret parameter names and their values. Occurrences of the parameter names in the API Template, Post String or Headers will be replaced by the value. The server will not share the parameter names and values with other clients, so it is safe to use them for API keys and secrets. </td></tr>
 
 </table>
 <p>* mandatory settings</p>
