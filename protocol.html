@@ -60,8 +60,7 @@
            of the University of Twente search engine is:
         </p>
         <p><code class="block">http://search.utwente.nl/searsia/search?q={q?}&amp;r={r?}</code></p>
-        <p>
-           A search in Searsia typically follows the following stages:
+           <p>A search in Searsia typically follows the following stages:</p>
            <ol>
            <li>The client first calls the Searsia server <a href="#query-only">with only a query</a>. 
            The server returns search results, some (or all) of which were previously found by the server's 
@@ -70,7 +69,6 @@
            to forward the query to the resources that previously found the search results, or;</li>
            <li>The client may query the resource directly after <a href="#resource-only">asking the server for the resources contact details</a>.
            </ol>
-        </p>
 
         <h2 id="query-only">Call with only a query</h2>
         <p>A call to the server with only a query returns the server's local search results. 
@@ -106,14 +104,15 @@
     "testquery": "twente",
     "name": "University of Twente",
     "prior": 2,
-    "apitemplate": "http:\/\/search.utwente.nl\/searsia\/search?q={q?}&r={r?}",
+    "apitemplate": "http:\/\/search.utwente.nl\/searsia\/search?q={q?}&amp;r={r?}",
     "banner": "http:\/\/search.utwente.nl\/images\/utlogo-black.png"
   },
   "searsia": "v0.1.4"
 }
 </pre>
        <p>The attribute <code>"hits"</code> contains search results that may have an attribute <code>"rid"</code>, 
-          which is the resource identifier of the resource that produced the result for a previous search. 
+          which is the resource identifier of the resource that produced the result for a previous search.
+          Searsia ranks the results such that the resource identifiers are ranked by the relevance of the resources to the query.
           The attribute <code>"resource"</code> contains information about the server, such as its name and icon.
           The attribite <code>"searsia"</code> contains the version number of the server.
           Based on this results, the client may now decide to ask the server to forward the query to <code>"googlecustom"</code> 
@@ -158,7 +157,7 @@
           The attribute <code>"resource"</code> contains contact information for the Publications search engine. 
           In some cases additional information such as API keys need to be provided.
           In this example, however, the contact information suffices to contact Publications directly.
-          So, instead of the server forwarding the query, a client may only ask for the contact details to forward the query itself.
+          Instead of forwarding the query, a client may only ask for the contact details, and then forward the query itself. A request for the contact details is done by the call in the next section:
         </p> 
  
         <h2 id="resource-only">Call with only a resource identifier</h2>
@@ -193,8 +192,22 @@
            <a href="engines.html#field-parameters">secret parameter</a>.
         </p>
 
-        <h2 id="hits">Design considerations</h2>
-        <p> </p>
+        <h2 id="hits">Conventions for search resuls</h2>
+        <p>Search results, i.e., the objects in the <code>"hits"</code> list, 
+        may contain any attribute that seems appropriate, for instance an 
+        attribute <code>"phone_number"</code> for a telephone directory or
+        an attribute <code>"nr_of_citations"</code> for a search engine
+        that searches scientific papers. The following attributed are reserved:
+        </p>
+        <ul>
+        <li><code>"title"</code>: The title of the search results, that can be clicked to go to the web 
+          page that was found. Usually, the title is equals to the title of the web page that was found.
+          The title is the only attribute that is mandatory.</li> 
+        <li><code>"url"</code>: The link to the web page that was found.</li>
+        <li><code>"description"</code>: A small summary describing the result. This might be a snippet 
+          from the web site containing the query, or some other summary.</li>
+        <li><code>"image"</code>: The url of a (thumbnail) image, to be displayed with the search result.</li>
+     
 
 
           </div>
