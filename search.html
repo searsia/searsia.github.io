@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Search the web together">
+    <meta name="author" content="searsia.org">
+    <link rel="icon" href="images/searsia.png">
+    <title>Searsia - About</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/searsia.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <!-- Static navbar -->
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Searsia</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="about.html">About</a></li>
+              <li><a href="start.html">Start</a></li>
+              <li><a href="engines.html">Engines</a></li>
+              <li><a href="protocol.html">Protocol</a></li>
+            </ul>
+            <div class="col-sm-3 pull-right">
+              <form id="searsia-form" class="navbar-form" action="search.html" method="get">
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" placeholder="search" name="q" id="query">
+                  <div class="input-group-btn">
+	            <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+
+      <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-7">
+          <div class="searsia-top" id="searsia-alert-top"></div>
+          <div id="searsia-results-1"></div>
+          <div id="searsia-results-2"></div>
+          <div id="searsia-results-3"></div>
+        </div>
+        <div class="col-md-3">
+          <div id="searsia-sidebar">
+          </div>
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-7">
+          <div id="searsia-results-4"></div>
+          <div class="searsia-bottom" id="searsia-alert-bottom">
+            <noscript>Enable Javascript and use a modern browser to use University of Twente Search</noscript>
+          </div>
+        </div>
+        <div class="col-md-4">
+        </div>
+      </div>
+
+    </div> <!-- /container -->
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/searsia.js"></script>
+    <script> <!--
+      placeName({ });
+      placeIcon({ });
+      $(document).ready(function(){
+        var params = searsiaUrlParameters();
+        if (params.q != '') {
+          fillForm(params.q);
+          document.title += ": " + printableQuery(params.q);
+          getResources(params);
+        } 
+      });
+      -->
+    </script>
+
+  </body>
+</html>
+
+

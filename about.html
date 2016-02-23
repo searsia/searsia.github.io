@@ -11,11 +11,8 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/searsia.css" rel="stylesheet">
   </head>
-
   <body>
-
     <div class="container">
-
       <!-- Static navbar -->
       <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -34,24 +31,24 @@
               <li><a href="start.html">Start</a></li>
               <li><a href="engines.html">Engines</a></li>
               <li><a href="protocol.html">Protocol</a></li>
-    </ul>
-  <div class="col-sm-3 pull-right">
-    <form class="navbar-form" action="searsiaclient/search.html" method="get">
-    <div class="input-group input-group-sm">
-    <input type="text" class="form-control" placeholder="search" name="q" id="query">
-    <div class="input-group-btn">
-	<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-    </div>
-    </div>
-    </form>
-  </div>
-  </div><!--/.nav-collapse -->
-</div><!--/.container-fluid -->
-</nav>
+            </ul>
+            <div class="col-sm-3 pull-right">
+              <form class="navbar-form" action="searsiaclient/search.html" method="get">
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" placeholder="search" name="q" id="query">
+                  <div class="input-group-btn">
+	            <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
 
-<div class="container">
-<div class="row">
-  <div class="col-md-8"> 
+      <div class="row">
+        <div class="col-md-8"> 
+
 <h1>About <img src="images/searsia.png" alt=""></h1>
 <p> Today's web search engines need to combine search results from many independent sources, such as results from a web crawl, from advertisements, from video's, books, news, shopping, etc. Other sources might aid the user in getting better search results by providing for instance query autocompletion, related queries, spelling correction, instant answers, etc.  
 Each of these sources, whether it provides shopping results or spelling correction, is a search engine itself: It receives a query, and returns some data.
@@ -65,37 +62,33 @@ Searsia provides an approach to search that:
 <p>
 Searsia is demonstrated by <a href="http://search.utwente.nl">UTwente Search</a>, an enterprise search engine for the University of Twente that combines the results of about 25 sources, including results from Google's web crawl, from courses, from news, the telephone directory, the timetables, and results from social media, such as Facebook, Twitter and Flickr. 
 </p>
+
+        </div>
+        <div class="col-sm-4">
+          <div class="panel panel-default" style="margin-top:2em">
+            <div class="panel-heading">
+              <h3 class="panel-title">Search by Searsia</h3>
+            </div>
+            <div class="panel-body">
+            <p style="text-align:center;margin-top:2em;">
+              <a href="http://search.utwente.nl"><img src="http://search.utwente.nl/images/utlogo-black.png" alt="University of Twente" width="192"></a>
+            </p>
+            <form class="navbar-form" action="http://search.utwente.nl/search.html" method="get" style="text-align:center">
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" name="q" id="ut-query">
+                <div class="input-group-btn">
+                  <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                </div>
+              </div>
+            </form>
           </div>
-
-<div class="col-sm-4">
-<div class="panel panel-default" style="margin-top:2em">
-  <div class="panel-heading">
-    <h3 class="panel-title">Search by Searsia</h3>
-  </div>
-  <div class="panel-body">
-    <p style="text-align:center;margin-top:2em;">
-    <a href="http://search.utwente.nl"><img src="http://search.utwente.nl/images/utlogo-black.png" alt="University of Twente" width="192"></a>
-    </p>
-    <form class="navbar-form" action="http://search.utwente.nl/search.html" method="get" style="text-align:center;max-width="300">
-      <div class="input-group input-group-sm">
-        <input type="text" class="form-control" name="q" id="ut-query">
-        <div class="input-group-btn">
-          <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span></button>
         </div>
-      </div>
-    </form>
-  </div>
-</div>
-</div>
-
-
-        </div>
-      </div>
-      <footer>
-        <hr>
-        <p><b>Next:</b> <a href="start.html">Start using Searsia</a>.</p>
-      </footer>
+      </div> <!-- row -->
     </div> <!-- /container -->
+    <footer>
+      <hr>
+      <p><b>Next:</b> <a href="start.html">Start using Searsia</a>.</p>
+    </footer>
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
