@@ -33,7 +33,7 @@
               <li><a href="protocol.html">Protocol</a></li>
             </ul>
             <div class="col-sm-3 pull-right">
-              <form class="navbar-form" action="searsiaclient/search.html" method="get">
+              <form id="searsia-form" class="navbar-form" action="search.html" method="get">
                 <div class="input-group input-group-sm">
                   <input type="text" class="form-control" placeholder="search" name="q" id="query">
                   <div class="input-group-btn">
@@ -70,19 +70,21 @@ Searsia is demonstrated by <a href="http://search.utwente.nl">UTwente Search</a>
               <h3 class="panel-title">Search by Searsia</h3>
             </div>
             <div class="panel-body">
-            <p style="text-align:center;margin-top:2em;">
-              <a href="http://search.utwente.nl"><img src="http://search.utwente.nl/images/utlogo-black.png" alt="University of Twente" width="192"></a>
-            </p>
-            <form class="navbar-form" action="http://search.utwente.nl/search.html" method="get" style="text-align:center">
-              <div class="input-group input-group-sm">
-                <input type="text" class="form-control" name="q" id="ut-query">
-                <div class="input-group-btn">
-                  <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+              <p style="text-align:center;margin-top:2em;">
+                <a href="http://search.utwente.nl"><img src="http://search.utwente.nl/images/utlogo-black.png" alt="University of Twente" width="192"></a>
+              </p>
+              <form class="navbar-form" action="http://search.utwente.nl/search.html" method="get" style="text-align:center">
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" name="q" id="ut-query">
+                  <div class="input-group-btn">
+                    <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                  </div>
                 </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
+
       </div> <!-- row -->
     </div> <!-- /container -->
     <footer>
