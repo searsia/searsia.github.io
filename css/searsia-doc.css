@@ -1,0 +1,55 @@
+body {
+  padding-top: 0px;
+}
+
+body.searsia-doc .navbar {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+body.searsia-doc .row a {
+  text-decoration: underline;
+}
+
+code {
+  color: black;
+}
+
+code.block {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  display: block;
+  overflow-x: auto;
+  color: #801245;
+  padding: 0.5em 0.5em 0.5em 1em;
+}
+
+code.result {
+  background-color: white;
+  display: block;
+  overflow-x: auto;
+  color: #333;
+  padding: 0.5em 0.5em 0.5em 1em;
+}
+
+body.searsia-doc h1 img {
+  height: 1em;
+  margin: 0em;
+}
+
+.jumbotron {
+  background-color: #f6f6f6;
+  border: 1px solid #e4e4e4;
+}
+
+@media (max-width: 992px) {
+  .jumbotron {
+    padding-left: 2em;
+  }
+}
+
+@media print {
+  footer {
+    display: none;
+  }
+}
