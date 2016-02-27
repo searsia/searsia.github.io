@@ -137,6 +137,24 @@ Icons are preferably png files, not smaller than 48x48 pixels. </td></tr>
 </table>
 <p>* mandatory settings</p>
 
+<h2 id="hits">Conventions for search resuls</h2>
+<p>UNDER CONSTRUCTION</p>
+        <p>Search results, i.e., the objects in the <code>"hits"</code> list,
+        may contain any attribute that seems appropriate, for instance an
+        attribute <code>"phone_number"</code> for a telephone directory or
+        an attribute <code>"nr_of_citations"</code> for a search engine
+        that searches scientific papers. The following attributed are reserved:
+        </p>
+        <ul>
+        <li><code>"title"</code>: The title of the search results, that can be clicked to go to the web
+          page that was found. Usually, the title is equals to the title of the web page that was found.
+          The title is the only attribute that is mandatory.</li>
+        <li><code>"url"</code>: The link to the web page that was found.</li>
+        <li><code>"description"</code>: A small summary describing the result. This might be a snippet
+          from the web site containing the query, or some other summary.</li>
+        <li><code>"image"</code>: The url of a (thumbnail) image, to be displayed with the search result.</li>
+        </ul>
+
         </div>
       </div>
       <footer>

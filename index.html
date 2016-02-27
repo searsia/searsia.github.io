@@ -28,15 +28,35 @@
             </button>
             <a class="navbar-brand" href="">Searsia</a>
           </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li><a href="about.html">About</a></li>
+              <li><a href="start.html">Start</a></li>
+              <li><a href="engines.html">Engines</a></li>
+              <li><a href="protocol.html">Protocol</a></li>
+            </ul>
+            <div class="col-sm-3 pull-right">
+              <form id="searsia-form" class="navbar-form" action="search.html" method="get">
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" placeholder="search" name="q" id="query">
+                <div class="input-group-btn">
+                  <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                </div>
+              </div>
+              </form>
+            </div>
+          </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
         <h1>Searsia <img src="images/searsia.png" alt=""></h1>
-        <p>Searsia is a protocol and implementation for large scale federated web search. </p>
+        <p>Build a <em>beautiful</em> search engine:<br>
+            Searsia is a protocol and implementation for large scale federated web search. 
+        </p>
         <p>
-          To be released soon in your local community.
+          <a class="btn btn-lg btn-primary" href="about.html" role="button">About &raquo;</a>
         </p>
       </div>
 

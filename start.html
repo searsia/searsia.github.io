@@ -75,18 +75,21 @@ To connect to another server, edit the second line in the file
 </p>
 
 <h2 id="server">The server</h2>
+<p>You can run your own server by installing the Searsia <strong>server</strong> from Github using the following command:</p>
+<p> <code class="block">git clone 'https://github.com/searsia/searsiaserver.git'</code></p>
+ 
+<p>The server requires Maven 3 and Java 7 or higher. Compile the server as follows:</p>
+<p> <code class="block">mvn package</code></p>
 
-<p>You can run your own server by <a href="searsiaserver.jar">downloading</a> and running the Searsia
-<strong>java server</strong>. The server requires Java 7 or higher. Just like 
-the web client, the java server will automatically connect to the University of 
-Twente search server. Use the following command to start the java server.
+<p>Use the following command to start the java server.</p>
 
-<p><code class="block">  java -jar searsiaserver.jar </code></p>
+<p><code class="block">  java -jar target/searsiaserver.jar </code></p>
 
-<p> The program displays the following message: </p>
+<p> Just like the web client, the java server will automatically connect to the University of
+Twente search server. The program displays the following message: </p>
 <p>
 <code class="result">
-Searsia Server v0.1.3<br>
+Searsia Server v0.2.1<br>
 Connected to: utwente<br>
 API Template: http://localhost:16842/searsia/search?q={q?}&amp;r={r?}<br>
 Use Ctrl+c to stop.
