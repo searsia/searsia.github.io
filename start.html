@@ -56,7 +56,7 @@
         <p>Searsia comes with a client and a server.</p>
 
         <h2 id="client">The client</h2>
-        <p>The Searsia <strong>web client</strong> can be installed from Github using the following command:
+        <p>The Searsia <strong>Web client</strong> can be installed from Github using the following command:
         <p> <code class="block">git clone 'https://github.com/searsia/searsiaclient.git'</code></p>
         <p>To use the web client, open <code>index.html</code> in a web browser. Congratulations! You now run
         your own search page.</p> 
@@ -75,18 +75,16 @@ To connect to another server, edit the second line in the file
 </p>
 
 <h2 id="server">The server</h2>
-<p>You can run your own server by installing the Searsia <strong>server</strong> from Github using the following command:</p>
-<p> <code class="block">git clone 'https://github.com/searsia/searsiaserver.git'</code></p>
- 
-<p>The server requires Maven 3 and Java 7 or higher. Compile the server as follows:</p>
-<p> <code class="block">mvn package</code></p>
+<p>Download the <strong>Java server</strong>, 
+<a href="https://github.com/searsia/searsiaserver/releases/download/v0.2.1/searsiaserver.jar">searsiaserver.jar</a>
+and use the following command to start the server:
+</p>
 
-<p>Use the following command to start the java server.</p>
+<p><code class="block">  java -jar searsiaserver.jar </code></p>
 
-<p><code class="block">  java -jar target/searsiaserver.jar </code></p>
-
-<p> Just like the web client, the java server will automatically connect to the University of
-Twente search server. The program displays the following message: </p>
+<p> The server requires Java 7 or higher.
+Just like the web client, the java server will automatically connect to the University of
+Twente search server. The server displays the following message: </p>
 <p>
 <code class="result">
 Searsia Server v0.2.1<br>
