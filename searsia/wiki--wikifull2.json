@@ -1,0 +1,20 @@
+{
+  "resource": {
+    "id": "wikifull2",
+    "mimetype": "application\/xml",
+    "urltemplate": "http:\/\/en.wikipedia.org\/w\/index.php?search={q}&title=Special%3ASearch&go=Go",
+    "favicon": "https:\/\/en.wikipedia.org\/static\/apple-touch\/wikipedia.png",
+    "itempath": "\/\/Item",
+    "extractors": {
+      "title": ".\/Text",
+      "description": ".\/Description",
+      "image": ".\/Image\/@source",
+      "url": ".\/Url"
+    },
+    "testquery": "information",
+    "name": "Wikipedia Again",
+    "prior": 2,
+    "apitemplate": "https:\/\/en.wikipedia.org\/w\/api.php?action=opensearch&format=xml&search={q}&namespace=0"
+  },
+  "searsia": "v0.1.4"
+}

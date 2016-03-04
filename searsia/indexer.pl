@@ -61,6 +61,12 @@ foreach $file (glob("$Bin/../*.html")) {
         $anchor_results .= &json_result($name, $url, $title, $descr);
     }
     $file_results .= ",\n";
+    if ($name eq 'search.html') { 
+      $page_descr = "Search searsia.org"; 
+    }
+    if ($name eq 'resultsdemo.html') { 
+      $page_descr = "This is a mockup for demonstration purposes: A search for the query informat shows 7 presentations of the same Wikipedia search results.";
+    }
     $file_results .= &json_result($name, "", $page_title, $page_descr);
   }
 }
@@ -81,16 +87,22 @@ sub json_result {
   my $title = shift;
   my $descr = shift;
 
+  $descr =~ s/\s+/ /g;
   if (length($descr) > 500) {
-    $descr = substr($descr, 0, 500) . "...";
+    $descr = substr($descr, 0, 500);
+    my $rindex = rindex($descr, " ");
+    if ($rindex != -1) {
+      $descr = substr($descr, 0, $rindex);
+    }
+    $descr .= "...";
   }
   $descr =~ s/\s+/ /g; $descr =~ s/^ | $//g;
 
   $title =~ s/([\"\/])/\\$1/g;
-  $title =~ s/&lt;/</g; $title =~ s/&gt;/>/g;  $title =~ s/&amp;/&/g;
+  $title =~ s/&lt;/</g; $title =~ s/&gt;/>/g;  $title =~ s/&amp;/&/g;  $title =~ s/&nbsp;/ /g;
   $url   =~ s/([\"\/])/\\$1/g;
   $descr =~ s/([\"\/])/\\$1/g;
-  $descr =~ s/&lt;/</g; $descr =~ s/&gt;/>/g;  $descr =~ s/&amp;/&/g;
+  $descr =~ s/&lt;/</g; $descr =~ s/&gt;/>/g;  $descr =~ s/&amp;/&/g;  $descr =~ s/&nbsp;/ /g;
 
   my $link = $SITE . $name;
   if ($url) { $link .= '#' . $url; } 

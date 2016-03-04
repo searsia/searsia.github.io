@@ -56,34 +56,149 @@
         <p>To see a list of all resources (search engines) that are used by your server, open <code>settings.html</code> in your client.
            This will show a table with resources, about 25 if you connect to the University of
            Twente Searsia server.
-           To enable updates, start the server with the <a href="start.html#serveroptions">--open</a> option.
+           To enable updates, start the server with the <a href="start.html#serveroptions">--open</a> option. 
+           (The will enable <em>anyone</em> to update your server. Searsia does not support authentication at the moment.)
            To add a resource, click on the "+Add" button on the bottom of the <code>settings.html</code> page.
         </p>
 
         <h2 id="adding-searsia">Adding a Searsia resource</h2>
         <p>
-          To add a <b>Searsia</b> resource (an engine that implements the Searsia protocol, returning results of mime-type <code>application/searsia+json</code>), you enter a unique Identifier (<em><a href="#field-id">Id</a></em>), and the resource' <em><a href="#field-api-template">API template</a></em>. The <em><a href="#field-id">Id</a></em> should be unique in your server. The <em><a href="#field-api-template">API template</a></em> is the url of the resource, where the query is replaced by <code>{q}</code> or <code>{q?}</code> (where the question mark should be used if the query is optional). After clicking "Update", the server tests the resource. A pop-up window appears with the results of the test, and a message explaining whether the resource is added or not.
+          To add a <b>Searsia</b> resource (an engine that implements the Searsia protocol, returning results of mime-type <code>application/searsia+json</code>), enter a unique Identifier (<em><a href="#field-id">Id</a></em>), and the resource' <em><a href="#field-api-template">API template</a></em>. The <em><a href="#field-id">Id</a></em> should be unique in your server. The <em><a href="#field-api-template">API template</a></em> is the url of the resource, where the query is replaced by <code>{q}</code> or <code>{q?}</code> (where the question mark should be used if the query is optional). After clicking "Update", the server tests the resource. A pop-up window appears with the results of the test, and a message explaining whether the resource is added or not.
         </p>
 
         <h2 id="adding-html">Adding an HTML resource</h2>
         <p>
-         The server can add resources by <a href="https://en.wikipedia.org/wiki/Data_scraping">scraping</a> the HTML that search engines return for their end users. To add an HTML resource, fill in <code>text/html</code> in the field <em><a href="#field-mime-type">Mime type</a></em>. As the field <em><a href="#field-api-template">API Template</a></em>, take the resource' URL from your browser after querying the search engine, replacing the query in the url by <code>{q}</code>. If the URL does not contain a query, the search engine probably uses a <a href="https://en.wikipedia.org/wiki/POST_%28HTTP%29">POST request</a>. To find out what the POST request is, we recommend <a href="https://addons.mozilla.org/en-US/firefox/addon/live-http-headers/">Live HTTP Headers</a> for Firefox. Put the POST string, replacing the query by <code>{q}</code> in the field <em><a href="#field-post-string">Post string</a></em>.
+         The server can get search results by <a href="https://en.wikipedia.org/wiki/Data_scraping">scraping</a> the HTML that search engines return for their end users. To add an HTML resource, use <code>text/html</code> in the field <em><a href="#field-mime-type">Mime type</a></em>. As the field <em><a href="#field-api-template">API Template</a></em>, take the resource' URL from your browser after querying the search engine, replacing the query in the url by <code>{q}</code>. If the URL does not contain a query, the search engine probably uses a <a href="https://en.wikipedia.org/wiki/POST_%28HTTP%29">POST request</a>. To find out what the POST request is, we recommend <a href="https://addons.mozilla.org/en-US/firefox/addon/live-http-headers/">Live HTTP Headers</a> for Firefox. Put the POST string, replacing the query by <code>{q}</code> in the field <em><a href="#field-post-string">Post string</a></em>.
         </p>
         <p id="scraping">
          Searsia uses <a href="https://en.wikipedia.org/wiki/XPath">XPath 1.0</a> to extract the search results from the web page. XPath is a query language for selecting elements of semi-structured data. Suppose the search results are displayed as list elements on the page, then these are encode as <code>&lt;li&gt;</code> ... <code>&lt;/li&gt;</code> on the page, and they can be extracted from the page with the XPath query <code>//li</code>. To find the most likely XPath query, we recommend <a href="http://dolf.trieschnigg.nl/srf/">Search Result Finder</a> for Firefox. Fill in the XPath query in the field <em><a href="#field-item-xpath">Item XPath</a></em>. To tell Searsia how to extract the components of the search result, add <em><a href="#field-xpaths">XPaths</a></em> for the fields <code>title</code>, <code>description</code>, <code>link</code>, or any other field you like (the client also supports <code>image</code>). 
         </p>
 
-        <h2 id="adding-xml">Adding an XML resource</h2>
-        <p>To add an XML resource, fill in <code>application/xml</code> in the field <em><a href="#field-mime-type">Mime type</a></em>. Then proceed as <a href="#adding-html">above</a>. The Firefox Search Result Finder cannot be used in this case.
-        </p>
+<h2 id="adding-xml">Adding an XML or JSON resource</h2>
+<p>
+To add an XML resource, fill in <code>application/xml</code> in the field 
+<em><a href="#field-mime-type">Mime type</a></em>. Then proceed as 
+<a href="#adding-html">above</a>. The Firefox Search Result Finder cannot 
+be used in this case.
+</p>
+<p>To add a JSON resource, fill in <code>application/json</code> in the 
+field <em><a href="#field-mime-type">Mime type</a></em>. Searsia also 
+uses XPath queries to interpret JSON output, by internally converting JSON 
+to XML, where each JSON attribute name is converted to an XML element; 
+JSON lists are converted to repeated XML elements with the JSON list's 
+name. 
+</p>
 
-        <h2 id="adding-json">Adding a JSON resource</h2>
-        <p>To add a JSON resource, fill in <code>application/json</code> in the field <em><a href="#field-mime-type">Mime type</a></em>. Searsia also uses XPath queries to interpret JSON output, by internally converting JSON to XML, where each JSON attribute name is converted to an XML element; JSON lists are converted to repeated XML elements for list name. Searsia supports many API's by including API keys as secret <em><a href="#field-parameters">parameters</a></em> that will not be shared, as well the possibility to add custom HTTP <em><a href="#field-headers">headers</a></em>.
-        </p>
+<h2 id="examples">Examples</h2>
+<p>
+Searsia supports many API's by including API keys as secret 
+<em><a href="#field-parameters">parameters</a></em> that will not be 
+shared, as well the possibility to add custom HTTP 
+<em><a href="#field-headers">headers</a></em>.
+Look at the <a href="http://search.utwente.nl/settings.html">University of 
+Twente settings</a> for examples of Searsia's resource configurations, 
+including several examples that use HTML scrapers, and examples for 
+accessing the API's of Google, Twitter, Facebook, Flickr, Instagram, and 
+more. If you believe that Searsia is unable to get search results from
+an existing resource that should be supported, please post your question
+under <a href="https://github.com/searsia/searsiaserver/issues">Searsia
+Server Issues</a>. Please, note that Searsia is not meant to scrape sites
+that do not want to be scraped, and therefore does not contain ways to
+circumvent for instance session cookies. 
+</p>
+<p>
+While the Searsia resource configurations provide a way to get the search
+results for a great variety of existing search engines, Searsia also 
+provides a flexible way to structure the search results from these engines.
+The search results, i.e., the objects in the <code>"hits"</code> list,
+may contain any attribute that seems appropriate, for instance an
+attribute <code>"phone_number"</code> for a telephone directory or
+an attribute <code>"nr_of_citations"</code> for a search engine
+that searches scientific papers. The following attributed are reserved:
+</p>
+<ul>
+<li><code>"title"</code>: The title of the search results, that can be 
+clicked to go to the web page that was found. Usually, the title is equals 
+to the title of the web page that was found.  The title is the only 
+attribute that is mandatory.</li>
+<li><code>"url"</code>: The link to the web page that was found.</li>
+<li><code>"description"</code>: A small summary describing the result. 
+This might be a snippet from the web site containing the query, or some 
+other summary.</li>
+<li><code>"image"</code>: The url of a (thumbnail) image, to be 
+displayed with the search result.</li>
+</ul>
 
-        <h2 id="examples">Examples</h2>
-        <p>Look at the <a href="http://search.utwente.nl/settings.html">University of Twente settings</a> for examples of Searsia's resources, including many examples of HTML scrapers, and examples for accessing the API's of Google, Twitter, Facebook, Flickr, Instagram and more.
-        </p>
+<p>
+The <a href="resultsdemo.html">mockup</a> below shows 7 ways to present 
+the search results from
+<a href="https://en.wikipedia.org/w/api.php?action=opensearch&amp;format=xml&amp;search=informat&amp;namespace=0" rel="nofollow">Wikipedia's search suggestions</a>, 
+that is the mockup shows the same search results 7 times using different
+configurations.
+</p>
+
+<div class="panel panel-default" style="margin-top:2em">
+  <div class="embed-responsive embed-responsive-resultsdemo">
+    <iframe class="embed-responsive-item" src="resultsdemo.html#resultsdemo-start"></iframe>
+  </div>
+</div>
+
+<p>
+The 7 results presentations are achieved as follows:
+</p>
+<ul>
+<li>
+<a href="searsia/wiki--wikididyoumean.json"><strong>wikididyoumean</strong></a>,
+which' name is <em>Did you mean:</em>, 
+only returns a single search result, that contains the title> as well as 
+<code>"tags":"#suggestion"</code>, which tells the client to display the
+result as a query suggestion.
+</li>
+<li>
+<a href="searsia/wiki--wikifull.json"><strong>wikifull</strong></a>
+(<em>Wikipedia Pages</em>)
+returns title, description and URL. In this configureation, the domain of 
+<code>"urltemplate"</code> (wikipedia.net) does not match the results' 
+domains (wikipedia.org). Therefore, the client displays the URLs for each 
+aggregated result.
+</li>
+<li> 
+<a href="searsia/wiki--wikiimage.json"><strong>wikiimage</strong></a>
+(<em>Wikipedia Images</em>) returns title and image and 
+<code>"tags":"#image"</code>, which tells the client to display the
+results as an image result. Note how the XPath functions <code>concat()</code>
+and <code>substring-after()</code> are used to create a custom image URL.
+</li>
+<li>
+<a href="searsia/wiki--wikismall2.json"><strong>wikismall2</strong></a>,
+which is called <em>Search Wikipedia for</em>, does not return URLs, which makes the client
+infer the URL from the <code>"title"</code> and the <code>"urltemplate"</code>,
+effectively creating a search engine that spawns a search on Wikipedia.
+</li>
+<li>
+<a href="searsia/wiki--wikifull2.json"><strong>wikifull2</strong></a>
+(<em>Wikipedia Again</em>) returns full search results with a thumbnail image, much
+like the Wikipedia Pages engine above.
+</li>
+<li>
+<a href="searsia/wiki--wikismall.json"><strong>wikismall</strong></a>
+(<em>Wikipedia Small</em>) returns search results with <code>"tags":"#small"</code>,
+telling the client to display the results on a single line.
+</li>
+<li>
+<strong><a href="searsia/wiki--wikirelated.json">wikirelated</strong></a> is called
+<em>Related searches:</em>; It returns only the titles and <code>"tags":"#small"</code>.
+The header <em>Related searches:</em> cannot be clicked because the resource does
+not configure the <code>"urltemplate"</code>.
+</li>
+</ul>
+<p>
+Note that each configuration uses the same <code>"apitemplate"</code>: Each
+of the 7 results effectively use the exact same search engine. 
+Please <strong>do not</strong> use this example in a actual server configuration.
+Note that the configuration of the mockup, if used in an actual Searsia Server, 
+would send each query 7 times(!) to Wikipedia. 
+</p>
 
         <h2 id="fields">An overview of all fields</h2>
         <p>
@@ -102,10 +217,10 @@
 Icons are preferably png files, not smaller than 48x48 pixels. </td></tr>
 
 <tr id="field-user-template"><td style="white-space:nowrap">User template:</td>
-  <td>A url specified following the <a href="protocol.html#templates">searsia url template syntax</a>, to be used by users.  The mime type of this url must be <code>text/html</code> or <code>application/xml+xhtml</code>. </td></tr>
+  <td>A url specified following the <a href="#adding-searsia">searsia url template syntax</a>, to be used by users.  The mime type of this url must be <code>text/html</code> or <code>application/xml+xhtml</code>. </td></tr>
 
 <tr id="field-api-template"><td style="white-space:nowrap">*API template:</td>
-  <td>A url specified following the <a href="protocol.html#templates">searsia url template syntax</a>, to be used by the server.</td></tr>
+  <td>A url specified following the <a href="#adding-searsia">searsia url template syntax</a>, to be used by the server.</td></tr>
 
 <tr id="field-post-string"><td>Post string:</td>
   <td>Only set if the API template HTTP method is POST, empty if the HTTP method is GET. Like the template, the post string may include parameters.</td></tr>
@@ -136,24 +251,6 @@ Icons are preferably png files, not smaller than 48x48 pixels. </td></tr>
 
 </table>
 <p>* mandatory settings</p>
-
-<h2 id="hits">Conventions for search resuls</h2>
-<p>UNDER CONSTRUCTION</p>
-        <p>Search results, i.e., the objects in the <code>"hits"</code> list,
-        may contain any attribute that seems appropriate, for instance an
-        attribute <code>"phone_number"</code> for a telephone directory or
-        an attribute <code>"nr_of_citations"</code> for a search engine
-        that searches scientific papers. The following attributed are reserved:
-        </p>
-        <ul>
-        <li><code>"title"</code>: The title of the search results, that can be clicked to go to the web
-          page that was found. Usually, the title is equals to the title of the web page that was found.
-          The title is the only attribute that is mandatory.</li>
-        <li><code>"url"</code>: The link to the web page that was found.</li>
-        <li><code>"description"</code>: A small summary describing the result. This might be a snippet
-          from the web site containing the query, or some other summary.</li>
-        <li><code>"image"</code>: The url of a (thumbnail) image, to be displayed with the search result.</li>
-        </ul>
 
         </div>
       </div>

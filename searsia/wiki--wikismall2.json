@@ -1,0 +1,19 @@
+{
+  "resource": {
+    "id": "wikismall2",
+    "mimetype": "application\/xml",
+    "urltemplate": "https:\/\/en.wikipedia.org\/w\/index.php?title=Special%3ASearch&profile=default&search={q}&fulltext=Search",
+    "favicon": "https:\/\/en.wikipedia.org\/static\/apple-touch\/wikipedia.png",
+    "itempath": "\/\/Item",
+    "extractors": {
+      "tags": "'#small'",
+      "title": ".\/Text",
+      "description": "concat('(Search Wikipedia for: ', string(.\/Text), ')')"
+    },
+    "testquery": "information",
+    "name": "Search Wikipedia for",
+    "prior": 1.1,
+    "apitemplate": "https:\/\/en.wikipedia.org\/w\/api.php?action=opensearch&format=xml&search={q}&namespace=0"
+  },
+  "searsia": "v0.1.4"
+}
