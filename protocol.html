@@ -62,7 +62,7 @@ shared with other servers (and clients) by means of an API template. For
 instance, the API template of the University of Twente search engine is:
 </p>
 <p>
-<code class="block">http://search.utwente.nl/searsia/search?q={q?}&amp;r={r?}</code>
+<code class="block">https://search.utwente.nl/searsia/search?q={q?}&amp;r={r?}</code>
 </p>
 <p>A search in Searsia typically follows the following stages:</p>
 <ol>
@@ -92,8 +92,8 @@ Twente API:
 </p>
 <p>
  <code>
-  <a rel="nofollow" href="http://search.utwente.nl/searsia/search?q=searsia&amp;r=">
-   http://search.utwente.nl/searsia/search?q=searsia&amp;r=
+  <a rel="nofollow" href="https://search.utwente.nl/searsia/search?q=searsia&amp;r=">
+   https://search.utwente.nl/searsia/search?q=searsia&amp;r=
   </a>
  </code>
 </p>
@@ -111,10 +111,10 @@ produces a result that is similar to one below:
     },
     {
       "rid": "googlecustom",
-      "title": "University of Twente presents its new search engine",
-      "description": "Our search engine is powered by Searsia.",
-      "score": 3.21234, 
-      "url": "http:\/\/www.utwente.nl\/news\/searsia.html"
+      "title": "Projecten | Organisatie",
+      "description": "UT Search is powered by Searsia ...",
+      "score": 2.9963183, 
+      "url": "https:\/\/www.utwente.nl\/organisatie\/nieuws-events\/dossier\/&#8230;"
     },
     {
       "rid": "publications",
@@ -124,15 +124,15 @@ produces a result that is similar to one below:
   "resource": {
     "id": "utwente",
     "mimetype": "application\/searsia+json",
-    "urltemplate": "http:\/\/search.utwente.nl\/search.html?q={q}",
-    "favicon": "http:\/\/search.utwente.nl\/images\/ut.png",
+    "urltemplate": "https:\/\/search.utwente.nl\/search.html?q={q}",
+    "favicon": "https:\/\/search.utwente.nl\/ut-icons\/ut.png",
     "testquery": "twente",
     "name": "University of Twente",
     "prior": 2,
-    "apitemplate": "http:\/\/search.utwente.nl\/searsia\/search?q={q?}&amp;r={r?}",
-    "banner": "http:\/\/search.utwente.nl\/images\/utlogo-black.png"
+    "apitemplate": "https:\/\/search.utwente.nl\/searsia\/search?q={q?}&amp;r={r?}",
+    "banner": "https:\/\/search.utwente.nl\/ut-icons\/utlogo-black.png"
   },
-  "searsia": "v0.2.1"
+  "searsia": "v0.3.0"
 }
 </pre>
 <p>
@@ -156,8 +156,8 @@ server forward the query to the resource. For instance, for the query
 </p>
 <p>
  <code>
-  <a rel="nofollow" href="http://search.utwente.nl/searsia/search?q=searsia&amp;r=publications">
-    http://search.utwente.nl/searsia/search?q=searsia&amp;r=publications
+  <a rel="nofollow" href="https://search.utwente.nl/searsia/search?q=searsia&amp;r=publications">
+    https://search.utwente.nl/searsia/search?q=searsia&amp;r=publications
   </a>
  </code>
 </p>
@@ -190,7 +190,7 @@ produces a result that is similar to one below:
     "prior": 1,
     "apitemplate": "http:\/\/doc.utwente.nl\/cgi\/search\/archive\/simple?q={q}"
   },
-  "searsia": "v0.2.1"
+  "searsia": "v0.3.0"
 }
 </pre>
 <p>
@@ -212,8 +212,8 @@ information of the resource. For instance, for the resource
 </p>
 <p>
  <code>
-  <a rel="nofollow" href="http://search.utwente.nl/searsia/search?q=&amp;r=googlecustom">
-   http://search.utwente.nl/searsia/search?q=&amp;r=googlecustom
+  <a rel="nofollow" href="https://search.utwente.nl/searsia/search?q=&amp;r=googlecustom">
+   https://search.utwente.nl/searsia/search?q=&amp;r=googlecustom
   </a>
  </code>
 </p>
@@ -239,7 +239,7 @@ produces a result that is similar to one below:
     "prior": 2,
     "apitemplate": "https:\/\/www.googleapis.com\/customsearch\/v1element?key={apikey}&#8230;
   },
-  "searsia": "v0.2.1"
+  "searsia": "v0.3.0"
 }
 </pre> 
 <p>
