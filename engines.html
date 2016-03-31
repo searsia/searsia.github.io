@@ -56,8 +56,13 @@
         <p>To see a list of all resources (search engines) that are used by your server, open <code>settings.html</code> in your client.
            This will show a table with resources, about 25 if you connect to the University of
            Twente Searsia server.
-           To enable updates, start the server with the <a href="start.html#serveroptions">--open</a> option. 
-           (The will enable <em>anyone</em> to update your server. Searsia does not support authentication at the moment.)
+           In the list of resources, one of the search engines is the University of Twente Searsia server. We will call this
+           resource the 'mother': It is the search engine that is fully trusted, like you would trust your mother. 
+           A client (or another) server will copy all the 
+           resources from its mother. This way, configurations can be quickly shared, and a copy of --for instance--
+           the University of Twente Searsia server can be quickly instantiated.
+           To enable updates, start the (mother) server with the <a href="start.html#serveroptions">--open</a> option. 
+           (BEWARE: This will enable <em>anyone</em> to update your server. Searsia does not support authentication at the moment.)
            To add a resource, click on the "+Add" button on the bottom of the <code>settings.html</code> page.
         </p>
 
@@ -149,18 +154,20 @@ The 7 results presentations are achieved as follows:
 <ul>
 <li>
 <a href="searsia/wiki--wikididyoumean.json"><strong>wikididyoumean</strong></a>,
-which' name is <em>Did you mean:</em>, 
-only returns a single search result, that contains the title> as well as 
+which' name is <em>"Did you mean:"</em>, 
+returns a single search result, that contains the title as well as 
 <code>"tags":"#suggestion"</code>, which tells the client to display the
 result as a query suggestion.
 </li>
 <li>
 <a href="searsia/wiki--wikifull.json"><strong>wikifull</strong></a>
 (<em>Wikipedia Pages</em>)
-returns title, description and URL. In this configureation, the domain of 
+returns title, description and URL. In this configuration, the domain of 
 <code>"urltemplate"</code> (wikipedia.net) does not match the results' 
 domains (wikipedia.org). Therefore, the client displays the URLs for each 
-aggregated result.
+aggregated result. The <code>"urltemplate"</code> is the url that the 
+user will use to search on the site, whereas the <code>"apitemplate"</code>
+will be used by the server.
 </li>
 <li> 
 <a href="searsia/wiki--wikiimage.json"><strong>wikiimage</strong></a>
@@ -189,7 +196,7 @@ telling the client to display the results on a single line.
 <a href="searsia/wiki--wikirelated.json"><strong>wikirelated</strong></a> is called
 <em>Related searches:</em>; It returns only the titles and <code>"tags":"#small"</code>.
 The header <em>Related searches:</em> cannot be clicked because the resource does
-not configure the <code>"urltemplate"</code>.
+not configure the <code>"urltemplate"</code> for the end user.
 </li>
 </ul>
 <p>
