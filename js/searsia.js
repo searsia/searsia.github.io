@@ -13,23 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * Searsia Client v0.2 spaghetti code:
+ * Searsia Client v0.3.1 spaghetti code:
  *   The web page should call getResources(params) 
- *   (using parameters fromsearsiaUrlParameters())
+ *   (using parameters from: searsiaUrlParameters())
  *   see: search.html
  *   Syntax checked with: jslint --eqeq --regexp --todo searsia.js
  */
 
-/*global $, window, alert, jQuery, localStorage*/
+/*global $, window, document, alert, jQuery, localStorage*/
 
 "use strict";
 
 var API_TEMPLATE = '/searsia/search.json';
 
+
 var AGG       = 1;   // 1=Aggregate results, 0=only boring links
 var pending   = 0;   // Number of search engines that are answering a query
 var nrResults = 0;   // Total number of results returned 
 var page      = 1;   // search result page
+var lang      = 'en';
 
 var store = {
 
@@ -229,6 +231,8 @@ function searsiaUrlParameters() {
         values = parts[i].split("=");
         if (values[0] === 'q') {
             params.q = values[1];
+            params.q = params.q.replace(/%3C.*?%3E/g, '');
+            params.q = params.q.replace(/%3C|%3E/g, '');
             params.q = params.q.replace(/^\++|\++$/g, ''); // no leading and trailing spaces 
         } else if (values[0] === 'r') {
             params.r = values[1];
@@ -245,7 +249,17 @@ function searsiaError(text) {
 
 function printableQuery(query) {
     query = query.replace(/\+/g, ' ');
-    return decodeURIComponent(query);
+    query = decodeURIComponent(query);
+    query = query.replace(/</g, '&lt;');
+    query = query.replace(/>/g, '&gt;');
+    return query;
+}
+
+
+function formQuery(query) {
+    query = printableQuery(query);
+    query = query.replace(/>/g, '&gt;');
+    return query;
 }
 
 
@@ -277,16 +291,21 @@ function restrict(someText, size) { // size must be > 3
 
 
 function highlightTerms(someText, query) {
-    var i, re,
-        terms = query.split(/\++/); // This might not work for all character encodings
-    for (i = 0; i < terms.length; i += 1) {
-        if (terms[i].length < 3) {
-            terms[i] = '\\b' + terms[i] + '\\b';
+    var i, re, terms, max;
+    query = query.replace(/[^0-9A-Za-z]/g, '+');
+    terms = query.split(/\++/); // This might not work for all character encodings
+    max = terms.length;
+    if (max > 10) { max = 10; }
+    for (i = 0; i < max; i += 1) {
+        if (terms[i].length > 0 && terms[i] !== 'b') { // do not match '<b>' again
+            if (terms[i].length < 3) {
+                terms[i] = '\\b' + terms[i] + '\\b';
+            }
+            try {
+                re = new RegExp('(' + terms[i] + ')', "gi");
+                someText = someText.replace(re, '<b>$1</b>');
+            } catch (ignore) { }
         }
-        try {
-            re = new RegExp('(' + terms[i] + ')', "gi");
-            someText = someText.replace(re, '<b>$1</b>');
-        } catch (ignore) { }
     }
     return someText;
 }
@@ -372,6 +391,45 @@ function htmlSuggestionResult(resource, hit) {
 }
 
 
+function moreResultsText() {
+    var result = "More results &gt;&gt;";
+    if (lang === "nl") {
+        result = "Meer resultaten &gt;&gt;";
+    } else if (lang === "de") {
+        result =  "Mehr Ergebnisse &gt;&gt;";
+    } else if (lang === "fr") {
+        result = "Plus de résultats &gt;&gt;";
+    }
+    return result;
+}
+
+
+function noMoreResultsText() {
+    var result = "No more results.";
+    if (lang === "nl") {
+        result = "Geen andere resultaten.";
+    } else if (lang === "de") {
+        result =  "Keine Ergebnisse mehr.";
+    } else if (lang === "fr") {
+        result = "Pas plus de résultats.";
+    }
+    return result;
+}
+
+
+function noResultsText() {
+    var result = "No results.";
+    if (lang === "nl") {
+        result = "Geen resultaten.";
+    } else if (lang === "de") {
+        result =  "Keine Ergebnisse.";
+    } else if (lang === "fr") {
+        result = "Pas de résultats.";
+    }
+    return result;
+}
+
+
 function moreResults(event) {
     var i, hit, maxi, query,
         result = '';
@@ -387,18 +445,19 @@ function moreResults(event) {
     }
     $('#searsia-results-4').append(result); // there are three divs for results, 1=top, 2=subtop, 3=rest, 4=more
     if (store.length <= 0) {
-        $('#searsia-alert-bottom').html('No more results.');
+        $('#searsia-alert-bottom').html(noMoreResultsText());
     }
+    // $wh.fireLayoutChangeEvent(document.getElementById("searsiasearch"));
 }
 
 
 function checkEmpty() {
     if (nrResults === 0) {
-        $('#searsia-alert-bottom').html('No results.');
+        $('#searsia-alert-bottom').html(noResultsText());
     } else if (store.length <= 0) {
-        $('#searsia-alert-bottom').html('No more results.');
+        $('#searsia-alert-bottom').html(noMoreResultsText());
     } else {
-        $('#searsia-alert-bottom').html('<a href="#more" id="more-results">More results &gt;&gt;</a>');
+        $('#searsia-alert-bottom').html('<a href="#more" id="more-results">' + moreResultsText() + '</a>');
         $('#more-results').on('click', function (event) { moreResults(event); });
     }
 }
@@ -499,22 +558,57 @@ function inferMissingData(data, query) {
 }
 
 
+/*
+ * Updates data.hits, removing hits that have a 
+ * foundBefore date that is more than 2 weeks ago.
+ */
+function removeTooOldResults(data) {
+    var i, hit,
+        newHits = [],
+        count = data.hits.length;
+    if (count > 15) { count = 15; }
+    for (i = 0; i < count; i += 1) {
+        hit = data.hits[i];
+        if (hit.foundBefore == null || Date.now() - new Date(hit.foundBefore).getTime() < 1209600000) { // 1209600000 is two weeks in miliseconds
+            newHits.push(hit);
+        }
+    }
+    data.hits = newHits;
+}
+
+/*
+ * Returns html sub result, properly length-restricted
+ * max length 220 characters, restricting the size of the
+ * title and description. Title at least 80 characters.
+ */
 function htmlSubResultWeb(query, hit) {
     var title  = hit.title,
         descr  = hit.description,
         url    = hit.url,
         image  = hit.image,
-        maxsnip = 220,
-        result = '';
-    title = restrict(title, 80);
-    maxsnip -= title.length;
+        result = '',
+        tLength = 0,
+        dLength = 0;
+    tLength = title.length;
+    if (descr != null) {
+        dLength = descr.length;
+    }
+    if (tLength + dLength > 220) {
+        tLength = 220 - dLength;
+        if (tLength < 80) { tLength = 80; }
+        title = restrict(title, tLength);
+        tLength = title.length;
+    }
+    if (tLength + dLength > 220) {
+        dLength = 220 - tLength;
+    }
     result += '<div class="sub-result">';
     if (image != null) {
         result += '<a href="' + url + '"><img src="' + image + '"/></a>';
     }
     result += '<p><a href="' + url + '">' + highlightTerms(title, query) + '</a> ';
     if (descr != null) {
-        result += highlightTerms(restrict(descr, maxsnip), query);
+        result += highlightTerms(restrict(descr, dLength), query);
     }
     result += '</p></div>';
     return result;
@@ -632,6 +726,7 @@ function htmlResource(query, resource) {
         if (resource.urltemplate.indexOf('{q}') > -1) {
             title += ' - ' + printableQuery(query);
         }
+        title = restrict(title, 80);
         result += highlightTerms(title, query) + '</a>';
         if (resource.favicon != null) {
             result += '<img src="' + resource.favicon + '" alt="">';
@@ -724,12 +819,14 @@ function printResults(query, data, rank, olddata) {
         }
     } else {
         inferMissingData(olddata, query);
+        removeTooOldResults(olddata);
         printAggregatedResults(query, olddata, rank);
     }
     pending -= 1; // global
     if (pending <= 0) {
         checkEmpty();
     }
+    // $wh.fireLayoutChangeEvent(document.getElementById("searsiasearch"));
 }
 
 
@@ -750,7 +847,8 @@ function getResults(query, rid, rank, olddata) {
 
 
 function queryResources(query, data) {
-    var rid, hits, olddata, oldquery,
+    var rid, hits, olddata,
+        oldquery = "",
         i = 0,
         rank = 1,
         done = [];
@@ -767,7 +865,7 @@ function queryResources(query, data) {
                 rank += 1;
             }
         } else if (done[rid] !== 1) {
-            oldquery = hits[i].query;
+            //oldquery = hits[i].query; // remove comment to enable 'cached' result
             olddata = { hits: [] };
             if (localExistsResource(rid)) {
                 olddata.resource = localGetResource(rid);
@@ -796,11 +894,16 @@ function queryResources(query, data) {
     if (pending < 1) {
         checkEmpty();
     }
+    // $wh.fireLayoutChangeEvent(document.getElementById("searchresults"));
 }
 
 
 function getResources(params) {
     /*jslint unparam: true*/
+    if (params.q.length > 150) {
+        searsiaError('Query too long.');
+        return;
+    }
     $.ajax({
         url: fillUrlTemplate(API_TEMPLATE, params.q, ''),
         success: function (data) { queryResources(params.q, data); },
