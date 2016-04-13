@@ -2,7 +2,7 @@
   "hits": [
     {
       "title": "Searsia",
-      "url": "http:\/\/searsia.org\/http:\/\/searsia.org\/",
+      "url": "http:\/\/searsia.org\/",
       "description": "Build a beautiful search engine: Searsia is a protocol and implementation for large scale federated web search."
     },
     {
@@ -13,12 +13,17 @@
     {
       "title": "Searsia - Engines",
       "url": "http:\/\/searsia.org\/engines.html",
-      "description": "To see a list of all resources (search engines) that are used by your server, open settings.html in your client. This will show a table with resources, about 25 if you connect to the University of Twente Searsia server. To enable updates, start the server with the --open option. (The will enable anyone to update your server. Searsia does not support authentication at the moment.) To add a resource, click on the \"+Add\" button on the bottom of the settings.html page. To add a Searsia resource..."
+      "description": "To see a list of all resources (search engines) that are used by your server, open settings.html in your client. This will show a table with resources, about 25 if you connect to the University of Twente Searsia server. In the list of resources, one of the search engines is the University of Twente Searsia server. We will call this resource the 'mother': It is the search engine that is fully trusted, like you would trust your mother. A client (or another) server will copy all the resources..."
+    },
+    {
+      "title": "Searsia - People",
+      "url": "http:\/\/searsia.org\/people.html",
+      "description": "The following people contributed to researching and developing Searsia: Djoerd Hiemstra Dolf Trieschnigg Dong Nguyen Thomas Demeester Ke Zhou Searsia logo logo by rMiszczak"
     },
     {
       "title": "Searsia - Protocol",
       "url": "http:\/\/searsia.org\/protocol.html",
-      "description": "Searsia is designed such that each Searsia server manages multiple resources. These resources can be existing web search engines, or they can be other Searsia servers. A Searsia server has a single API query interface, which is shared with other servers (and clients) by means of an API template. For instance, the API template of the University of Twente search engine is: http:\/\/search.utwente.nl\/searsia\/search?q={q?}&r={r?} A search in Searsia typically follows the following stages: The..."
+      "description": "Searsia is designed such that each Searsia server manages multiple resources. These resources can be existing web search engines, or they can be other Searsia servers. A Searsia server has a single API query interface, which is shared with other servers (and clients) by means of an API template. For instance, the API template of the University of Twente search engine is: https:\/\/search.utwente.nl\/searsia\/search?q={q?}&r={r?} A search in Searsia typically follows the following stages: The..."
     },
     {
       "title": "Results Demo",
@@ -123,17 +128,17 @@
     {
       "title": "Searsia - Protocol: Call with only a query",
       "url": "http:\/\/searsia.org\/protocol.html#query-only",
-      "description": "A call to the server with only a query returns the server's local search results. For instance, for the query searsia , the University of Twente API: http:\/\/search.utwente.nl\/searsia\/search?q=searsia&r= produces a result that is similar to one below: { \"hits\": [ { \"title\": \"Searsia\", \"description\": \"Search for noobs\", \"score\": 3.319267, \"url\": \"http:\\/\\/searsia.org\" }, { \"rid\": \"googlecustom\", \"title\": \"University of Twente presents its new search engine\", \"description\": \"Our search engine..."
+      "description": "A call to the server with only a query returns the server's local search results. For instance, for the query searsia , the University of Twente API: https:\/\/search.utwente.nl\/searsia\/search?q=searsia&r= produces a result that is similar to one below: { \"hits\": [ { \"title\": \"Searsia\", \"description\": \"Search for noobs\", \"score\": 3.319267, \"url\": \"http:\\/\\/searsia.org\" }, { \"rid\": \"googlecustom\", \"title\": \"Projecten | Organisatie\", \"description\": \"UT Search is powered by Searsia ...\",..."
     },
     {
       "title": "Searsia - Protocol: Call with a query and a resource identifier",
       "url": "http:\/\/searsia.org\/protocol.html#query-resource",
-      "description": "A call to the server with a query and a resource identifier will let the server forward the query to the resource. For instance, for the query searsia , a call to the University of Twente API: http:\/\/search.utwente.nl\/searsia\/search?q=searsia&r=publications produces a result that is similar to one below: { \"hits\": [ { \"title\": \"Searsia Documentation\", \"description\": \"Djoerd Hiemstra, Dolf Trieschnigg, Thomas Demeester, ...\", \"url\": \"http:\\/\\/doc.utwente.nl\\/970499\\/\" } ], \"resource\": {..."
+      "description": "A call to the server with a query and a resource identifier will let the server forward the query to the resource. For instance, for the query searsia , a call to the University of Twente API: https:\/\/search.utwente.nl\/searsia\/search?q=searsia&r=publications produces a result that is similar to one below: { \"hits\": [ { \"title\": \"Searsia Documentation\", \"description\": \"Djoerd Hiemstra, Dolf Trieschnigg, Thomas Demeester, ...\", \"url\": \"http:\\/\\/doc.utwente.nl\\/970499\\/\" } ], \"resource\": {..."
     },
     {
       "title": "Searsia - Protocol: Call with only a resource identifier",
       "url": "http:\/\/searsia.org\/protocol.html#resource-only",
-      "description": "A call to the server with only a resource identifier returns the contact information of the resource. For instance, for the resource googlecustom , a call to the University of Twente API: http:\/\/search.utwente.nl\/searsia\/search?q=&r=googlecustom produces a result that is similar to one below: { \"resource\": { \"id\": \"googlecustom\", \"name\": \"University of Twente by Google\", \"mimetype\": \"application\\/json\", \"urltemplate\": \"https:\\/\\/www.google.com\\/cse?cx=003637895283361378319:95lv8knurmc\",..."
+      "description": "A call to the server with only a resource identifier returns the contact information of the resource. For instance, for the resource googlecustom , a call to the University of Twente API: https:\/\/search.utwente.nl\/searsia\/search?q=&r=googlecustom produces a result that is similar to one below: { \"resource\": { \"id\": \"googlecustom\", \"name\": \"University of Twente by Google\", \"mimetype\": \"application\\/json\", \"urltemplate\": \"https:\\/\\/www.google.com\\/cse?cx=003637895283361378319:95lv8knurmc\",..."
     },
     {
       "title": "Searsia - Start: The client",
@@ -143,12 +148,12 @@
     {
       "title": "Searsia - Start: Client options",
       "url": "http:\/\/searsia.org\/start.html#clientoptions",
-      "description": "The client will automatically connect to the University of Twente search server. To connect to another server, edit the second line in the file js\/searsia.js , which contains the API template of the server. var API_TEMPLATE = 'http:\/\/search.utwente.nl\/searsia\/search?q={q?}&r={r?}' If you run a server on your local machine (see next section), you can connect to your own server by setting the API template to: 'http:\/\/localhost:16842\/searsia\/search?q={q?}&r={r?}'"
+      "description": "The client will automatically connect to the University of Twente search server. To connect to another server, edit the second line in the file js\/searsia.js , which contains the API template of the server. var API_TEMPLATE = 'https:\/\/search.utwente.nl\/searsia\/search?q={q?}&r={r?}' If you run a server on your local machine (see next section), you can connect to your own server by setting the API template to: 'http:\/\/localhost:16842\/searsia\/search?q={q?}&r={r?}'"
     },
     {
       "title": "Searsia - Start: The server",
       "url": "http:\/\/searsia.org\/start.html#server",
-      "description": "Download the Java server searsiaserver.jar and use the following command to start the server: java -jar searsiaserver.jar The server requires Java 7 or higher. Just like the web client, the java server will automatically connect to the University of Twente search server. The server displays the following message: Searsia Server v0.2.1 Connected to: utwente API Template: http:\/\/localhost:16842\/searsia\/search?q={q?}&r={r?} Use Ctrl+c to stop. Use the reported API Template in your client as..."
+      "description": "Download the Java server searsiaserver.jar and use the following command to start the server: java -jar searsiaserver.jar The server requires Java 7 or higher. Just like the web client, the java server will automatically connect to the University of Twente search server. The server displays the following message: Searsia Server v0.3.1 Connected to: utwente API Template: http:\/\/localhost:16842\/searsia\/search?q={q?}&r={r?} Use Ctrl+c to stop. Use the reported API Template in your client as..."
     },
     {
       "title": "Searsia - Start: Server options",
@@ -173,7 +178,7 @@
     {
       "title": "Searsia - Start: --mother <arg>",
       "url": "http:\/\/searsia.org\/start.html#option-mother",
-      "description": "Sets the API template of the mother. Use none to run the in stand-alone mode. The default is currently ' http:\/\/search.utwente.nl\/searsia\/search?q={q?}&r={r?} '."
+      "description": "Sets the API template of the mother. Use none to run the in stand-alone mode. The default is currently ' https:\/\/search.utwente.nl\/searsia\/search?q={q?}&r={r?} '."
     },
     {
       "title": "Searsia - Start: --name <arg>",
@@ -208,7 +213,7 @@
     {
       "title": "Searsia - Start: Setup failed: Lock obtain timed out: NativeFSLock",
       "url": "http:\/\/searsia.org\/start.html#error-timed-out",
-      "description": "There is already running an instance of the Searsia server on the same index. Kill the server, or run the server with a different name with the --name option."
+      "description": "There is already an instance of the Searsia server running on the same index. Kill the server, or run the server with a different name with the --name option."
     },
     {
       "title": "Searsia - Start: Server failed: Failed to start Grizzly HTTP server: Address already in use",
@@ -233,7 +238,7 @@
     {
       "title": "Searsia - Start: Error: Connection failed: org.json.JSONException",
       "url": "http:\/\/searsia.org\/start.html#error-json-exception",
-      "description": "The mother is not a Searsia engine. Check the mother engine and mother template. Change the mother with the --mother option. Download Searsia searsiaclient.zip (219 KB) searsiaserver.jar (11.1 MB) Thanks, Github! Searsia is hosted by Github. Next: Adding search engines to your server."
+      "description": "The mother is not a Searsia engine. Check the mother engine and mother template. Change the mother with the --mother option. Download Searsia searsiaclient.zip (219 KB) searsiaserver.jar (11.1 MB) Thanks, Github! hosted by Github Next: Adding search engines to your server."
     }
   ],
   "resource": {
@@ -246,5 +251,5 @@
     "apitemplate": "http:\/\/searsia.org\/searsia\/searsia.json",
     "usertemplate": "http:\/\/searsia.org\/searsiaclient\/search.html?q={q}"
   },
-  "searsia": "v0.1.4"
+  "searsia": "v0.3.1"
 }

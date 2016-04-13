@@ -15,7 +15,7 @@ my $DESCR = 'Build a beautiful search engine: Searsia is a protocol and implemen
 my $file;
 my $anchor_results = "";
 my $file_results = "";
-$file_results .= &json_result($SITE, "", $TITLE, $DESCR);
+$file_results .= &json_result("", "", $TITLE, $DESCR);
 foreach $file (glob("$Bin/../*.html")) {
   $file =~ m/([^\/]+$)/;
   my $name = $1;
@@ -130,7 +130,7 @@ sub json_end {
     "apitemplate": "http:\\/\\/searsia.org\\/searsia\\/searsia.json",
     "usertemplate": "http:\\/\\/searsia.org\\/searsiaclient\\/search.html?q={q}"
   },
-  "searsia": "v0.1.4"
+  "searsia": "v0.3.1"
 }
 EndJSON
 }
