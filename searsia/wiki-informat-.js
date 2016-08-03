@@ -1,3 +1,0 @@
-parseResponse({"hits":[{"rid":"wikididyoumean","score":3},{"rid":"wikifull","score":2.2},{"rid":"wikiimage","score":2},{"rid":"wikismall2","score":1.7},{"rid":"wikifull2","score":1.5},{"rid":"wikismall","score":0.9},{"rid":"wikirelated","score":0.5}],"resource":{"id":"wiki","mimetype":"application\/searsia+json","urltemplate":"http:\/\/searsia.org\/resultsdemo.html","favicon":"http:\/\/searsia.org\/images\/searsia.png","banner":"","testquery":"informat","name":"WikipediaDemo","prior":3,"apitemplate":"http:\/\/searsia.org\/searsia\/wiki-{q?}-{r?}.json"},"searsia":"v0.1.4"});
-
-
