@@ -18,7 +18,7 @@
     {
       "title": "Searsia - People",
       "url": "http:\/\/searsia.org\/people.html",
-      "description": "The following people contributed to researching and developing Searsia: Djoerd Hiemstra Dolf Trieschnigg Dong Nguyen Thomas Demeester Ke Zhou Searsia logo logo by rMiszczak"
+      "description": "The following people contributed to researching and developing Searsia: Djoerd Hiemstra Dolf Trieschnigg Dong Nguyen Thomas Demeester Ke Zhou Rob Stortelder Searsia logo logo by rMiszczak"
     },
     {
       "title": "Searsia - Protocol",
@@ -153,7 +153,7 @@
     {
       "title": "Searsia - Start: The server",
       "url": "http:\/\/searsia.org\/start.html#server",
-      "description": "Download the Java server searsiaserver.jar and use the following command to start the server: java -jar searsiaserver.jar The server requires Java 7 or higher. Just like the web client, the java server will automatically connect to the University of Twente search server. The server displays the following message: Searsia Server v0.3.1 Connected to: utwente API Template: http:\/\/localhost:16842\/searsia\/search?q={q?}&r={r?} Use Ctrl+c to stop. Use the reported API Template in your client as..."
+      "description": "Download the Java server searsiaserver.jar and use the following command to start the server: java -jar searsiaserver.jar The server requires Java 7 or higher. Just like the web client, the java server will automatically connect to the University of Twente search server. The server displays the following message: Searsia Server v0.3.2 Connected to: utwente API Template: http:\/\/localhost:16842\/searsia\/search?q={q?}&r={r?} Use Ctrl+c to stop. Use the reported API Template in your client as..."
     },
     {
       "title": "Searsia - Start: Server options",
