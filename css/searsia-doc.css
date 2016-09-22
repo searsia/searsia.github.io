@@ -46,6 +46,15 @@ body.searsia-doc h1 img {
   border: 1px solid #e4e4e4;
 }
 
+footer.sponsors {
+  text-align: center;
+}
+
+footer.sponsors img {
+  margin: 2em 1em 1em 1em;
+  height: 45px;
+}
+
 @media (max-width: 992px) {
   .jumbotron {
     padding-left: 2em;
