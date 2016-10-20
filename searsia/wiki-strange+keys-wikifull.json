@@ -5,7 +5,7 @@
       "description": "This test contains json keys contain characters that are reserved in XML",
       "url": "https:\/\/en.wikipedia.org\/wiki\/JSON",
       "\/edu\/alumni-by-school?id": "some weird number",
-      "if a>1 then \"whatever\"":"and this"
+      "if a>1 then \'whatever\'":"and this"
     }
   ],
   "resource": {
