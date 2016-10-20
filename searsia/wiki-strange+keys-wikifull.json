@@ -1,0 +1,28 @@
+{
+  "hits": [
+    {
+      "title": "A test for Searsia",
+      "description": "This test contains json keys contain characters that are reserved in XML",
+      "url": "https:\/\/en.wikipedia.org\/wiki\/JSON",
+      "\/edu\/alumni-by-school?id": "some weird number",
+      "if a>1 then \"whatever\"":"and this"
+    }
+  ],
+  "resource": {
+    "id": "wikifull",
+    "mimetype": "application\/xml",
+    "urltemplate": "http:\/\/en.wikipedia.net\/w\/index.php?search={q}&title=Special%3ASearch&go=Go",
+    "favicon": "https:\/\/en.wikipedia.org\/static\/apple-touch\/wikipedia.png",
+    "itempath": "\/\/Item",
+    "extractors": {
+      "title": ".\/Text",
+      "description": ".\/Description",
+      "url": ".\/Url"
+    },
+    "testquery": "information",
+    "name": "Wikipedia Pages",
+    "prior": 2,
+    "apitemplate": "https:\/\/en.wikipedia.org\/w\/api.php?action=opensearch&format=xml&search={q}&namespace=0"
+  },
+  "searsia": "v0.1.4"
+}
