@@ -74,10 +74,10 @@
 
         <h2 id="adding-html">Adding an HTML resource</h2>
         <p>
-         The server can get search results by <a href="https://en.wikipedia.org/wiki/Data_scraping">scraping</a> the HTML that search engines return for their end users. To add an HTML resource, use <code>text/html</code> in the field <em><a href="#field-mime-type">Mime type</a></em>. As the field <em><a href="#field-api-template">API Template</a></em>, take the resource' URL from your browser after querying the search engine, replacing the query in the url by <code>{q}</code>. If the URL does not contain a query, the search engine probably uses a <a href="https://en.wikipedia.org/wiki/POST_%28HTTP%29">POST request</a>. To find out what the POST request is, we recommend <a href="https://addons.mozilla.org/en-US/firefox/addon/live-http-headers/">Live HTTP Headers</a> for Firefox. Put the POST string, replacing the query by <code>{q}</code> in the field <em><a href="#field-post-string">Post string</a></em>.
+         The server can get search results by <a target="_blank" href="https://en.wikipedia.org/wiki/Data_scraping">scraping</a> the HTML that search engines return for their end users. To add an HTML resource, use <code>text/html</code> in the field <em><a href="#field-mime-type">Mime type</a></em>. As the field <em><a href="#field-api-template">API Template</a></em>, take the resource' URL from your browser after querying the search engine, replacing the query in the url by <code>{q}</code>. If the URL does not contain a query, the search engine probably uses a <a target="_blank" href="https://en.wikipedia.org/wiki/POST_%28HTTP%29">POST request</a>. To find out what the POST request is, we recommend <a target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/live-http-headers/">Live HTTP Headers</a> for Firefox. Put the POST string, replacing the query by <code>{q}</code> in the field <em><a href="#field-post-string">Post string</a></em>.
         </p>
         <p id="scraping">
-         Searsia uses <a href="https://en.wikipedia.org/wiki/XPath">XPath 1.0</a> to extract the search results from the web page. XPath is a query language for selecting elements of semi-structured data. Suppose the search results are displayed as list elements on the page, then these are encode as <code>&lt;li&gt;</code> ... <code>&lt;/li&gt;</code> on the page, and they can be extracted from the page with the XPath query <code>//li</code>. To find the most likely XPath query, we recommend <a href="http://dolf.trieschnigg.nl/srf/">Search Result Finder</a> for Firefox. Fill in the XPath query in the field <em><a href="#field-item-xpath">Item XPath</a></em>. To tell Searsia how to extract the components of the search result, add <em><a href="#field-xpaths">XPaths</a></em> for the fields <code>title</code>, <code>description</code>, <code>link</code>, or any other field you like (the client also supports <code>image</code>). 
+         Searsia uses <a target="_blank" href="https://en.wikipedia.org/wiki/XPath">XPath 1.0</a> to extract the search results from the web page. XPath is a query language for selecting elements of semi-structured data. Suppose the search results are displayed as list elements on the page, then these are encode as <code>&lt;li&gt;</code> ... <code>&lt;/li&gt;</code> on the page, and they can be extracted from the page with the XPath query <code>//li</code>. To find the most likely XPath query, we recommend <a target="_blank" href="http://dolf.trieschnigg.nl/srf/">Search Result Finder</a> for Firefox. Fill in the XPath query in the field <em><a href="#field-item-xpath">Item XPath</a></em>. To tell Searsia how to extract the components of the search result, add <em><a href="#field-xpaths">XPaths</a></em> for the fields <code>title</code>, <code>description</code>, <code>link</code>, or any other field you like (the client also supports <code>image</code>). 
         </p>
 
 <h2 id="adding-xml">Adding an XML or JSON resource</h2>
@@ -101,13 +101,13 @@ Searsia supports many API's by including API keys as secret
 <em><a href="#field-parameters">parameters</a></em> that will not be 
 shared, as well the possibility to add custom HTTP 
 <em><a href="#field-headers">headers</a></em>.
-Look at the <a href="https://search.utwente.nl/settings.html">University of 
+Look at the <a target="_blank" href="https://search.utwente.nl/settings.html">University of 
 Twente settings</a> for examples of Searsia's resource configurations, 
 including several examples that use HTML scrapers, and examples for 
 accessing the API's of Google, Twitter, Facebook, Flickr, Instagram, and 
 more. If you believe that Searsia is unable to get search results from
 an existing resource that should be supported, please post your question
-under <a href="https://github.com/searsia/searsiaserver/issues">Searsia
+under <a target="_blank" href="https://github.com/searsia/searsiaserver/issues">Searsia
 Server Issues</a>. Please, note that Searsia is not meant to scrape sites
 that do not want to be scraped, and therefore does not contain ways to
 circumvent for instance session cookies. 
@@ -138,7 +138,7 @@ displayed with the search result.</li>
 <p>
 The <a href="resultsdemo.html">Results demo mockup</a> below shows 7 ways to present 
 the search results from
-<a href="https://en.wikipedia.org/w/api.php?action=opensearch&amp;format=xml&amp;search=informat&amp;namespace=0" rel="nofollow">Wikipedia's search suggestions</a>, 
+<a target="_blank" href="https://en.wikipedia.org/w/api.php?action=opensearch&amp;format=xml&amp;search=informat&amp;namespace=0" rel="nofollow">Wikipedia's search suggestions</a>, 
 that is the mockup shows the same search results 7 times using different
 configurations.
 </p>
@@ -245,7 +245,7 @@ Icons are preferably png files, not smaller than 48x48 pixels. </td></tr>
   <td>A value between 0 and 1 indicating the prior probability of a resource to be selected (prior to knowing the query). For instance, a value of 0.1 indicates that the resource gives relevant results for 1 in 10 queries. A value of 1 indicates that the resource <em>always</em> returns relevant results. In this case, the server likely returns the resource for every query. Values bigger than 1 are permitted to prioritize between multiple resources that are always selected. </td></tr>
 
 <tr id="field-item-xpath"><td> Item XPath:</td>
-  <td>An <a href="https://en.wikipedia.org/wiki/XPath">XPath 1.0</a> query that selects the search results from an HTML or XML result. XPath is also used to select results from JSON results, assuming a standard conversion to XML, where JSON lists are converted to repeated XML elements. </td></tr>
+  <td>An <a target="_blank" href="https://en.wikipedia.org/wiki/XPath">XPath 1.0</a> query that selects the search results from an HTML or XML result. XPath is also used to select results from JSON results, assuming a standard conversion to XML, where JSON lists are converted to repeated XML elements. </td></tr>
 
 <tr id="field-xpaths"><td>XPaths:</td>
   <td>Field names and XPath queries for selecting parts of search results such as the title, url, and description. For example, the <code>title</code> would typically be selected as the first anchor text in a search result, i.e., <code>(.//a)[1]</code>. The XPath queries are evaluated with respect to an Item XPath context node, and they typically start with <code>.</code> (the 'self' axis step).
