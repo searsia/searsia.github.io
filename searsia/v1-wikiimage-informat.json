@@ -1,0 +1,80 @@
+{
+  "hits": [
+    {
+      "tags": "#image",
+      "title": "Information technology",
+      "image": "https:\/\/upload.wikimedia.org\/wikipedia\/commons\/thumb\/4\/4c\/Z3_Deutsches_Museum.JPG\/50px-Z3_Deutsches_Museum.JPG",
+      "url": "https:\/\/en.wikipedia.org\/wiki\/Information_technology#\/media\/File:Z3_Deutsches_Museum.JPG"
+    },
+    {
+      "tags": "#image",
+      "title": "Information and communications technology",
+      "image": "https:\/\/upload.wikimedia.org\/wikipedia\/commons\/thumb\/9\/98\/Mr_Brahima_Sanou_-_Flickr_-_itupictures.jpg\/50px-Mr_Brahima_Sanou_-_Flickr_-_itupictures.jpg",
+      "url": "https:\/\/en.wikipedia.org\/wiki\/Information_and_communications_technology#\/media\/File:Mr_Brahima_Sanou_-_Flickr_-_itupictures.jpg"
+    },
+    {
+      "tags": "#image",
+      "title": "Information system",
+      "image": "https:\/\/upload.wikimedia.org\/wikipedia\/commons\/thumb\/d\/dd\/Four-Level-Pyramid-model.png\/50px-Four-Level-Pyramid-model.png",
+      "url": "https:\/\/en.wikipedia.org\/wiki\/Information_system#\/media\/File:Four-Level-Pyramid-model.png"
+    },
+    {
+      "tags": "#image",
+      "title": "Information",
+      "image": "https:\/\/upload.wikimedia.org\/wikipedia\/commons\/thumb\/b\/bb\/WikipediaBinary.svg\/41px-WikipediaBinary.svg.png",
+      "url": "https:\/\/en.wikipedia.org\/wiki\/Information#\/media\/File:WikipediaBinary.svg.png"
+    },
+    {
+      "tags": "#image",
+      "title": "Information science",
+      "image": "https:\/\/upload.wikimedia.org\/wikipedia\/commons\/thumb\/6\/64\/Ancientlibraryalex.jpg\/49px-Ancientlibraryalex.jpg",
+      "url": "https:\/\/en.wikipedia.org\/wiki\/Information_science#\/media\/File:Ancientlibraryalex.jpg"
+    },
+    {
+      "tags": "#image",
+      "title": "Information security",
+      "image": "https:\/\/upload.wikimedia.org\/wikipedia\/commons\/thumb\/9\/9a\/CIAJMK1209.png\/50px-CIAJMK1209.png",
+      "url": "https:\/\/en.wikipedia.org\/wiki\/Information_security#\/media\/File:CIAJMK1209.png"
+    },
+    {
+      "tags": "#image",
+      "title": "Information Age",
+      "image": "https:\/\/upload.wikimedia.org\/wikipedia\/commons\/thumb\/d\/d2\/Internet_map_1024.jpg\/50px-Internet_map_1024.jpg",
+      "url": "https:\/\/en.wikipedia.org\/wiki\/Information_Age#\/media\/File:Internet_map_1024.jpg"
+    },
+    {
+      "tags": "#image",
+      "title": "Gwen Stefani",
+      "image": "https:\/\/upload.wikimedia.org\/wikipedia\/commons\/thumb\/e\/ee\/Gwen_Stefani_Cannes_2011_%28cropped%29.jpg\/50px-Gwen_Stefani_Cannes_2011_%28cropped%29.jpg",
+      "url": "https:\/\/en.wikipedia.org\/wiki\/Gwen_Stefani#\/media\/File:Gwen_Stefani_Cannes_2011_%28cropped%29.jpg"
+    },
+    {
+      "tags": "#image",
+      "title": "Information theory",
+      "image": "https:\/\/upload.wikimedia.org\/wikipedia\/commons\/thumb\/2\/22\/Binary_entropy_plot.svg\/50px-Binary_entropy_plot.svg.png",
+      "url": "https:\/\/en.wikipedia.org\/wiki\/Information_theory#\/media\/File:Binary_entropy_plot.svg.png"
+    },
+    {
+      "tags": "#image",
+      "title": "Informatics",
+      "url": "https:\/\/en.wikipedia.org\/wiki\/Informatics#\/media\/File:"
+    }
+  ],
+  "resource": {
+    "id": "wikiimage",
+    "mimetype": "application\/xml",
+    "favicon": "https:\/\/en.wikipedia.org\/static\/apple-touch\/wikipedia.png",
+    "itempath": "\/\/Item",
+    "extractors": {
+      "tags": "'#image'",
+      "title": ".\/Text",
+      "image": ".\/Image\/@source",
+      "url": "concat(string(.\/Url),'#\/media\/File:',substring-after(.\/Image\/@source, 'px-'))"
+    },
+    "testquery": "information",
+    "name": "Wikipedia Images",
+    "prior": 1.8,
+    "apitemplate": "https:\/\/en.wikipedia.org\/w\/api.php?action=opensearch&format=xml&search={q}&namespace=0"
+  },
+  "searsia": "v0.1.4"
+}
