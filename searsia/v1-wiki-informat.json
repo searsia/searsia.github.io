@@ -40,7 +40,7 @@
     "prior": 3,
     "apitemplate": "http:\/\/searsia.org\/searsia\/wiki-{q?}-{r?}.json"
   },
-  "searsia": "v0.1.4"
+  "searsia": "v1.0.0"
 }
 
 

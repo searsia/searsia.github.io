@@ -77,5 +77,5 @@
     "prior": 2,
     "apitemplate": "https:\/\/en.wikipedia.org\/w\/api.php?action=opensearch&format=xml&search={q}&namespace=0"
   },
-  "searsia": "v0.1.4"
+  "searsia": "v1.0.0"
 }
