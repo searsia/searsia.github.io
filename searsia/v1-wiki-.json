@@ -38,7 +38,7 @@
     "testquery": "informat",
     "name": "Wikipedia Demo",
     "prior": 3,
-    "apitemplate": "http:\/\/searsia.org\/searsia\/wiki-{q?}-{r?}.json"
+    "apitemplate": "http:\/\/searsia.org\/searsia\/v1-wiki-{q}.json"
   },
   "searsia": "v0.1.4"
 }
