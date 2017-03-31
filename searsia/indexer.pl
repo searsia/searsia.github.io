@@ -3,6 +3,13 @@
 # Creates static Searsia search results file.
 # Usage: perl indexer.pl >search.json 
 
+# Use wget to obtain the directories blog/ and deck.js/ as follows:
+# wget --timeout=9 --wait=2 --random-wait --level=inf --html-extension \
+# --recursive --span-hosts --domains=searsia.org --no-clobber --tries=2 \
+# --user-agent='NAME' --html-extension --restrict-file-names=windows \
+# --reject=json,jpg,js,css,png,gif,doc,docx,jpeg,pdf,mp3,avi,mpeg,txt,ico \
+# http://searsia.org/
+
 use strict;
 use FindBin qw($Bin);
 
@@ -16,10 +23,11 @@ my $file;
 my $anchor_results = "";
 my $file_results = "";
 $file_results .= &json_result("", "", $TITLE, $DESCR);
-foreach $file (glob("$Bin/../*.html")) {
-  $file =~ m/([^\/]+$)/;
+foreach $file (glob("$Bin/../*.html"), glob("$Bin/../blog/*.html"), glob("$Bin/../blog/*/*.html"), glob("$Bin/../deck.js/*.html")) {
+  $file =~ m/searsia\/\.\.\/(.+$)/;
   my $name = $1;
   unless($name eq '404.html' or $name eq 'index.html') {
+    print STDERR "OPEN: $name\n";
     open(I, $file);
     my $line;
     # For page results:
@@ -66,6 +74,13 @@ foreach $file (glob("$Bin/../*.html")) {
     }
     if ($name eq 'resultsdemo.html') { 
       $page_descr = "This is a mockup for demonstration purposes: A search for the query informat shows 7 presentations of the same Wikipedia search results.";
+    }
+    if ($name eq 'deck.js/isoc2017.html') {
+      $page_descr = "Presented at the ISOC NL New Year 2017";
+    }
+    if ($name eq 'blog/2016-11-05-first-post/index.html') {
+      $page_descr =~ s/\s+/ /g;
+      $page_descr =~ s/(beautiful-jekyll).*$/$1/;
     }
     $file_results .= &json_result($name, "", $page_title, $page_descr);
   }
@@ -121,16 +136,16 @@ sub json_end {
   print <<EndJSON;
   ],
   "resource": {
-    "id": "searsia.org",
+    "id": "searsia",
     "mimetype": "application\/searsia+json",
     "favicon": "http:\\/\\/searsia.org\\/images\\/searsia.png",
     "banner": "http:\\/\\/searsia.org\\/images\\/banner.png",
     "name": "Searsia",
     "rerank": "lm",
-    "apitemplate": "http:\\/\\/searsia.org\\/searsia\\/searsia.json",
+    "apitemplate": "http:\\/\\/searsia.org\\/searsia\\/search.json",
     "usertemplate": "http:\\/\\/searsia.org\\/searsiaclient\\/search.html?q={q}"
   },
-  "searsia": "v0.3.1"
+  "searsia": "v1.0.0"
 }
 EndJSON
 }

@@ -18,7 +18,7 @@
     {
       "title": "Searsia - People",
       "url": "http:\/\/searsia.org\/people.html",
-      "description": "The following people contributed to researching and developing Searsia: Djoerd Hiemstra Dolf Trieschnigg Dong Nguyen Thomas Demeester Ke Zhou Rob Stortelder Searsia logo logo by rMiszczak"
+      "description": "The following people contributed to researching and developing Searsia: Djoerd Hiemstra Dolf Trieschnigg Dong Nguyen Thomas Demeester Ke Zhou Rob Stortelder Almer Tigelaar Searsia logo logo by rMiszczak"
     },
     {
       "title": "Searsia - Protocol",
@@ -39,6 +39,56 @@
       "title": "Searsia - Start",
       "url": "http:\/\/searsia.org\/start.html",
       "description": "Searsia comes with a client and a server. The Searsia Web client can be downloaded as searsiaclient.zip and unzipped on your local machine or web server. To use the web client, open the file index.html in a web browser. Congratulations! You now run your own web application for federated search. The client will automatically connect to the University of Twente search server. To connect to another server, edit the second line in the file js\/searsia.js , which contains the API template of the..."
+    },
+    {
+      "title": "Searsia Blog",
+      "url": "http:\/\/searsia.org\/blog/index.html",
+      "description": "beautiful search, one step at a time... A university's autocompletion ABC Posted on March 24, 2017 Last week we launched our software for query autocompletions: Type in the first character of your query, and Searsia will recommend a query that best completes your prefix. The autocompletions are targeted to the users of the search engine, without the need to track those users. Searsia’s autocompletions are demonstrated... [Read More] Tags: autocompletions Query suggestions without..."
+    },
+    {
+      "title": "First post!",
+      "url": "http:\/\/searsia.org\/blog/2016-11-05-first-post/index.html",
+      "description": "Posted on November 5, 2016 This is the first Searsia blog post, how exciting! We will use this blog to keep you posted on Searsia. Tags: random Next Post &rarr; Searsia  &bull;  2017 Theme by beautiful-jekyll"
+    },
+    {
+      "title": "Vietsch Foundation funds Searsia",
+      "url": "http:\/\/searsia.org\/blog/2016-11-06-vietsch-foundation/index.html",
+      "description": "Posted on November 6, 2016 We are happy and proud to announce that the Vietsch Foundation will support the further development of Searsia. The Vietsch Foundation was founded by Willem Karel Vietsch (1952-2014) through his last will and testament: Karel was very involved in the Internet community. He spent a large part of his life working in the area of research and education networking, which he help developing with his energy, creativity and thorough methodical approach. Sadly, his early..."
+    },
+    {
+      "title": "Searsia nominated for the ISOC NL Innovation Award",
+      "url": "http:\/\/searsia.org\/blog/2017-01-02-isoc-innovation-award/index.html",
+      "description": "Posted on January 2, 2017 We begin the new year with some excellent news. The Dutch chapter of the Internet Society ( ISOC ) nominated Searsia for its 2017 Innovation Award . ISOC Netherlands awards the innovation award to individuals, organisations or initiatives that stimulate the growth of, and knowledge about, the Internet. The award ceremony takes place in Amsterdam on 12 January at the Internet New Year Reception . ISOC Netherlands announced 10 nominees. Tags: isoc &larr; Previous Post..."
+    },
+    {
+      "title": "Three worries about web search engines",
+      "url": "http:\/\/searsia.org\/blog/2017-01-13-isoc-three-worries/index.html",
+      "description": "by Djoerd Hiemstra Posted on January 13, 2017 This post contains the text of the lightning talk presented at the New Year Event of the Dutch Internet Society (ISOC) on 12 January 2017. Of course, the slides for the Internet Society meeting were appropriately made in HTML. Web search is the single most important application of the web. Without search, the web would be virtually useless. I love Google (and Yahoo, and Bing), but there are some things that worry me about search engines. Let’s..."
+    },
+    {
+      "title": "Searsia Cartoon by Anne Stalinski",
+      "url": "http:\/\/searsia.org\/blog/2017-01-26-stalinski-cartoon/index.html",
+      "description": "Posted on January 26, 2017 The Dutch chapter of ISOC asked the great Anne Stalinksi to make a cartoon of Searsia. Translated to English, the cartoon says: “Searsia allows users to search sources that Google cannot use”. The user enters the query “How to bake a quiche?”, and Searsia not only searches the “Internet”, but also the infamous “grandma’s cookbook” and “sundry”. Anne Stalinski is de nom de plume of illustrator, cartoonist and drafter Anne Staal. Her motto:..."
+    },
+    {
+      "title": "Query autocompletions considered harmful",
+      "url": "http:\/\/searsia.org\/blog/2017-02-09-autocomplete/index.html",
+      "description": "by Djoerd Hiemstra Posted on February 9, 2017 Search engines suggest completions of partially typed queries to help users speed up their searches, for instance by showing the suggested completions in a drop down box. These query autocompletions enable the user to search faster, searching for long queries with relatively few key strokes. Jakobsson (1986) showed that for a library information system, users are able to identify items using as little as 4.3 characters on average. Query..."
+    },
+    {
+      "title": "Query suggestions without tracking users",
+      "url": "http:\/\/searsia.org\/blog/2017-03-18-query-suggestions-without-tracking-users/index.html",
+      "description": "by Djoerd Hiemstra Posted on March 18, 2017 Today, we launch searsiasuggest , a simple but effective open source solution for query suggestions. It implements 3 kinds of query suggestions: 1) autocompletions, 2) spelling correction, and 3) related queries. The software works pretty much like many similar solutions: It inputs a list of queries with their popularity, it indexes those queries, and it ranks the queries given the user input. The query suggestions are demonstrated on UT Search , an..."
+    },
+    {
+      "title": "A university's autocompletion ABC",
+      "url": "http:\/\/searsia.org\/blog/2017-03-24-university-abc/index.html",
+      "description": "Posted on March 24, 2017 Last week we launched our software for query autocompletions : Type in the first character of your query, and Searsia will recommend a query that best completes your prefix. The autocompletions are targeted to the users of the search engine, without the need to track those users. Searsia’s autocompletions are demonstrated by UT Search , the search engine for the University of Twente. Today, using the autocompletions for each letter, we present a university’s..."
+    },
+    {
+      "title": "Searsia - search federated",
+      "url": "http:\/\/searsia.org\/deck.js/isoc2017.html",
+      "description": "Presented at the ISOC NL New Year 2017"
     },
     {
       "title": "Searsia - Engines: Adding a Searsia resource",
@@ -153,7 +203,7 @@
     {
       "title": "Searsia - Start: The server",
       "url": "http:\/\/searsia.org\/start.html#server",
-      "description": "Download the Java server searsiaserver.jar and use the following command to start the server: java -jar searsiaserver.jar The server requires Java 7 or higher. Just like the web client, the java server will automatically connect to the University of Twente search server. The server displays the following message: Searsia Server v0.3.2 Connected to: utwente API Template: http:\/\/localhost:16842\/searsia\/search?q={q?}&r={r?} Use Ctrl+c to stop. Use the reported API Template in your client as..."
+      "description": "Download the Java server searsiaserver.jar and use the following command to start the server: java -jar searsiaserver.jar The server requires Java 7 or higher. Just like the web client, the java server will automatically connect to the University of Twente search server. The server displays the following message: Searsia Server v0.4.0 Connected to: utwente API Template: http:\/\/localhost:16842\/searsia\/search?q={q?}&r={r?} Use Ctrl+c to stop. Use the reported API Template in your client as..."
     },
     {
       "title": "Searsia - Start: Server options",
@@ -239,17 +289,122 @@
       "title": "Searsia - Start: Error: Connection failed: org.json.JSONException",
       "url": "http:\/\/searsia.org\/start.html#error-json-exception",
       "description": "The mother is not a Searsia engine. Check the mother engine and mother template. Change the mother with the --mother option. Download Searsia searsiaclient.zip (219 KB) searsiaserver.jar (11.1 MB) Thanks, Github! hosted by Github Next: Adding search engines to your server."
+    },
+    {
+      "title": "Vietsch Foundation funds Searsia: Recommendations without tracking of users",
+      "url": "http:\/\/searsia.org\/blog/2016-11-06-vietsch-foundation/index.html#recommendations-without-tracking-of-users",
+      "description": "Searsia manages large collections of independent sources. Many advanced features of search engines might be seen as sources too, such as query autocompletion, related queries, and spelling correction, that is, these features are provided by modules that receive the query, and return a recommendation. Query autocompletion provides users with suggested queries in a drop down box as they type their query. Related queries are given on the search page to direct users to alternative formulations of..."
+    },
+    {
+      "title": "Vietsch Foundation funds Searsia: Advertisements without tracking of users",
+      "url": "http:\/\/searsia.org\/blog/2016-11-06-vietsch-foundation/index.html#advertisements-without-tracking-of-users",
+      "description": "Advertisements are the main source of income for many web sites and search engines. To make Searsia an interesting solution for developers of web search applications, we want to provide them the means to easily and transparantly add advertisements as an independent source to Searsia. The advertisements must be recognisable as advertisements, they should not track the users of the search service, and it should be easy to switch them off. Advertisements in search engines are much more effective..."
+    },
+    {
+      "title": "Three worries about web search engines: 1. The Search Engine Manipulation Effect",
+      "url": "http:\/\/searsia.org\/blog/2017-01-13-isoc-three-worries/index.html#1-the-search-engine-manipulation-effect",
+      "description": "Search engines influence people. In 2014, Robert Epstein and Ronald Robertson of the American Institute for Behavioral Research and Technology in the US conducted the following experiment: They asked people what candidate they would support in the Australian election, Tony Abbott or Julia Gillard? Then they let them search information about the candidates. However, the researchers did not tell the people that they manipulated the search results. People used a search engine for which..."
+    },
+    {
+      "title": "Three worries about web search engines: 2. Privacy",
+      "url": "http:\/\/searsia.org\/blog/2017-01-13-isoc-three-worries/index.html#2-privacy",
+      "description": "The second thing that worries me: Search engines receive information from us that is really, really private. We search things about our health, about our sexual preferences, about our financial situation. Most search engines log our queries, and they hold on to that information, indefinitely. They also log our clicks. And they use this information to target us with advertisements. Sadly, the most vulnerable people in our society, people with bad health or with bad credit scores, are in..."
+    },
+    {
+      "title": "Three worries about web search engines: 3. Crawling, crawling, crawling…",
+      "url": "http:\/\/searsia.org\/blog/2017-01-13-isoc-three-worries/index.html#3-crawling-crawling-crawling",
+      "description": "The third thing that worries me: Search engines need a lot of resources. They constantly crawl the web, downloading pages to check if things changed. My personal blog at the university is downloaded more by web robots that crawl the site, than by people that read my blog posts… You might think: Write better blog posts, Djoerd, and you are right. But, even so, constantly downloading my blog to detect changes is crazy. My blog has its own search field, which instantly shows updates when..."
+    },
+    {
+      "title": "Three worries about web search engines: Federated Search",
+      "url": "http:\/\/searsia.org\/blog/2017-01-13-isoc-three-worries/index.html#federated-search",
+      "description": "Searsia’s approach to search can ease some of these worries. Searsia is a federated search engine. A Searsia search engine is a federation of search engines, like the European Union (EU) is a federation of countries. Within the EU, each countries has its own government and its own laws. Within Searsia, each search engine indexes whatever it likes and returns whatever it likes. Sites like Wikipedia, Amazon, Stack Overflow and YouTube provide their own search interface. Obviously, they do not..."
+    },
+    {
+      "title": "Three worries about web search engines: Conclusion",
+      "url": "http:\/\/searsia.org\/blog/2017-01-13-isoc-three-worries/index.html#conclusion",
+      "description": "Let’s go back to our three worries: Manipulation, Privacy, and Costs of crawling. What do you gain by installing Searsia? First, Searsia delegates queries to multiple search engines that it does not control. Even if one or two of those manipulate or censor their results, there will be other engines in the federation that show more objective results. Second, all queries go via Searsia, so engines in the federation can no longer track individual users. Of course, now Searsia will get all your..."
+    },
+    {
+      "title": "Three worries about web search engines: Acknowledgments",
+      "url": "http:\/\/searsia.org\/blog/2017-01-13-isoc-three-worries/index.html#acknowledgments",
+      "description": "We are grateful to the Vietsch Foundation for supporting our work. We also thank NLNet and the University of Twente."
+    },
+    {
+      "title": "Three worries about web search engines: Epilogue",
+      "url": "http:\/\/searsia.org\/blog/2017-01-13-isoc-three-worries/index.html#epilogue",
+      "description": "At the ISOC meeting, someone in the audience asked me the following: Does Searsia show the advertisements of a search engine? If not then search engines will likely object to being part of a Searsia federation. Searsia will generally be configured to access the official APIs of search engines from Google, Twitter, etc., and it will show whatever the engine’s official API returns. For our current demonstration deployment, U. Twente Search , we have not seen any of the APIs returning..."
+    },
+    {
+      "title": "Query autocompletions considered harmful: Offensive queries",
+      "url": "http:\/\/searsia.org\/blog/2017-02-09-autocomplete/index.html#offensive-queries",
+      "description": "Query autocompletion based on actual user queries may return offensive results. In 2010, a French appeals court ordered Google to remove the word arnaque, which translates roughly as “scam”, from appearing in Google’s autocompletions for CNFDI, the Centre National Privé de Formation a Distance (McGee 2010) . Google’s defense argued that its tool is based on an algorithm applied to actual search queries: It was users that searched for “cnfdi arnaque” that caused the algorithm to..."
+    },
+    {
+      "title": "Query autocompletions considered harmful: A destructive feedback loop",
+      "url": "http:\/\/searsia.org\/blog/2017-02-09-autocomplete/index.html#a-destructive-feedback-loop",
+      "description": "Morally unacceptable query completions are not only introduced by the searches of previous users, they are also mutually reinforced by the search engine and its users. When a query autocompletion algorithm suggests morally unacceptable queries, users are likely to select those, even if the users are only confused or stunned by the suggestion. But how does the search engine ever learn it was wrong? It might not ever. As soon as the system determined that some queries are recommended; they are..."
+    },
+    {
+      "title": "Query autocompletions considered harmful: Fixing morally unacceptable results using content-based autocompletions",
+      "url": "http:\/\/searsia.org\/blog/2017-02-09-autocomplete/index.html#fixing-morally-unacceptable-results-using-content-based-autocompletions",
+      "description": "It is instructive to view a query autocompletion algorithm as a recommender system, that is, the search engine recommends queries based on some input. Recommender systems are usually classified into two categories based on how recommendations are made: 1) Collaborative recommendations, and 2) Content-based recommendations (Adomavicius and Tuzhilin 2005) . Collaborative query autocompletions are based on similarities between users: “People that typed this prefix often searched for: …”...."
+    },
+    {
+      "title": "Query autocompletions considered harmful: References",
+      "url": "http:\/\/searsia.org\/blog/2017-02-09-autocomplete/index.html#references",
+      "description": "M. Jakobsson (1986) Autocompletion in full text transaction entry: a method for humanized input . In: Proceedings of the ACM SIGCHI Conference on Human Factors in Computing Systems . H. Bast and I. Weber (2006) Type less, find more: fast autocompletion search with a succinct index . In: Proceedings of the ACM SIGIR Conference on Research and Advanced Technology for Information Retrieval . Z. Bar-Yossef and N. Kraus (2011) Context-sensitive query auto-completion . In: Proceedings of the World..."
+    },
+    {
+      "title": "Query suggestions without tracking users: Query autocompletions",
+      "url": "http:\/\/searsia.org\/blog/2017-03-18-query-suggestions-without-tracking-users/index.html#query-autocompletions",
+      "description": "Query autocompletions return popular queries by treating the user input as a prefix. For instance, when the user inputs “computer s”, the system returns popular completions of that prefix, such as “computer science”, “computer systems” and “computer supported cooperative work”."
+    },
+    {
+      "title": "Query suggestions without tracking users: Spell-corrected queries",
+      "url": "http:\/\/searsia.org\/blog/2017-03-18-query-suggestions-without-tracking-users/index.html#spell-corrected-queries",
+      "description": "Spelling correction will suggest alternative spellings for user queries. If for instance the user ignores the suggestions from autocompletions and enters “computer sience” instead (without the “c” in “science”) then the spelling correction kicks in, returning “computer science” as its suggested query. UT search displays the following:"
+    },
+    {
+      "title": "Query suggestions without tracking users: Related queries",
+      "url": "http:\/\/searsia.org\/blog/2017-03-18-query-suggestions-without-tracking-users/index.html#related-queries",
+      "description": "Suppose the user now selects the corrected query “computer science”, then the search engine might show related queries, such as “Electrical Engineering Mathematics and Computer Science” and “science and technology” as follows. No rocket science either, you have probably seen this before in web search. UT search shows:"
+    },
+    {
+      "title": "Query suggestions without tracking users: How to obtain popular query suggestions?",
+      "url": "http:\/\/searsia.org\/blog/2017-03-18-query-suggestions-without-tracking-users/index.html#how-to-obtain-popular-query-suggestions",
+      "description": "To use searsiasuggest , you need a list of popular query suggestions. How to obtain those suggestions? In practice, search engines often use queries from previous users, i.e. query logs, to return query suggestions. Query logs are very effective in predicting query autocompletions and related queries. If you have a query log for your search engine, then you can effectively use them in searsiasuggest . However, there are many downsides to using query logs. We talked about some of these in last..."
+    },
+    {
+      "title": "Query suggestions without tracking users: Popular queries without logging any queries?",
+      "url": "http:\/\/searsia.org\/blog/2017-03-18-query-suggestions-without-tracking-users/index.html#popular-queries-without-logging-any-queries",
+      "description": "Inspired by research of Sumit Bhatia, Debapriyo Majumdar, and Prasenjit Mitra , Reiner Kraft and Jason Zien , and Van Dang and Bruce Croft , we decided to obtain our query suggestions from the anchor text of web pages, i.e., the text that you click on in hyperlinks. We collected more than 1 million web pages for the domain utwente.nl and extracted about 200,000 unique query suggestions from the anchor text of those web pages. UT Search receives currently about 1000 queries per day on average..."
+    },
+    {
+      "title": "Query suggestions without tracking users: The quality of query suggestions from anchors",
+      "url": "http:\/\/searsia.org\/blog/2017-03-18-query-suggestions-without-tracking-users/index.html#the-quality-of-query-suggestions-from-anchors",
+      "description": "Are query suggestions from anchor text any good compared to query suggestions from query logs? To check this, we used the query log of Greg Pass, Abdur Chowdhury, and Cayley Torgeson , which contains 20 million queries submitted by about 650,000 users to the AOL search engine between March and May in 2006. Following the recent query autocompletion experiments by Fei Cai, Shangsong Liang, and Maarten de Rijke , we used queries submitted before 8 May 2006 as train queries and queries submitted..."
+    },
+    {
+      "title": "Query suggestions without tracking users: Conclusion",
+      "url": "http:\/\/searsia.org\/blog/2017-03-18-query-suggestions-without-tracking-users/index.html#conclusion",
+      "description": "Query autocompletions based on anchor text from web pages perform remarkably well. For queries of more than 1 word, they outperform autocompletions that are based on over two months of query log data. Simply extracting all anchor texts is really only a first attempt to get well-performing autocompletions from web content. Ideas to improve suggestions are: Using linguistic knowledge to get suggestions from all web page text (for instance using the Stanford CoreNLP tools ), using web knowledge..."
+    },
+    {
+      "title": "Query suggestions without tracking users: Acknowledgments",
+      "url": "http:\/\/searsia.org\/blog/2017-03-18-query-suggestions-without-tracking-users/index.html#acknowledgments",
+      "description": "We are grateful to the Vietsch Foundation for funding our work on query suggestions. Tags: autocompletions &larr; Previous Post Next Post &rarr; Searsia  &bull;  2017 Theme by beautiful-jekyll if (typeof jQuery == 'undefined') { document.write(' '); }"
     }
   ],
   "resource": {
-    "id": "searsia.org",
+    "id": "searsia",
     "mimetype": "application/searsia+json",
     "favicon": "http:\/\/searsia.org\/images\/searsia.png",
     "banner": "http:\/\/searsia.org\/images\/banner.png",
     "name": "Searsia",
     "rerank": "lm",
-    "apitemplate": "http:\/\/searsia.org\/searsia\/searsia.json",
+    "apitemplate": "http:\/\/searsia.org\/searsia\/search.json",
     "usertemplate": "http:\/\/searsia.org\/searsiaclient\/search.html?q={q}"
   },
-  "searsia": "v0.3.1"
+  "searsia": "v1.0.0"
 }
