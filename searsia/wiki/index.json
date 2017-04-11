@@ -5,7 +5,7 @@
       "score": 3
     },
     {
-      "rid": "wikifull",
+      "rid": "wikifull1",
       "score": 2.2
     },
     {
@@ -21,7 +21,7 @@
       "score": 1.5
     },
     {
-      "rid": "wikismall",
+      "rid": "wikismall1",
       "score": 0.9
     },
     {
@@ -42,5 +42,3 @@
   },
   "searsia": "v1.0.0"
 }
-
-
