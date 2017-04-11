@@ -1,0 +1,71 @@
+{
+  "hits": [
+    {
+      "tags": "#small",
+      "title": "Information technology",
+      "description": "Information technology (IT) is the application of computers and telecommunications equipment to store, retrieve, transmit and manipulate data, often in the context of a business or other enterprise."
+    },
+    {
+      "tags": "#small",
+      "title": "Information and communications technology",
+      "description": "Information and communications technology (ICT) is often used as an extended synonym for information technology (IT)."
+    },
+    {
+      "tags": "#small",
+      "title": "Information system",
+      "description": "An information system is any organized system for the collection, organization, storage and communication of information."
+    },
+    {
+      "tags": "#small",
+      "title": "Information",
+      "description": "Information (shortened as info) is that which informs. In other words, it is the answer to a question of some kind."
+    },
+    {
+      "tags": "#small",
+      "title": "Information science",
+      "description": "Information science is an interdisciplinary field primarily concerned with the analysis, collection, classification, manipulation, storage, retrieval, movement, dissemination, and protection of information."
+    },
+    {
+      "tags": "#small",
+      "title": "Information security",
+      "description": "Information security, sometimes shortened to InfoSec, is the practice of defending information from unauthorized access, use, disclosure, disruption, modification, perusal, inspection, recording or destruction."
+    },
+    {
+      "tags": "#small",
+      "title": "Information Age",
+      "description": "The Information Age (also known as the Computer Age, Digital Age, or New Media Age) is a period in human history characterized by the shift from traditional industry that the Industrial Revolution brought through industrialization, to an economy based on information computerization."
+    },
+    {
+      "tags": "#small",
+      "title": "Gwen Stefani",
+      "description": "Gwen Ren\u00e9e Stefani (\/st\u0259\u02c8f\u0251\u02d0ni\/; born October 3, 1969) is an American singer, songwriter, fashion designer, and actress."
+    },
+    {
+      "tags": "#small",
+      "title": "Information theory",
+      "description": "Information theory is a branch of applied mathematics, electrical engineering, and computer science involving the quantification, storage, and communication of information."
+    },
+    {
+      "tags": "#small",
+      "title": "Informatics",
+      "description": "Informatics is the science of computer information systems. As an academic field it involves the practice of information processing, and the engineering of information systems."
+    }
+  ],
+  "resource": {
+    "id": "wikismall1",
+    "mimetype": "application\/xml",
+    "urltemplate": "https:\/\/en.wikipedia.org\/w\/index.php?search={q}&title=Special%3ASearch&go=Go",
+    "favicon": "https:\/\/en.wikipedia.org\/static\/apple-touch\/wikipedia.png",
+    "itempath": "\/\/Item",
+    "extractors": {
+      "tags": "'#small'",
+      "title": ".\/Text",
+      "description": ".\/Description"
+    },
+    "testquery": "information",
+    "name": "Wikipedia Small",
+    "prior": 0.9,
+    "apitemplate": "https:\/\/en.wikipedia.org\/w\/api.php?action=opensearch&format=xml&search={q}&namespace=0"
+  },
+  "searsia": "v1.0.0"
+}

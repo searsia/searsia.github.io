@@ -1,0 +1,71 @@
+{
+  "hits": [
+    {
+      "tags": "#small",
+      "title": "Information technology",
+      "description": "(Search Wikipedia for: Information technology)"
+    },
+    {
+      "tags": "#small",
+      "title": "Information and communications technology",
+      "description": "(Search Wikipedia for: Information and communications technology)"
+    },
+    {
+      "tags": "#small",
+      "title": "Information system",
+      "description": "(Search Wikipedia for: Information system)"
+    },
+    {
+      "tags": "#small",
+      "title": "Information",
+      "description": "(Search Wikipedia for: Information)"
+    },
+    {
+      "tags": "#small",
+      "title": "Information science",
+      "description": "(Search Wikipedia for: Information science)"
+    },
+    {
+      "tags": "#small",
+      "title": "Information security",
+      "description": "(Search Wikipedia for: Information security)"
+    },
+    {
+      "tags": "#small",
+      "title": "Information Age",
+      "description": "(Search Wikipedia for: Information Age)"
+    },
+    {
+      "tags": "#small",
+      "title": "Gwen Stefani",
+      "description": "(Search Wikipedia for: Gwen Stefani)"
+    },
+    {
+      "tags": "#small",
+      "title": "Information theory",
+      "description": "(Search Wikipedia for: Information theory)"
+    },
+    {
+      "tags": "#small",
+      "title": "Informatics",
+      "description": "(Search Wikipedia for: Informatics)"
+    }
+  ],
+  "resource": {
+    "id": "wikismall2",
+    "mimetype": "application\/xml",
+    "urltemplate": "https:\/\/en.wikipedia.org\/w\/index.php?title=Special%3ASearch&profile=default&search={q}&fulltext=Search",
+    "favicon": "https:\/\/en.wikipedia.org\/static\/apple-touch\/wikipedia.png",
+    "itempath": "\/\/Item",
+    "extractors": {
+      "tags": "'#small'",
+      "title": ".\/Text",
+      "description": "concat('(Search Wikipedia for: ', string(.\/Text), ')')"
+    },
+    "testquery": "information",
+    "name": "Search Wikipedia for",
+    "prior": 1.1,
+    "apitemplate": "https:\/\/en.wikipedia.org\/w\/api.php?action=opensearch&format=xml&search={q}&namespace=0"
+  },
+  "searsia": "v1.0.0"
+}
