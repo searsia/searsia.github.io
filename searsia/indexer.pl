@@ -78,7 +78,7 @@ foreach $file (glob("$Bin/../*.html"), glob("$Bin/../blog/*.html"), glob("$Bin/.
     if ($name eq 'deck.js/isoc2017.html') {
       $page_descr = "Slides; Presented at the ISOC NL New Year 2017. Web Search? 1. Influences people ... 2. Invades privacy ... 3. Is expensive ... Our approach... Federated search Demo! Conclusion Distribution of responsibilities: More objective — harder to manipulate or censor. Queries via broker: More private — Search engines cannot track individuals. No web crawling: Cheaper — easy to maintain. People. Check it out! Acknowledgments Thanks!";
     }
-    if ($name eq 'blog/2016-11-05-first-post/index.html') {
+    if ($name =~ /blog\//) {
       $page_descr =~ s/\s+/ /g;
       $page_descr =~ s/(beautiful-jekyll).*$/$1/;
     }
@@ -103,8 +103,8 @@ sub json_result {
   my $descr = shift;
 
   $descr =~ s/\s+/ /g;
-  if (length($descr) > 500) {
-    $descr = substr($descr, 0, 500);
+  if (length($descr) > 4000) {
+    $descr = substr($descr, 0, 4000);
     my $rindex = rindex($descr, " ");
     if ($rindex != -1) {
       $descr = substr($descr, 0, $rindex);
@@ -137,7 +137,7 @@ sub json_end {
   ],
   "resource": {
     "id": "searsia",
-    "mimetype": "application\/searsia+json",
+    "mimetype": "application\\/searsia+json",
     "favicon": "http:\\/\\/searsia.org\\/images\\/searsia.png",
     "banner": "http:\\/\\/searsia.org\\/images\\/banner.png",
     "name": "Searsia",

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Searsia
+ * Copyright 2017 Searsia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,31 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * Searsia Client v0.3.1 spaghetti code:
+ * Searsia Client v1.0.0 spaghetti code:
+ *   Set the value of API_TEMPLATE before to your Searsia Server.
+ *
  *   The web page should call getResources(params) 
  *   (using parameters from: searsiaUrlParameters())
  *   see: search.html
  *   Syntax checked with: jslint --eqeq --regexp --todo searsia.js
  */
 
-/*global $, window, document, alert, jQuery, localStorage*/
+/*global $, window, document, alert, jQuery, localStorage, Bloodhound*/
 
 "use strict";
 
-var API_TEMPLATE = '/searsia/search.json';
+var API_TEMPLATE = 'http://searsia.org/searsia/search.json';
 
 
 var AGG       = 1;   // 1=Aggregate results, 0=only boring links
 var pending   = 0;   // Number of search engines that are answering a query
 var nrResults = 0;   // Total number of results returned 
 var page      = 1;   // search result page
-var lang      = 'en';
+var lang      = document.getElementsByTagName('html')[0].getAttribute('lang');    // used for language-dependent texts
 
-var store = {
+var logClickDataUrl = 0; // url to log click data, undefined or 0 to disable click logging
+var sendSessionIdentifier = 0; // send anonymous session id with each click
+var suggestionsOn = 1; // Enables suggestions, if they are provided via the API template's server.
+
+var searsiaStore = {
 
     hits: [],
     length: 0,
     query: '',
+    ranking: [],
 
     push: function (hit) {
         var i = this.length;
@@ -70,21 +77,47 @@ var store = {
 
     getQuery: function () {
         return this.query;
+    },
+
+    addToRanking: function (resourceId, rank) {
+        this.ranking[rank - 1] = resourceId;
+    },
+
+    removeFromRanking: function (rank) {
+        this.ranking[rank - 1] = "";
+    },
+
+    getRanking: function (rank) {
+        if (rank > 0 && rank < this.ranking.length) {
+            return this.ranking.splice(0, rank);
+        }
+        return this.ranking;
     }
 
 };
 
 
-function fromMetaStore(field, value) {
+function clearLocalStorage() {
+    try {
+        window.localStorage.clear();
+    } catch (ignore) { }
+}
+
+
+function setLocalStorage(field, value) {
     if (value != null) {
         try {
             window.localStorage['searsia-' + field] = value;
         } catch (ignore) { }
-    } else {
-        try {
-            value = window.localStorage['searsia-' + field];
-        } catch (ignore) { }
     }
+}
+
+
+function getLocalStorage(field) {
+    var value;
+    try {
+        value = window.localStorage['searsia-' + field];
+    } catch (ignore) { }
     return value;
 }
 
@@ -99,7 +132,7 @@ function supportsHtml5Storage() {
 
 
 function localSetResource(resource) {
-    var id = fromMetaStore('id', null);
+    var id = getLocalStorage('id');
     if (id != null) {
         try {
             window.localStorage[id + '/' + resource.id] = JSON.stringify(resource);
@@ -109,7 +142,7 @@ function localSetResource(resource) {
 
 
 function localGetResource(rid) {
-    var id = fromMetaStore('id', null);
+    var id = getLocalStorage('id');
     if (id == null) {
         return null;
     }
@@ -122,7 +155,7 @@ function localGetResource(rid) {
 
 
 function localExistsResource(rid) {
-    var id = fromMetaStore('id', null);
+    var id = getLocalStorage('id');
     if (id == null) {
         return false;
     }
@@ -135,7 +168,7 @@ function localExistsResource(rid) {
 
 
 function localDeleteResource(rid) {
-    var id = fromMetaStore('id', null);
+    var id = getLocalStorage('id');
     if (id != null) {
         try {
             delete window.localStorage[id + '/' + rid];
@@ -148,7 +181,7 @@ function localAllResoureIds() {
     var i,
         key,
         list = [],
-        id = fromMetaStore('id', null);
+        id = getLocalStorage('id');
     if (id == null) {
         return [];
     }
@@ -167,9 +200,42 @@ function localAllResoureIds() {
 }
 
 
+function getSuggestions(data) {
+    var response = data[1];
+    if (response.length > 7) { response = response.slice(0, 7); } // work around results 'limit' option
+    return response;
+}
+
+
+function initSuggestion(suggesttemplate) {
+    var typeAhead;
+    if (suggestionsOn && typeof Bloodhound !== 'undefined') {
+        typeAhead = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.whitespace,
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            remote: {
+                url: suggesttemplate,
+                wildcard: '{q}',
+                rateLimitWait: 200,
+                rateLimitBy: 'debounce',
+                cache: true,
+                filter: getSuggestions
+            }
+        });
+        $("#searsia-input").typeahead(
+            {minLength: 1, highlight: true, hint: false},
+            {name: 'searsia-autocomplete', source: typeAhead, limit: 20 }
+        ).on(
+            'typeahead:selected',
+            function (e) { e.target.form.submit(); }
+        );
+    }
+}
+
+
 function storeMother(data) {
     if (data.resource != null && data.resource.id != null) {
-        fromMetaStore('id', data.resource.id);
+        setLocalStorage('id', data.resource.id);
         data.resource.type = 'mother';
         localSetResource(data.resource);
     }
@@ -178,12 +244,15 @@ function storeMother(data) {
 
 function placeBanner(data) {
     var banner = null;
-    if (data.resource != null) {
+    if (data.resource != null && data.resource.banner != null) {
         banner = data.resource.banner;
+        setLocalStorage('banner', banner);
+    } else {
+        banner = getLocalStorage('banner');
     }
-    banner = fromMetaStore('banner', banner);
     if (banner != null && $('#searsia-banner').length) {
         $('#searsia-banner').html('<img src="' + banner + '" alt="" />');
+        $("#searsia-banner").fadeIn();
     }
 }
 
@@ -192,8 +261,10 @@ function placeName(data) {
     var name = null;
     if (data.resource != null) {
         name = data.resource.name;
+        setLocalStorage('name', name);
+    } else {
+        name = getLocalStorage('name');
     }
-    name = fromMetaStore('name', name);
     if (name != null) {
         $('head title').html(name + ' - Search');
     }
@@ -204,11 +275,41 @@ function placeIcon(data) {
     var icon = null;
     if (data.resource != null) {
         icon = data.resource.favicon;
+        setLocalStorage('icon', icon);
+    } else {
+        icon = getLocalStorage('icon');
     }
-    icon = fromMetaStore('icon', icon);
     if (icon != null) {
         $('#favicon').attr('href', icon);
         $('div.searsia-icon img').attr('src', icon);
+    }
+}
+
+
+function initClient() {
+    var originalTemplate = getLocalStorage('originaltemplate');
+    if (API_TEMPLATE !== originalTemplate) {
+        clearLocalStorage();
+        setLocalStorage('originaltemplate', API_TEMPLATE);
+    } else {
+        placeBanner({ });
+        placeIcon({ });
+        placeName({ });
+        $("#searsia-input").focus();
+    }
+}
+
+
+function placeSuggestions(data) {
+    var suggesttemplate = null;
+    if (data.resource != null) {
+        suggesttemplate = data.resource.suggesttemplate;
+        setLocalStorage('suggesttemplate', suggesttemplate);
+    } else {
+        suggesttemplate = getLocalStorage('suggesttemplate');
+    }
+    if (suggesttemplate != null) {
+        initSuggestion(suggesttemplate);
     }
 }
 
@@ -236,6 +337,8 @@ function searsiaUrlParameters() {
             params.q = params.q.replace(/^\++|\++$/g, ''); // no leading and trailing spaces 
         } else if (values[0] === 'r') {
             params.r = values[1];
+        } else if (values[0] === 'e') { // extra
+            params.e = values[1];
         }
     }
     return params;
@@ -247,18 +350,31 @@ function searsiaError(text) {
 }
 
 
+function noHTMLattribute(text) {
+    text = text.replace(/&/g, '&amp;');
+    text = text.replace(/\"/g, '&#34;');
+    return text;
+}
+
+
+function noHTMLelement(text) {
+    text = text.replace(/</g, '&lt;');
+    text = text.replace(/>/g, '&gt;');
+    text = text.replace(/&/g, '&amp;');
+    return text;
+}
+
+
 function printableQuery(query) {
     query = query.replace(/\+/g, ' ');
     query = decodeURIComponent(query);
-    query = query.replace(/</g, '&lt;');
-    query = query.replace(/>/g, '&gt;');
-    return query;
+    return noHTMLelement(query);
 }
 
 
 function formQuery(query) {
     query = printableQuery(query);
-    query = query.replace(/>/g, '&gt;');
+    query = query.replace(/&amp;/g, '&');
     return query;
 }
 
@@ -271,14 +387,21 @@ function encodedQuery(text) {
 
 
 function fillForm(query) {
-    $('#searsia-form').find('input').attr('value', printableQuery(query));
+    $('#searsia-form').find('input').attr('value', formQuery(query));
 }
 
 
-function fillUrlTemplate(template, query, resource) {
-    template = template.replace(/\{q\??\}/, query);
-    template = template.replace(/\{r\??\}/, resource);
-    return template.replace(/\{[A-Za-z]+\?\}/, '');  // remove all optional
+function fillUrlTemplate(template, query, resourceId) {
+    var last, myId;
+    if (resourceId) {
+        myId = getLocalStorage('id');
+        last = template.lastIndexOf(myId);
+        if (last >= 0) {
+            template = template.substring(0, last) + resourceId + template.substring(last + myId.length, template.length);
+        }
+    }
+    template = template.replace(/\{q\??\}/g, query);
+    return template.replace(/\{[A-Za-z]+\?\}/g, '');  // remove all optional
 }
 
 
@@ -292,7 +415,7 @@ function restrict(someText, size) { // size must be > 3
 
 function highlightTerms(someText, query) {
     var i, re, terms, max;
-    query = query.replace(/[^0-9A-Za-z]/g, '+');
+    query = query.toLowerCase().replace(/[^0-9a-z]/g, '+');
     terms = query.split(/\++/); // This might not work for all character encodings
     max = terms.length;
     if (max > 10) { max = 10; }
@@ -316,17 +439,14 @@ function normalizeText(text) {
 }
 
 
-function scoreText(text, query) {
+function scoreText(text, queryTerms) {
     var i, j, len,
-        queryTerms,
         textTerms,
         score = 0.0;
-    query = normalizeText(printableQuery(query));
-    queryTerms = query.split(/ +/); // TODO: This might not work for all character encodings
     textTerms = normalizeText(text).split(/ +/);
     for (i = 0; i < queryTerms.length; i += 1) { // TODO: Really? Nested loop??
         len = textTerms.length;
-        if (len > 45) { len = 45; } // Only check first 45 words
+        if (len > 1000) { len = 1000; } // Only check first 1000 words
         for (j = 0; j < len; j += 1) {
             if (queryTerms[i] === textTerms[j]) {
                 score += 1.0;
@@ -340,33 +460,151 @@ function scoreText(text, query) {
 
 function scoreHit(hit, i, query) {
     var score = 0,
-        text;
+        text,
+        queryTerms;
+    query = normalizeText(printableQuery(query));
+    queryTerms = query.split(/ +/); // TODO: This might not work for all character encodings
     if (hit.description != null) {
         text = hit.title + ' ' + hit.description;
     } else {
         text = hit.title;
     }
     if (text != null) {
-        score = scoreText(text, query);
+        if (text.length > 300) { text = text.substring(0, 300); }
+        score = scoreText(text, queryTerms);
     }
     return score - (i / 10);
 }
 
 
-function htmlFullResult(query, hit) {
+function addToHits(hits, hit) {
+    var i, newIndex = hits.length,
+        TOP = 10;
+    if (newIndex < TOP || hit.score > hits[TOP - 1].score) {
+        if (newIndex < TOP) { newIndex += 1; }
+        i = newIndex - 1;
+        while (i > 0 && hits[i - 1].score < hit.score) {
+            hits[i] = hits[i - 1];
+            i -= 1;
+        }
+        hits[i] = hit;
+    }
+}
+
+
+function matchingSnippets(hits, queryTerms) { // TODO for queries length > 2
+    var i, j, k, description,
+        first = -1,
+        second = -1;
+    if (queryTerms.length < 2) { first = 0; } // Take first part of description for query length 1
+    for (i = 0; i < hits.length; i += 1) {
+        if (hits[i].description != null) {
+            description = hits[i].description.toLowerCase();
+        }
+        j = 0;
+        while (j < queryTerms.length) {
+            if (first != -1) {
+                k = first - 140;
+                if (k < 0) { k = 0; }
+                second = description.indexOf(queryTerms[j], k);
+                if (second == -1) {
+                    second = description.indexOf(queryTerms[j]);
+                }
+            } else {
+                first = description.indexOf(queryTerms[j]);
+            }
+            if (first != -1 && second != -1) {
+                description = "";
+                if (first > second) {
+                    k = first;
+                    first = second;
+                    second = k;
+                }
+                if (first != 0) { description = "... "; }
+                if (second - first < 120) { // TODO: break at word boundaries
+                    description += hits[i].description.substring(first - 40, first + 180) + " ...";
+                } else {
+                    description += hits[i].description.substring(first - 40, first + 60) + " ... ";
+                    description += hits[i].description.substring(second - 40, second + 80) + " ...";
+                }
+                hits[i].description = description;
+                j = queryTerms.length;
+            } else {
+                j += 1;
+            }
+        }
+    }
+}
+
+
+/**
+ *  Reranks hits, and select those that match the query
+ *  only used if mother has "rerank"
+ */
+function scoreAllHits(data, query) {
+    var queryTerms, queryLen, hit,
+        newHits = [],
+        nrOfTopHits = 0,
+        score = 0,
+        i = 0;
+    query = normalizeText(printableQuery(query));
+    queryTerms = query.split(/ +/); // TODO: This might not work for all character encodings
+    queryLen = queryTerms.length;
+    newHits = [];
+    while (i < data.hits.length) {
+        hit = data.hits[i];
+        score = 0;
+        if (hit.title != null) {
+            score = scoreText(hit.title, queryTerms);
+            if (score > 0) { score += 0.5; } // title boost
+        }
+        if (score < queryLen && hit.description != null) {
+            score += scoreText(hit.description, queryTerms);
+        }
+        if (score > 0) {
+            if (score >= queryLen) { nrOfTopHits += 1; }
+            hit.score = score;
+            addToHits(newHits, hit);
+        }
+        if (nrOfTopHits >= 100) { break; }
+        i += 1;
+    }
+    matchingSnippets(newHits, queryTerms);
+    data.hits = newHits;
+}
+
+/**
+ * creates the onclick function for click log data, which can be inserted
+ * in the html of href elements. This does not create an onclick element
+ * if logClickDataUrl is not specified in the global parameters
+ * @param rank
+ * @param kind
+ * @returns {*}
+ */
+function createOnClickElementforClickThrough(rank, kind) {
+    if (logClickDataUrl) {
+        return ' onclick="logClick(this, \'' + rank + '\', \'' + kind + '\')" ';
+    }
+    return '';
+}
+
+
+function htmlFullResult(query, hit, rank) {
     var result = '',
         title  = hit.title,
         descr  = hit.description,
         url    = hit.url,
         image  = hit.image;
     title = restrict(title, 80);
-    result += '<h4><a href="' + url + '">' + highlightTerms(title, query) + '</a>';
+    result += '<h4><a ' + createOnClickElementforClickThrough(rank, 'html_result_full')
+        + 'href="' + url + '">' + highlightTerms(title, query) + '</a>';
     if (hit.favicon != null) {
         result += '<img src="' + hit.favicon + '" alt="">';
     }
     result += '</h4>';
     if (image != null) {
-        result += '<a href="' + url + '"><img src="' + image + '" /></a>';
+        result += '<a ' + createOnClickElementforClickThrough(rank, 'html_result_full')
+            + 'href="' + url + '"><img src="' + image + '" /></a>';
     }
     result += '<p>';
     if (descr == null) { descr = hit.title; }
@@ -375,18 +613,26 @@ function htmlFullResult(query, hit) {
     } else {
         result += '&#151;';
     }
-    result += '<br><a href="' + url + '">' + highlightTerms(restrict(url, 90), query) + '</a></p>';
+    result += '<br><a ' + createOnClickElementforClickThrough(rank, 'html_result_full')
+        + 'href="' + url + '">' + highlightTerms(restrict(url, 90), query) + '</a></p>';
     return result;
 }
 
-
-function htmlSuggestionResult(resource, hit) {
+/**
+ * Returns suggestions like 'related searches' and 'did you mean'
+ * @param resource
+ * @param hit
+ * @param rank
+ * @returns {string}
+ */
+function htmlSuggestionResult(resource, hit, rank) {
     var result = '',
         title  = hit.title,
         url    = hit.url;
     title = restrict(title, 80);
     result += '<h4>' + resource.name;
-    result += ' <a href="' + url + '"><b>' + title + '</b></a></h4>';
+    result += ' <a ' + createOnClickElementforClickThrough(rank, 'suggested_result')
+        + 'href="' + url + '"><b>' + title + '</b></a></h4>';
     return result;
 }
 
@@ -434,27 +680,27 @@ function moreResults(event) {
     var i, hit, maxi, query,
         result = '';
     event.preventDefault();
-    maxi = store.length;
-    query = store.getQuery();
+    maxi = searsiaStore.length;
+    query = searsiaStore.getQuery();
     if (maxi > 8) { maxi = 8; }
     for (i = 0; i < maxi; i += 1) {
-        hit = store.shift();
+        hit = searsiaStore.shift();
         result += '<div class="search-result">';
-        result += htmlFullResult(query, hit);
+        //TODO add ranking for this result (?)
+        result += htmlFullResult(query, hit, -1);
         result += '</div>';
     }
     $('#searsia-results-4').append(result); // there are three divs for results, 1=top, 2=subtop, 3=rest, 4=more
-    if (store.length <= 0) {
+    if (searsiaStore.length <= 0) {
         $('#searsia-alert-bottom').html(noMoreResultsText());
     }
-    // $wh.fireLayoutChangeEvent(document.getElementById("searsiasearch"));
 }
 
 
 function checkEmpty() {
     if (nrResults === 0) {
         $('#searsia-alert-bottom').html(noResultsText());
-    } else if (store.length <= 0) {
+    } else if (searsiaStore.length <= 0) {
         $('#searsia-alert-bottom').html(noMoreResultsText());
     } else {
         $('#searsia-alert-bottom').html('<a href="#more" id="more-results">' + moreResultsText() + '</a>');
@@ -514,9 +760,12 @@ function inferMissingData(data, query) {
     for (i = count; i >= 0; i -= 1) {
         hit = data.hits[i];
         if (hit.title == null) {  // everything *must* have a title
+            hit.title = 'title';
             console.log("Warning: result without title");
+        } else {
+            hit.title = noHTMLelement(hit.title);
         }
-        hit.score = scoreHit(hit, i, query);
+        hit.score = scoreHit(hit, i, query); // TODO: more costly now!
         if (hit.url == null) {
             if (resource.urltemplate != null) {
                 hit.url = fillUrlTemplate(resource.urltemplate, encodedQuery(hit.title), '');
@@ -528,12 +777,19 @@ function inferMissingData(data, query) {
             if (rhost == null || rhost !== getHost(hit.url)) {
                 typeFull = true;
             }
+            hit.url = noHTMLelement(hit.url);
+        }
+        if (hit.description != null) {
+            hit.description = noHTMLelement(hit.description);
         }
         if (hit.image != null) {
-            hit.image = correctUrl(resource.urltemplate, hit.image);
+            hit.image = noHTMLattribute(correctUrl(resource.urltemplate, hit.image));
         }
         if (hit.favicon == null && resource.favicon != null) {
             hit.favicon = resource.favicon;
+        }
+        if (hit.favicon != null) {
+            hit.favicon = noHTMLattribute(hit.favicon);
         }
         if (hit.tags == null || hit.tags.indexOf('small') === -1) {
             typeSmall = false;
@@ -581,7 +837,7 @@ function removeTooOldResults(data) {
  * max length 220 characters, restricting the size of the
  * title and description. Title at least 80 characters.
  */
-function htmlSubResultWeb(query, hit) {
+function htmlSubResultWeb(query, hit, rank) {
     var title  = hit.title,
         descr  = hit.description,
         url    = hit.url,
@@ -604,9 +860,14 @@ function htmlSubResultWeb(query, hit) {
     }
     result += '<div class="sub-result">';
     if (image != null) {
-        result += '<a href="' + url + '"><img src="' + image + '"/></a>';
+        result += '<a ' + createOnClickElementforClickThrough(rank, 'subresult_html_web')
+            + 'href="' + url + '"><img src="' + image + '"/></a>';
     }
-    result += '<p><a href="' + url + '">' + highlightTerms(title, query) + '</a> ';
+    result += '<p><a ' + createOnClickElementforClickThrough(rank, 'subresult_html_web')
+        + 'href="' + url + '">' + highlightTerms(title, query) + '</a> ';
+    if (tLength < 40 && dLength < 40) {
+        result += '<br>';
+    }
     if (descr != null) {
         result += highlightTerms(restrict(descr, dLength), query);
     }
@@ -615,7 +876,7 @@ function htmlSubResultWeb(query, hit) {
 }
 
 
-function htmlSubResultWebFull(query, hit) { // duplicate code with htmlSubResultWeb()
+function htmlSubResultWebFull(query, hit, rank) { // duplicate code with htmlSubResultWeb()
     var title  = hit.title,
         descr  = hit.description,
         url    = hit.url,
@@ -626,22 +887,25 @@ function htmlSubResultWebFull(query, hit) { // duplicate code with htmlSubResult
     maxsnip -= title.length;
     result += '<div class="sub-result">';
     if (image != null) {
-        result += '<a href="' + url + '"><img src="' + image + '"/></a>';
+        result += '<a ' + createOnClickElementforClickThrough(rank, 'subresult_web_full')
+            + 'href="' + url + '"><img src="' + image + '"/></a>';
     }
-    result += '<div class="descr"><a href="' + url + '">' + highlightTerms(title, query) + '</a> ';
+    result += '<div class="descr"><a ' + createOnClickElementforClickThrough(rank, 'subresult_web_full')
+        + 'href="' + url + '">' + highlightTerms(title, query) + '</a> ';
     if (descr != null) {
         result += highlightTerms(restrict(descr, maxsnip), query);
     }
     result += '</div>';
     if (url != null) {
-        result += '<div class="url"><a href="' + url + '">' + highlightTerms(url, query) + '</a></div>';
+        result += '<div class="url"><a ' + createOnClickElementforClickThrough(rank, 'subresult_web_full')
+            + 'href="' + url + '">' + highlightTerms(url, query) + '</a></div>';
     }
     result += '</div>';
     return result;
 }
 
 
-function htmlSubResultSmall(query, hit) {
+function htmlSubResultSmall(query, hit, rank) {
     var title  = hit.title,
         descr  = hit.description,
         url    = hit.url,
@@ -650,7 +914,8 @@ function htmlSubResultSmall(query, hit) {
     title = restrict(title, 80);
     maxsnip -= title.length;
     result += '<div class="sub-result-small">';
-    result += '<p><a href="' + url + '">' + highlightTerms(title, query) + '</a> ';
+    result += '<p><a ' + createOnClickElementforClickThrough(rank, 'subresult_html_small')
+        + 'href="' + url + '">' + highlightTerms(title, query) + '</a> ';
     if (descr != null && maxsnip > 40) {
         result += highlightTerms(restrict(descr, maxsnip), query);
     }
@@ -659,13 +924,14 @@ function htmlSubResultSmall(query, hit) {
 }
 
 
-function htmlSubResultImage(hit) {
+function htmlSubResultImage(hit, rank) {
     var title  = hit.title,
         url    = hit.url,
         image  = hit.image,
         result = '';
     title = restrict(title, 80);
-    result += '<a href="' + url + '"><img class="sub-image" src="' + image + '" alt="[image]" title="' + title + '"/></a>\n';
+    result += '<a ' + createOnClickElementforClickThrough(rank, 'subresult_image')
+        + 'href="' + url + '"><img class="sub-image" src="' + image + '" alt="[image]" title="' + title + '"/></a>\n';
     return result;
 }
 
@@ -682,12 +948,12 @@ function addToStore(data, begin, end) {
                 hits[i].description = resource.name;
             }
         }
-        store.push(hits[i]); // global store
+        searsiaStore.push(hits[i]); // global store
     }
 }
 
 
-function htmlSubResults(query, data) {
+function htmlSubResults(query, data, rank) {
     var i, maxr,
         MAXX = 4,
         result = '<div>',
@@ -699,13 +965,13 @@ function htmlSubResults(query, data) {
     if (count > MAXX) { count = MAXX; }
     for (i = 0; i < count; i += 1) {
         if (resource.type === 'small') {
-            result += htmlSubResultSmall(query, data.hits[i]);
+            result += htmlSubResultSmall(query, data.hits[i], rank);
         } else if (resource.type === 'images') {
-            result += htmlSubResultImage(data.hits[i]);
+            result += htmlSubResultImage(data.hits[i], rank);
         } else if (resource.type === 'full') {
-            result += htmlSubResultWebFull(query, data.hits[i]);
+            result += htmlSubResultWebFull(query, data.hits[i], rank);
         } else {
-            result += htmlSubResultWeb(query, data.hits[i]);
+            result += htmlSubResultWeb(query, data.hits[i], rank);
         }
     }
     result += '</div>';
@@ -716,16 +982,19 @@ function htmlSubResults(query, data) {
 }
 
 
-function htmlResource(query, resource) {
+function htmlResource(query, resource, printQuery, rank) {
     var url, title,
         result = '<h4>';
     if (resource.urltemplate != null) {
-        url = fillUrlTemplate(resource.urltemplate, query, '');
-        result += '<a href="' + url + '">';
         title = resource.name;
-        if (resource.urltemplate.indexOf('{q}') > -1) {
+        if (printQuery && resource.urltemplate.indexOf('{q}') > -1) {
             title += ' - ' + printableQuery(query);
+            url = fillUrlTemplate(resource.urltemplate, query, '');
+        } else {
+            url = fillUrlTemplate(resource.urltemplate, '', '');
         }
+        result += '<a ' + createOnClickElementforClickThrough(rank, 'html_resource_header')
+            + 'href="' + url + '">';
         title = restrict(title, 80);
         result += highlightTerms(title, query) + '</a>';
         if (resource.favicon != null) {
@@ -740,17 +1009,18 @@ function htmlResource(query, resource) {
         result += highlightTerms(restrict(resource.summary, 90), query) + '<br>';
     }
     if (url != null) {
-        result += '<a href="' + url + '">' + highlightTerms(restrict(url, 90), query) + '</a>';
+        result += '<a ' + createOnClickElementforClickThrough(rank, 'html_resource_header')
+            + 'href="' + url + '">' + highlightTerms(restrict(url, 90), query) + '</a>';
     }
     result += '</p>';
     return result;
 }
 
 
-function printSingleResult(query, hit, where) {
-    var result;
+function printSingleResult(query, hit, rank) {
+    var result, where = rank;
     result = '<div class="search-result">';
-    result += htmlFullResult(query, hit);
+    result += htmlFullResult(query, hit, rank);
     result += '</div>';
     if (where < 1) { where = 1; }
     if (where > 4) { where = 4; }
@@ -758,7 +1028,7 @@ function printSingleResult(query, hit, where) {
 }
 
 
-function printAggregatedResults(query, data, rank) {
+function printAggregatedResults(query, data, rank, printQuery) {
     var result = '',
         count = data.hits.length,
         resource = data.resource;
@@ -766,18 +1036,21 @@ function printAggregatedResults(query, data, rank) {
         result += '<div class="search-result">';
         if (count === 1) {
             if (data.hits[0].tags != null && data.hits[0].tags.indexOf('suggestion') !== -1) {
-                result += htmlSuggestionResult(resource, data.hits[0]);
+                result += htmlSuggestionResult(resource, data.hits[0], rank);
             } else {
-                result += htmlFullResult(query, data.hits[0]);
+                result += htmlFullResult(query, data.hits[0], rank);
             }
         } else {
-            result += htmlResource(query, resource);
-            result += htmlSubResults(query, data);
+            result += htmlResource(query, resource, printQuery, rank);
+            result += htmlSubResults(query, data, rank);
         }
         result += '</div>';
         if (rank < 1) { rank = 1; }
         if (rank > 4) { rank = 4; }
         $('#searsia-results-' + rank).append(result); // there are four divs for results, 1=top, 2=subtop, 3=rest, 4=more.
+    } else {
+        //Remove this resource from the ranking because it is not shown to the user
+        searsiaStore.removeFromRanking(rank);
     }
 }
 
@@ -789,7 +1062,7 @@ function printNormalResults(query, data, rank) {
     if (count > MAXX) { count = MAXX; }
     for (i = 0; i < count; i += 1) {
         result = '<div class="search-result">';
-        result += htmlFullResult(query, data.hits[i]);
+        result += htmlFullResult(query, data.hits[i], rank);
         result += '</div>';
         where = rank + i;
         if (where < 1) { where = 1; }
@@ -815,18 +1088,17 @@ function printResults(query, data, rank, olddata) {
             nrDisplayed = printNormalResults(query, data, rank);
             addToStore(data, nrDisplayed, count);
         } else {
-            printAggregatedResults(query, data, rank); // TODO: addToStore now happens deep inside printAggregatedResults...
+            printAggregatedResults(query, data, rank, true); // TODO: addToStore now happens deep inside printAggregatedResults...
         }
     } else {
         inferMissingData(olddata, query);
         removeTooOldResults(olddata);
-        printAggregatedResults(query, olddata, rank);
+        printAggregatedResults(query, olddata, rank, false);
     }
     pending -= 1; // global
     if (pending <= 0) {
         checkEmpty();
     }
-    // $wh.fireLayoutChangeEvent(document.getElementById("searsiasearch"));
 }
 
 
@@ -854,16 +1126,20 @@ function queryResources(query, data) {
         done = [];
     storeMother(data);
     placeIcon(data);
-    store.setQuery(query);
+    if (data.resource != null && data.resource.rerank != null) {
+        scoreAllHits(data, query);
+    }
     hits = data.hits;
     while (i < hits.length) {
         rid = hits[i].rid;
+        searsiaStore.addToRanking(rid, rank); // store the ranking of this resource
         if (rid == null) { // a result that is not from another resource
-            if (data.resource == null || data.resource.rerank == null || scoreHit(hits[i], 0, query) > 0.0) { // TODO: real rearanking
-                printSingleResult(query, hits[i], rank);
-                nrResults += 1; // global
-                rank += 1;
+            if (data.resource != null && data.resource.urltemplate != null) {
+                hits[i].url = correctUrl(data.resource.urltemplate, hits[i].url);
             }
+            printSingleResult(query, hits[i], rank);
+            nrResults += 1; // global
+            rank += 1;
         } else if (done[rid] !== 1) {
             //oldquery = hits[i].query; // remove comment to enable 'cached' result
             olddata = { hits: [] };
@@ -894,7 +1170,7 @@ function queryResources(query, data) {
     if (pending < 1) {
         checkEmpty();
     }
-    // $wh.fireLayoutChangeEvent(document.getElementById("searchresults"));
+    placeSuggestions(data);
 }
 
 
@@ -904,6 +1180,7 @@ function getResources(params) {
         searsiaError('Query too long.');
         return;
     }
+    searsiaStore.setQuery(params.q);
     $.ajax({
         url: fillUrlTemplate(API_TEMPLATE, params.q, ''),
         success: function (data) { queryResources(params.q, data); },
@@ -951,7 +1228,134 @@ function initSearsiaClient(data) {
     placeBanner(data);
     placeIcon(data);
     placeName(data);
+    placeSuggestions(data);
     storeResources(data);
+    $("#searsia-input").focus();
+}
+
+
+/**
+ * set cookie value
+ * @param cname name of the cookie
+ * @param cvalue value of the cookie
+ * @param exdays days before the cookie expires
+ */
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date(),
+        expires;
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
+
+/**
+ * get a cookie value
+ * @param cname the name of the cookie
+ * @returns {*}
+ */
+function getCookie(cname) {
+    var name = cname + "=",
+        ca = document.cookie.split(';'),
+        i,
+        c;
+    for (i = 0; i < ca.length; i += 1) {
+        c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+
+/*jslint bitwise: true*/
+/**
+ * Generates a random identifier compliant with the uuid(v4) spec.
+ * The randomness of this number is based on Math.random(), which might not
+ * be a guaranteed RNG.
+ * @returns {string} the uuid string
+ */
+function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,
+        function (c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+}
+/*jslint bitwise: false*/
+
+
+/**
+ * Returns an anonymous identifier for the user session, creates a session
+ * if a session does not exist This session identifier is generated and
+ * stored client-side. This is nog a server-side session.
+ */
+function getOrSetSessionIdentifier() {
+    var sessionId = getCookie('sessionId');
+    if (!sessionId) {
+        sessionId = generateUUID();
+        setCookie('sessionId', sessionId, 1);
+    }
+    return sessionId;
+}
+
+
+/**
+ * converts a standard url to a url suitable for clicklogging
+ * Does not convert if click through data is disabled
+ * This can be done by replacing the contents of the logClickDataUrl
+ * variable with 0 or undefined
+ */
+function convertUrlForClickThroughData(url, rank, kind) {
+    if (logClickDataUrl) {
+        //replace &amp; with normal & for encoding the uri component
+        url = url.replace(/&amp;/g, "&");
+        url = encodeURIComponent(url);
+        url = logClickDataUrl + '?url=' + url;
+
+        url += '&query=' + searsiaStore.getQuery();
+
+        if (rank) {
+            url += '&rank=' + rank;
+            url += '&ordering=' + searsiaStore.getRanking(rank).toString();
+        }
+        if (kind) {
+            url += '&kind=' + kind;
+        }
+        if (sendSessionIdentifier) {
+            url += '&sessionId=' + getOrSetSessionIdentifier();
+        }
+    }
+    return url;
+}
+
+
+/**
+ * This function is used although editors might show it as unused, this
+ * function is only called from generated html. This functions logs the
+ * click data and continues normal forwarding operations for the user.
+ * @param element the element that is clicked on
+ * @param rank the rank of the clicked element
+ * @param kind the kind of link that is clicked on
+ */
+function logClick(element, rank, kind) {
+    var url;
+    if (logClickDataUrl) {
+        //TODO make post call
+        if (element != null) {
+            url = $(element).attr('href');
+        } else {
+            url = 'query';
+        }
+        $.ajax({
+            type: "GET",
+            url: convertUrlForClickThroughData(url, rank, kind)
+        });
+    }
 }
 
 
@@ -960,7 +1364,13 @@ function connectToServer() {
     $.ajax({
         url: fillUrlTemplate(API_TEMPLATE, '', ''),
         success: function (data) { initSearsiaClient(data); },
-        error: function (xhr, options, error) { searsiaError('Cannot connect to search server.'); },
+        error: function (xhr, options, error) {
+            if (API_TEMPLATE) {
+                searsiaError('Temporarily no connection possible. Please try again later.');
+            } else {
+                searsiaError('If you see this then searsiaclient needs to be configured. Please set the value of API_TEMPLATE in searsia.js.');
+            }
+        },
         timeout: 10000,
         dataType: 'json'
     });
