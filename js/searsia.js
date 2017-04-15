@@ -26,7 +26,7 @@
 
 "use strict";
 
-var API_TEMPLATE = 'https://djoerd.github.io/searsiaclient/nlnet.json';
+var API_TEMPLATE = 'http://searsia.org/searsia/search.json';
 
 
 var AGG       = 1;   // 1=Aggregate results, 0=only boring links
