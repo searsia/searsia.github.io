@@ -26,7 +26,7 @@
 
 "use strict";
 
-var API_TEMPLATE = 'http://searsia.org/searsia/search.json';
+var API_TEMPLATE = 'https://djoerd.github.io/searsiaclient/nlnet.json';
 
 
 var AGG       = 1;   // 1=Aggregate results, 0=only boring links
@@ -36,7 +36,7 @@ var page      = 1;   // search result page
 var lang      = document.getElementsByTagName('html')[0].getAttribute('lang');    // used for language-dependent texts
 
 var logClickDataUrl = 0; // url to log click data, undefined or 0 to disable click logging
-var sendSessionIdentifier = 0; // send anonymous session id with each click
+var sendSessionIdentifier = 0; // do not send anonymous session id with each click
 var suggestionsOn = 1; // Enables suggestions, if they are provided via the API template's server.
 
 var searsiaStore = {
@@ -406,8 +406,37 @@ function fillUrlTemplate(template, query, resourceId) {
 
 
 function restrict(someText, size) { // size must be > 3
+    var i;
     if (someText != null && someText.length > size) {
-        someText = someText.substr(0, size - 3) + '...';
+        i = someText.lastIndexOf(" ", size);
+        if (i == -1) { i = size - 3; }
+        someText = someText.substr(0, i) + ' ...';
+    }
+    return someText;
+}
+
+
+function restrictStart(someText, start, size) { // size must be > 3
+    var i, j,
+        prefix = "",
+        postfix = "";
+    if (someText != null && someText.length > size) {
+        if (start < 0) { start = 0; }
+        if (start > 2) {
+            i = someText.indexOf(" ", start - 1);
+            if (i == -1) { i = start; } else { i += 1; }
+            prefix = "... ";
+        } else {
+            i = 0;
+        }
+        if (start + size < someText.length) {
+            j = someText.lastIndexOf(" ", start + size);
+            if (j == -1) { j = start + size - 3; }
+            postfix = ' ...';
+        } else {
+            j = start + size;
+        }
+        someText = prefix + someText.substr(i, j) + postfix;
     }
     return someText;
 }
@@ -447,11 +476,13 @@ function scoreText(text, queryTerms) {
     for (i = 0; i < queryTerms.length; i += 1) { // TODO: Really? Nested loop??
         len = textTerms.length;
         if (len > 1000) { len = 1000; } // Only check first 1000 words
-        for (j = 0; j < len; j += 1) {
+        j = 0;
+        while (j < len) {
             if (queryTerms[i] === textTerms[j]) {
                 score += 1.0;
-                break; // one occurrence per query term
+                j = len; // one occurrence per query term
             }
+            j += 1;
         }
     }
     return score;
@@ -493,45 +524,41 @@ function addToHits(hits, hit) {
 
 
 function matchingSnippets(hits, queryTerms) { // TODO for queries length > 2
-    var i, j, k, description,
-        first = -1,
-        second = -1;
-    if (queryTerms.length < 2) { first = 0; } // Take first part of description for query length 1
+    var i, j, k, description, first, second;
     for (i = 0; i < hits.length; i += 1) {
+        first = -1;
+        second = -1;
+        if (queryTerms.length < 2) { first = 0; } // Take first part of description for query length 1
         if (hits[i].description != null) {
             description = hits[i].description.toLowerCase();
-        }
-        j = 0;
-        while (j < queryTerms.length) {
-            if (first != -1) {
-                k = first - 140;
-                if (k < 0) { k = 0; }
-                second = description.indexOf(queryTerms[j], k);
-                if (second == -1) {
-                    second = description.indexOf(queryTerms[j]);
+            j = 0;
+            while (j < queryTerms.length) {
+                if (first == -1) {
+                    first = description.indexOf(queryTerms[j]);
+                } else if (second == -1) {
+                    k = first - 120;
+                    if (k < 0) { k = 0; }
+                    second = description.indexOf(queryTerms[j], k);
+                    if (second == -1) {
+                        second = description.indexOf(queryTerms[j]);
+                    }
                 }
-            } else {
-                first = description.indexOf(queryTerms[j]);
-            }
-            if (first != -1 && second != -1) {
-                description = "";
-                if (first > second) {
-                    k = first;
-                    first = second;
-                    second = k;
-                }
-                if (first != 0) { description = "... "; }
-                if (second - first < 120) { // TODO: break at word boundaries
-                    description += hits[i].description.substring(first - 40, first + 180) + " ...";
-                } else {
-                    description += hits[i].description.substring(first - 40, first + 60) + " ... ";
-                    description += hits[i].description.substring(second - 40, second + 80) + " ...";
-                }
-                hits[i].description = description;
-                j = queryTerms.length;
-            } else {
                 j += 1;
             }
+            if (first == -1) { first = 0; }
+            if (second == -1) { second = 0; }
+            if (first > second) {
+                k = first;
+                first = second;
+                second = k;
+            }
+            if (second - first < 120) {
+                description = restrictStart(hits[i].description, first - 40, 192);
+            } else {
+                description =  restrictStart(hits[i].description, first - 40, 92);
+                description += restrictStart(hits[i].description, second - 40, 92);
+            }
+            hits[i].description = description;
         }
     }
 }
@@ -556,9 +583,10 @@ function scoreAllHits(data, query) {
         score = 0;
         if (hit.title != null) {
             score = scoreText(hit.title, queryTerms);
-            if (score > 0) { score += 0.5; } // title boost
+            if (score > 0) { score += 0.1; } // title boost
         }
         if (score < queryLen && hit.description != null) {
+            if (score > 0) { score = 0.1; }
             score += scoreText(hit.description, queryTerms);
         }
         if (score > 0) {
@@ -651,13 +679,13 @@ function moreResultsText() {
 
 
 function noMoreResultsText() {
-    var result = "No more results.";
+    var result = "Done.";
     if (lang === "nl") {
-        result = "Geen andere resultaten.";
+        result = "Klaar.";
     } else if (lang === "de") {
-        result =  "Keine Ergebnisse mehr.";
+        result =  "Fertig.";
     } else if (lang === "fr") {
-        result = "Pas plus de résultats.";
+        result = "Prêt.";
     }
     return result;
 }
