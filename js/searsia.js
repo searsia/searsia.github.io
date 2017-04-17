@@ -37,7 +37,7 @@ var lang      = document.getElementsByTagName('html')[0].getAttribute('lang');  
 
 var logClickDataUrl = 0; // url to log click data, undefined or 0 to disable click logging
 var sendSessionIdentifier = 0; // do not send anonymous session id with each click
-var suggestionsOn = 1; // Enables suggestions, if they are provided via the API template's server.
+var suggestionsOn = 0; // Enables suggestions, if they are provided via the API template's server.
 
 var searsiaStore = {
 
@@ -436,7 +436,8 @@ function restrictStart(someText, start, size) { // size must be > 3
         } else {
             j = start + size;
         }
-        someText = prefix + someText.substr(i, j) + postfix;
+        someText = prefix + someText.substr(i, j - i) + postfix;
+
     }
     return someText;
 }
@@ -569,10 +570,9 @@ function matchingSnippets(hits, queryTerms) { // TODO for queries length > 2
  *  only used if mother has "rerank"
  */
 function scoreAllHits(data, query) {
-    var queryTerms, queryLen, hit,
+    var queryTerms, queryLen, hit, score, tscore,
         newHits = [],
         nrOfTopHits = 0,
-        score = 0,
         i = 0;
     query = normalizeText(printableQuery(query));
     queryTerms = query.split(/ +/); // TODO: This might not work for all character encodings
@@ -581,13 +581,17 @@ function scoreAllHits(data, query) {
     while (i < data.hits.length) {
         hit = data.hits[i];
         score = 0;
+        tscore = 0;
         if (hit.title != null) {
-            score = scoreText(hit.title, queryTerms);
-            if (score > 0) { score += 0.1; } // title boost
+            tscore = scoreText(hit.title, queryTerms);
         }
-        if (score < queryLen && hit.description != null) {
-            if (score > 0) { score = 0.1; }
-            score += scoreText(hit.description, queryTerms);
+        if (tscore < queryLen && hit.description != null) {
+            score = scoreText(hit.description, queryTerms);
+        }
+        if (tscore * 1.1 > score) { // title boost
+            score = tscore * 1.1;
+        } else {
+            score += tscore / 10;
         }
         if (score > 0) {
             if (score >= queryLen) { nrOfTopHits += 1; }
