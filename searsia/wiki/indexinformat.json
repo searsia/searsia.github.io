@@ -30,7 +30,7 @@
     }
   ],
   "resource": {
-    "id": "wiki",
+    "id": "index",
     "mimetype": "application\/searsia+json",
     "urltemplate": "http:\/\/searsia.org\/resultsdemo.html",
     "favicon": "http:\/\/searsia.org\/images\/searsia.png",
