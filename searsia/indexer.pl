@@ -23,7 +23,7 @@ my $file;
 my $anchor_results = "";
 my $file_results = "";
 $file_results .= &json_result("", "", $TITLE, $DESCR);
-foreach $file (glob("$Bin/../*.html"), glob("$Bin/../blog/*.html"), glob("$Bin/../blog/*/*.html"), glob("$Bin/../deck.js/*.html")) {
+foreach $file (glob("$Bin/../*.html"), glob("$Bin/../blog/*.html"), glob("$Bin/../blog/*/*.html"), glob("$Bin/../deck.js/*.html"), glob("$Bin/../cran/index.html")) {
   $file =~ m/searsia\/\.\.\/(.+$)/;
   my $name = $1;
   unless($name eq '404.html' or $name eq 'index.html') {
@@ -78,10 +78,7 @@ foreach $file (glob("$Bin/../*.html"), glob("$Bin/../blog/*.html"), glob("$Bin/.
     if ($name eq 'deck.js/isoc2017.html') {
       $page_descr = "Slides; Presented at the ISOC NL New Year 2017. Web Search? 1. Influences people ... 2. Invades privacy ... 3. Is expensive ... Our approach... Federated search Demo! Conclusion Distribution of responsibilities: More objective — harder to manipulate or censor. Queries via broker: More private — Search engines cannot track individuals. No web crawling: Cheaper — easy to maintain. People. Check it out! Acknowledgments Thanks!";
     }
-    if ($name =~ /blog\//) {
-      $page_descr =~ s/\s+/ /g;
-      $page_descr =~ s/(beautiful-jekyll).*$/$1/;
-    }
+    $name =~ s/\//\\\//g;
     $file_results .= &json_result($name, "", $page_title, $page_descr);
   }
 }
@@ -102,6 +99,10 @@ sub json_result {
   my $title = shift;
   my $descr = shift;
 
+  $descr =~ s/if \(typeof jQuery.*$//;
+  $url =~ s/\/index\.html$/\//;
+  $url =~ s/\/index\.html#/\/#/g;
+
   $descr =~ s/\s+/ /g;
   if (length($descr) > 4000) {
     $descr = substr($descr, 0, 4000);
@@ -112,6 +113,7 @@ sub json_result {
     $descr .= "...";
   }
   $descr =~ s/\s+/ /g; $descr =~ s/^ | $//g;
+  $descr =~ s/<!--.*?-->//g;
 
   $title =~ s/([\"\/])/\\$1/g;
   $title =~ s/&lt;/</g; $title =~ s/&gt;/>/g;  $title =~ s/&amp;/&/g;  $title =~ s/&nbsp;/ /g;

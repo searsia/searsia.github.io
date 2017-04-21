@@ -1,0 +1,8 @@
+# Get data from: http://ir.dcs.gla.ac.uk/resources/test_collections/cran/
+cat cran.all.1400 | ./cran2html.pl >tmp.html
+cat header.html tmp.html footer.html >cran.html
+cat cran.all.1400 | ./cran2json.pl | sort -r | sed -e 's/"prior":[0-9\.]\+,//' >tmp.json
+cat header.json tmp.json footer.json >cran.json 
+# cat nlnet.json | python -m json.tool
+jsonlint-php cran.json
+

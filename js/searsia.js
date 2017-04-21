@@ -92,6 +92,13 @@ var searsiaStore = {
             return this.ranking.splice(0, rank);
         }
         return this.ranking;
+    },
+
+    clear: function () {
+        this.length = 0;
+        this.hits = [];
+        this.query = '';
+        this.ranking = [];
     }
 
 };
@@ -257,6 +264,16 @@ function placeBanner(data) {
 }
 
 
+function placeQuery(query) {
+    var i, title = document.title;
+    i = title.indexOf(':');
+    if (i != -1) {
+        title = title.substring(0, i);
+    }
+    document.title = title + ': ' + query;
+}
+
+
 function placeName(data) {
     var name = null;
     if (data.resource != null) {
@@ -342,6 +359,17 @@ function searsiaUrlParameters() {
         }
     }
     return params;
+}
+
+
+function searsiaCleanSheet() {
+    searsiaStore.clear();
+    $('#searsia-alert-top').empty();
+    $('#searsia-results-1').empty();
+    $('#searsia-results-2').empty();
+    $('#searsia-results-3').empty();
+    $('#searsia-results-4').empty();
+    $('#searsia-alert-bottom').empty();
 }
 
 
@@ -465,7 +493,7 @@ function highlightTerms(someText, query) {
 
 
 function normalizeText(text) {
-    return text.toLowerCase().replace(new RegExp('[^a-z0-9]', 'g'), ' ');
+    return text.toLowerCase().replace(new RegExp('[^a-z0-9]+', 'g'), ' ').replace(new RegExp('^ +| +$', 'g'), '');
 }
 
 
@@ -511,7 +539,7 @@ function scoreHit(hit, i, query) {
 
 function addToHits(hits, hit) {
     var i, newIndex = hits.length,
-        TOP = 10;
+        TOP = 100;
     if (newIndex < TOP || hit.score > hits[TOP - 1].score) {
         if (newIndex < TOP) { newIndex += 1; }
         i = newIndex - 1;
@@ -575,7 +603,7 @@ function scoreAllHits(data, query) {
         nrOfTopHits = 0,
         i = 0;
     query = normalizeText(printableQuery(query));
-    queryTerms = query.split(/ +/); // TODO: This might not work for all character encodings
+    queryTerms = query.split(/ +/).sort(function (a, b) {return b.length - a.length; }); // TODO: Split might not work for all character encodings
     queryLen = queryTerms.length;
     newHits = [];
     while (i < data.hits.length) {
@@ -584,6 +612,9 @@ function scoreAllHits(data, query) {
         tscore = 0;
         if (hit.title != null) {
             tscore = scoreText(hit.title, queryTerms);
+        }
+        if (tscore == 0 && hit.url != null) {
+            tscore = scoreText(hit.url, queryTerms) / 1.1;
         }
         if (tscore < queryLen && hit.description != null) {
             score = scoreText(hit.description, queryTerms);

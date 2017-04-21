@@ -1,0 +1,11 @@
+{
+"resource": {
+  "id": "cranfield",
+  "mimetype": "application\/searsia+json",
+  "name": "Cranfield",
+  "rerank": "lm",
+  "apitemplate": "cran.json",
+  "urltemplate": "https:\/\/djoerd.github.io/searsiaclient/cransearch.html"
+},
+"searsia": "v1.0.0",
+"hits": [
