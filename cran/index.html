@@ -94,10 +94,12 @@
         placeName({ });
         placeIcon({ });
         var params = searsiaUrlParameters();
-        fillForm(params.q);
-        placeQuery(params.q);
-        API_TEMPLATE = '/cran/cran.json';
-        getResources(params);
+        if (params.q != '') {
+          fillForm(formQuery(params.q));
+          placeQuery(printableQuery(params.q));
+          API_TEMPLATE = '/cran/cran.json';
+          getResources(params);
+        } 
       });
       -->
     </script>
