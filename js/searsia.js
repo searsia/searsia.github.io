@@ -1251,7 +1251,7 @@ function getResources(params) {
         timeout: 10000,
         dataType: 'json'
     });
-    $('#searsia-alert-bottom').html('<img src="images/progress.gif" alt="searching...">');
+    $('#searsia-alert-bottom').html('<img src="/images/progress.gif" alt="searching...">');
     /*jslint unparam: false*/
 }
 

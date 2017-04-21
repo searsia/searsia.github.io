@@ -5,7 +5,7 @@
   "name": "Cranfield",
   "rerank": "lm",
   "apitemplate": "cran.json",
-  "urltemplate": "https:\/\/djoerd.github.io/searsiaclient/cransearch.html"
+  "urltemplate": "https:\/\/searsia.org/cran/"
 },
 "searsia": "v1.0.0",
 "hits": [
