@@ -1,0 +1,17 @@
+{
+  "resource": {
+    "id": "cse1",
+    "mimetype": "application\/xml",
+    "apitemplate": "http:\/\/searsia.org\/searsia\/wiki\/cse1{q}.xml",
+    "extractors": {
+        "description": "./summary",
+        "image": "./PageMap/DataObject[@type='cse_thumbnail']/Attribute[@name='src']/@value",
+        "title": "./title",
+        "url": "./link/@href"
+    },
+    "itempath": "//entry",
+    "testquery": "life",
+    "name": "CSE"
+  },
+  "searsia": "v1.0.0"
+}

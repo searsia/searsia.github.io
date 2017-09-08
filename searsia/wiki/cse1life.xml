@@ -1,0 +1,233 @@
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:cse="http://schemas.google.com/cseapi/2010" xmlns:gd="http://schemas.google.com/g/2005" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" gd:kind="customsearch#search">
+  <title>Google Custom Search - life</title>
+  <id>tag:www.googleapis.com,2010-09-29:/customsearch/v1?q=life&amp;cx=003637895283361378319:95lv8knurmc&amp;num=10&amp;start=1&amp;safe=off</id>
+  <author>
+    <name>Alles (searsia) - Google Custom Search</name>
+  </author>
+  <updated>1970-01-18T10:00:57.912Z</updated>
+  <opensearch:Url template="https://www.googleapis.com/customsearch/v1?q={searchTerms}&amp;num={count?}&amp;start={startIndex?}&amp;lr={language?}&amp;safe={cse:safe?}&amp;cx={cse:cx?}&amp;sort={cse:sort?}&amp;filter={cse:filter?}&amp;gl={cse:gl?}&amp;cr={cse:cr?}}&amp;googlehost={cse:googleHost?}&amp;c2coff={?cse:disableCnTwTranslation}&amp;hq={cse:hq?}&amp;hl={cse:hl?}&amp;siteSearch={cse:siteSearch?}&amp;siteSearchFilter={cse:siteSearchFilter?}&amp;exactTerms={cse:exactTerms?}&amp;excludeTerms={cse:excludeTerms?}&amp;linkSite={cse:linkSite?}&amp;orTerms={cse:orTerms?}&amp;relatedSite={cse:relatedSite?}&amp;dateRestrict={cse:dateRestrict?}&amp;lowRange={cse:lowRange?}&amp;highRange={cse:highRange?}&amp;searchType={cse:searchType?}&amp;fileType={cse:fileType?}&amp;rights={cse:rights?}&amp;imgsz={cse:imgsz?}&amp;imgtype={cse:imgtype?}&amp;imgc={cse:imgc?}&amp;imgcolor={cse:imgcolor?}&amp;alt=atom" type="application/atom+xml"/>
+  <opensearch:Query count="10" cse:cx="003637895283361378319:95lv8knurmc" cse:safe="off" inputEncoding="utf8" outputEncoding="utf8" role="request" searchTerms="life" startIndex="1" title="Google Custom Search - life" totalResults="385"/>
+  <opensearch:Query count="10" cse:cx="003637895283361378319:95lv8knurmc" cse:safe="off" inputEncoding="utf8" outputEncoding="utf8" role="cse:nextPage" searchTerms="life" startIndex="11" title="Google Custom Search - life" totalResults="385"/>
+  <opensearch:totalResults>385</opensearch:totalResults>
+  <opensearch:startIndex>1</opensearch:startIndex>
+  <cse:context title="Alles (searsia)"/>
+  <cse:searchInformation>
+    <cse:searchTime>0.19586</cse:searchTime>
+    <cse:formattedSearchTime>0.20</cse:formattedSearchTime>
+    <cse:totalResults>385</cse:totalResults>
+    <cse:formattedTotalResults>385</cse:formattedTotalResults>
+  </cse:searchInformation>
+  <cse:spelling>
+    <cse:correctedQuery type="html"/>
+  </cse:spelling>
+  <entry gd:kind="customsearch#result">
+    <id>http://essay.utwente.nl/64574/1/Bas%CC%A7%2C%20Melis%20-%20S1232150%20-%20Master%20Thesis.pdf</id>
+    <updated>1970-01-18T10:00:57.912Z</updated>
+    <title type="html">A Reinterpretation of Hannah Arendt as a Philosopher of Technology</title>
+    <link href="http://essay.utwente.nl/64574/1/Bas%CC%A7%2C%20Melis%20-%20S1232150%20-%20Master%20Thesis.pdf" title="essay.utwente.nl"/>
+    <summary type="html">To be able to &lt;b&gt;answer&lt;/b&gt; the main thesis question, every chapter of the thesis ... &lt;br&gt;
+understand the main distinction Arendt makes related to human &lt;b&gt;life&lt;/b&gt; namely the &lt;br&gt;
+..... along a rectilinear line in a &lt;b&gt;universe&lt;/b&gt; where &lt;b&gt;everything&lt;/b&gt;&#x2026;moves in a cyclical &lt;br&gt;
+order&#x201D;.</summary>
+    <cse:cacheId>9QMIE3L38wMJ</cse:cacheId>
+    <cse:mime>application/pdf</cse:mime>
+    <cse:fileFormat>PDF/Adobe Acrobat</cse:fileFormat>
+    <cse:formattedUrl type="html">essay.utwente.nl/.../Bas&#x327;%2C%20Melis%20-%20S1232150%20- %20Master%20Thesis.pdf</cse:formattedUrl>
+    <cse:PageMap>
+      <cse:DataObject type="metatags">
+        <cse:Attribute name="creator" value="PDFMerge! (http://www.pdfmerge.com)"/>
+        <cse:Attribute name="producer" value="iText&#xAE; 5.4.5-SNAPSHOT &#xA9;2000-2013 1T3XT BVBA (ONLINE PDF SERVICES; licensed version)"/>
+        <cse:Attribute name="moddate" value="D:20131125094546-05'00'"/>
+        <cse:Attribute name="creationdate" value="D:20131125094546-05'00'"/>
+      </cse:DataObject>
+    </cse:PageMap>
+  </entry>
+  <entry gd:kind="customsearch#result">
+    <id>ftp://vlaai.snt.utwente.nl/pub/games/halflife2/mods/fortressforever/server/linux/FortressForever/readme/license.txt</id>
+    <updated>1970-01-18T10:00:57.912Z</updated>
+    <title type="html">Fortress Forever Incense Agreement : Featuring www.Fortress ...</title>
+    <link href="ftp://vlaai.snt.utwente.nl/pub/games/halflife2/mods/fortressforever/server/linux/FortressForever/readme/license.txt" title="vlaai.snt.utwente.nl"/>
+    <summary type="html">42) &lt;b&gt;The answer&lt;/b&gt; to the &lt;b&gt;universe&lt;/b&gt;, &lt;b&gt;life&lt;/b&gt; and &lt;b&gt;everything&lt;/b&gt; else! 43) Do not operate &lt;br&gt;
+heavy machinery while using this product. 44) The public sees him as a knight in&lt;br&gt;
+&amp;nbsp;...</summary>
+    <cse:cacheId>F4vd4xxYtNwJ</cse:cacheId>
+    <cse:mime>text/plain</cse:mime>
+    <cse:formattedUrl type="html">ftp://vlaai.snt.utwente.nl/pub/games/half&lt;b&gt;life&lt;/b&gt;2/mods/.../license.txt</cse:formattedUrl>
+  </entry>
+  <entry gd:kind="customsearch#result">
+    <id>https://research.utwente.nl/files/6160221/living.pdf</id>
+    <updated>1970-01-18T10:00:57.912Z</updated>
+    <title type="html">living</title>
+    <link href="https://research.utwente.nl/files/6160221/living.pdf" title="research.utwente.nl"/>
+    <summary type="html">Dec 5, 2008 &lt;b&gt;...&lt;/b&gt; Two Models of Human Enhancement and the Good &lt;b&gt;Life&lt;/b&gt; ..... Thus for Araya, &lt;b&gt;the&lt;/b&gt; &lt;br&gt;
+&lt;b&gt;answer&lt;/b&gt; to the question concerning what is seen in a ...... &lt;b&gt;universe&lt;/b&gt; is drastically &lt;br&gt;
+different from even that of the 19th century and I will also look&amp;nbsp;...</summary>
+    <cse:mime>application/pdf</cse:mime>
+    <cse:fileFormat>PDF/Adobe Acrobat</cse:fileFormat>
+    <cse:formattedUrl type="html">https://research.utwente.nl/files/6160221/living.pdf</cse:formattedUrl>
+    <cse:PageMap>
+      <cse:DataObject type="metatags">
+        <cse:Attribute name="creationdate" value="D:20090616164540-01'00'"/>
+        <cse:Attribute name="creator" value="Result Export Task Processor"/>
+        <cse:Attribute name="producer" value="Result Export Task Processor"/>
+        <cse:Attribute name="moddate" value="D:20090616164948+02'00'"/>
+        <cse:Attribute name="title" value="Microsoft Word - conference%20booklet[1]_AANGEPAST.doc"/>
+      </cse:DataObject>
+    </cse:PageMap>
+  </entry>
+  <entry gd:kind="customsearch#result">
+    <id>http://essay.utwente.nl/66528/1/Burdick%2C%20Mark%20-%20S1358316%20-%20MasterThesis.pdf</id>
+    <updated>1970-01-18T10:00:57.912Z</updated>
+    <title type="html">A Religious Dimension Of Technology: Technological Mediation and ...</title>
+    <link href="http://essay.utwente.nl/66528/1/Burdick%2C%20Mark%20-%20S1358316%20-%20MasterThesis.pdf" title="essay.utwente.nl"/>
+    <summary type="html">perspectives on how this thing humans walk on relates to &lt;b&gt;everything&lt;/b&gt; else. They &lt;br&gt;
+are &lt;b&gt;answers&lt;/b&gt; to questions of human importance in the &lt;b&gt;universe&lt;/b&gt; and have ..... &lt;br&gt;
+experiences an individual has collected throughout their &lt;b&gt;life&lt;/b&gt;; presence of an &lt;br&gt;
+engram.</summary>
+    <cse:mime>application/pdf</cse:mime>
+    <cse:fileFormat>PDF/Adobe Acrobat</cse:fileFormat>
+    <cse:formattedUrl type="html">essay.utwente.nl/.../Burdick%2C%20Mark%20-%20S1358316%20- %20MasterThesis.pdf</cse:formattedUrl>
+    <cse:PageMap>
+      <cse:DataObject type="metatags">
+        <cse:Attribute name="author" value="Mark Burdick"/>
+        <cse:Attribute name="creationdate" value="D:20141222114125+01'00'"/>
+        <cse:Attribute name="creator" value="Acrobat PDFMaker 11 for Word"/>
+        <cse:Attribute name="moddate" value="D:20141222135655+01'00'"/>
+        <cse:Attribute name="producer" value="Adobe PDF Library 11.0"/>
+        <cse:Attribute name="sourcemodified" value="D:20141027082717"/>
+      </cse:DataObject>
+    </cse:PageMap>
+  </entry>
+  <entry gd:kind="customsearch#result">
+    <id>http://essay.utwente.nl/61184/1/Rob_Buurman_s-_Overlapping_Wisdom.pdf</id>
+    <updated>1970-01-18T10:00:57.912Z</updated>
+    <title type="html">Rob Buurman - voorkant</title>
+    <link href="http://essay.utwente.nl/61184/1/Rob_Buurman_s-_Overlapping_Wisdom.pdf" title="essay.utwente.nl"/>
+    <summary type="html">understand that other citizens do not share their comprehensive views on life, ...... &lt;br&gt;
+reinterpreted and &lt;b&gt;the answers&lt;/b&gt; towards &lt;b&gt;life, the universe and everything&lt;/b&gt; else&amp;nbsp;...</summary>
+    <cse:mime>application/pdf</cse:mime>
+    <cse:fileFormat>PDF/Adobe Acrobat</cse:fileFormat>
+    <cse:formattedUrl type="html">essay.utwente.nl/61184/1/Rob_Buurman_s-_Overlapping_Wisdom.pdf</cse:formattedUrl>
+    <cse:PageMap>
+      <cse:DataObject type="metatags">
+        <cse:Attribute name="author" value="Rob"/>
+        <cse:Attribute name="creationdate" value="D:20110118202111+01'00'"/>
+        <cse:Attribute name="creator" value="PDFCreator Version 1.1.0"/>
+        <cse:Attribute name="moddate" value="D:20121126135337+01'00'"/>
+        <cse:Attribute name="producer" value="GPL Ghostscript  9.0"/>
+        <cse:Attribute name="title" value="Rob Buurman - voorkant"/>
+      </cse:DataObject>
+    </cse:PageMap>
+  </entry>
+  <entry gd:kind="customsearch#result">
+    <id>https://www.utwente.nl/en/bms/wijsb/staff/aydin/pdfs/Significance_of_Ideals.pdf</id>
+    <updated>1970-01-18T10:00:57.912Z</updated>
+    <title type="html">Charles S. Peirce and the Good &lt;b&gt;Life&lt;/b&gt;</title>
+    <link href="https://www.utwente.nl/en/bms/wijsb/staff/aydin/pdfs/Significance_of_Ideals.pdf" title="www.utwente.nl"/>
+    <summary type="html">O n the Significance of Ideals: Charles S. Peirce and the G ood &lt;b&gt;Life&lt;/b&gt;. &#x2022;. C ia n o. A &lt;br&gt;
+yd in. 423 ... give up &lt;b&gt;everything&lt;/b&gt; he holds dear, including his 6 year old son. Later &lt;br&gt;
+that night Otto, the ..... of the &lt;b&gt;universe&lt;/b&gt; and of the mind than morality&amp;#39;s &#x201C;this is &lt;br&gt;
+eternally right and that is eternally ..... admirable per se? Peirce&amp;#39;s &lt;b&gt;answer&lt;/b&gt; is: &lt;br&gt;
+reason.</summary>
+    <cse:cacheId>kLvdPjJLevcJ</cse:cacheId>
+    <cse:mime>application/pdf</cse:mime>
+    <cse:fileFormat>PDF/Adobe Acrobat</cse:fileFormat>
+    <cse:formattedUrl type="html">https://www.utwente.nl/en/bms/wijsb/.../Significance_of_Ideals.pdf</cse:formattedUrl>
+    <cse:PageMap>
+      <cse:DataObject type="metatags">
+        <cse:Attribute name="creationdate" value="D:20091204124816-05'00'"/>
+        <cse:Attribute name="creator" value="Adobe InDesign CS4 (6.0.4)"/>
+        <cse:Attribute name="producer" value="Adobe PDF Library 9.0"/>
+        <cse:Attribute name="moddate" value="D:20091208151846-05'00'"/>
+      </cse:DataObject>
+    </cse:PageMap>
+  </entry>
+  <entry gd:kind="customsearch#result">
+    <id>https://www.utwente.nl/en/bms/wijsb/staff/brey/Publicaties_Brey/Brey_Soraker_2009_Phil-IT.pdf</id>
+    <updated>1970-01-18T10:00:57.912Z</updated>
+    <title type="html">Philosophy of Computing and Information Technology</title>
+    <link href="https://www.utwente.nl/en/bms/wijsb/staff/brey/Publicaties_Brey/Brey_Soraker_2009_Phil-IT.pdf" title="www.utwente.nl"/>
+    <summary type="html">4.3 Connectionist AI, Artificial &lt;b&gt;Life&lt;/b&gt; and Dynamical Systems ..... whether it should &lt;br&gt;
+be defined so as to include the human brain (see Section 4) or the &lt;b&gt;universe&lt;/b&gt; at .... &lt;br&gt;
+famous example, and one of Turing&amp;#39;s &lt;b&gt;answers&lt;/b&gt; to the Entscheidungsproblem,&amp;nbsp;...</summary>
+    <cse:cacheId>tOMx1Eef-QYJ</cse:cacheId>
+    <cse:mime>application/pdf</cse:mime>
+    <cse:fileFormat>PDF/Adobe Acrobat</cse:fileFormat>
+    <cse:formattedUrl type="html">https://www.utwente.nl/en/bms/.../Brey_Soraker_2009_Phil-IT.pdf</cse:formattedUrl>
+    <cse:PageMap>
+      <cse:DataObject type="metatags">
+        <cse:Attribute name="title" value="Microsoft Word - Brey_Soraker_2009_Phil-IT.doc"/>
+        <cse:Attribute name="author" value="Gijs Houwen"/>
+        <cse:Attribute name="producer" value="Mac OS X 10.6.4 Quartz PDFContext"/>
+        <cse:Attribute name="creator" value="Microsoft Word"/>
+        <cse:Attribute name="creationdate" value="D:20101115151721Z00'00'"/>
+        <cse:Attribute name="moddate" value="D:20101115151721Z00'00'"/>
+      </cse:DataObject>
+    </cse:PageMap>
+  </entry>
+  <entry gd:kind="customsearch#result">
+    <id>http://www.astatine.utwente.nl/files/4214/3496/6119/9-3_web.pdf</id>
+    <updated>1970-01-18T10:00:57.912Z</updated>
+    <title type="html">12 - The Enigma Machine</title>
+    <link href="http://www.astatine.utwente.nl/files/4214/3496/6119/9-3_web.pdf" title="www.astatine.utwente.nl"/>
+    <summary type="html">the &lt;b&gt;Universe&lt;/b&gt; is a Hologram&#x201C;. Kevin ... not &lt;b&gt;everything&lt;/b&gt; has to be done right now, &lt;br&gt;
+and .... I don&amp;#39;t really have an &lt;b&gt;answer&lt;/b&gt; to that. ...... goods from the south to make &lt;b&gt;life&lt;/b&gt;.</summary>
+    <cse:cacheId>HPNCQC0qeDMJ</cse:cacheId>
+    <cse:mime>application/pdf</cse:mime>
+    <cse:fileFormat>PDF/Adobe Acrobat</cse:fileFormat>
+    <cse:formattedUrl type="html">www.astatine.utwente.nl/files/4214/3496/6119/9-3_web.pdf</cse:formattedUrl>
+    <cse:PageMap>
+      <cse:DataObject type="metatags">
+        <cse:Attribute name="creationdate" value="D:20150612115821+02'00'"/>
+        <cse:Attribute name="creator" value="Adobe InDesign CS5 (7.0)"/>
+        <cse:Attribute name="moddate" value="D:20150612115850+02'00'"/>
+        <cse:Attribute name="producer" value="Adobe PDF Library 9.9"/>
+      </cse:DataObject>
+    </cse:PageMap>
+  </entry>
+  <entry gd:kind="customsearch#result">
+    <id>https://www.utwente.nl/en/bms/wijsb/staff/verbeek/oratie_eng.pdf</id>
+    <updated>1970-01-18T10:00:57.912Z</updated>
+    <title type="html">PhilosoPhy of Man and Technology</title>
+    <link href="https://www.utwente.nl/en/bms/wijsb/staff/verbeek/oratie_eng.pdf" title="www.utwente.nl"/>
+    <summary type="html">Oct 15, 2009 &lt;b&gt;...&lt;/b&gt; Recent technological developments have breathed new &lt;b&gt;life&lt;/b&gt; into the image of the &lt;br&gt;
+.... Copernicus evicted us from the centre of the &lt;b&gt;universe&lt;/b&gt; by having the Earth &lt;br&gt;
+rotate ..... mediates our whole existence, from birth to death and &lt;b&gt;everything&lt;/b&gt; in .... &lt;br&gt;
+continuously to the way we &lt;b&gt;answer&lt;/b&gt; questions about the good &lt;b&gt;life&lt;/b&gt;.</summary>
+    <cse:cacheId>CPdebvnn4zIJ</cse:cacheId>
+    <cse:mime>application/pdf</cse:mime>
+    <cse:fileFormat>PDF/Adobe Acrobat</cse:fileFormat>
+    <cse:formattedUrl type="html">https://www.utwente.nl/en/bms/wijsb/staff/verbeek/oratie_eng.pdf</cse:formattedUrl>
+    <cse:PageMap>
+      <cse:DataObject type="metatags">
+        <cse:Attribute name="creationdate" value="D:20091012144328+02'00'"/>
+        <cse:Attribute name="creator" value="Adobe InDesign CS3 (5.0.4)"/>
+        <cse:Attribute name="producer" value="Adobe PDF Library 8.0"/>
+        <cse:Attribute name="moddate" value="D:20091012144628+02'00'"/>
+      </cse:DataObject>
+    </cse:PageMap>
+  </entry>
+  <entry gd:kind="customsearch#result">
+    <id>http://www.astatine.utwente.nl/index.php/download_file/view/125/158/</id>
+    <updated>1970-01-18T10:00:57.912Z</updated>
+    <title type="html">16 - World Solar Challenge</title>
+    <link href="http://www.astatine.utwente.nl/index.php/download_file/view/125/158/" title="www.astatine.utwente.nl"/>
+    <summary type="html">&lt;b&gt;life&lt;/b&gt;? 10-1 is here, my first edition as edi- tor in chief, exciting stuff! First of all I&amp;#39;d &lt;br&gt;
+like to say ... &lt;b&gt;everything&lt;/b&gt; he has done for the As- tatine community ..... Of course, &lt;br&gt;
+there is &lt;b&gt;the answer&lt;/b&gt; of Monty Python &#x201C;Well, it&amp;#39;s ..... terested is exploring the &lt;br&gt;
+&lt;b&gt;universe&lt;/b&gt;,.</summary>
+    <cse:cacheId>5fQTACv2tNkJ</cse:cacheId>
+    <cse:mime>application/pdf</cse:mime>
+    <cse:fileFormat>PDF/Adobe Acrobat</cse:fileFormat>
+    <cse:formattedUrl type="html">www.astatine.utwente.nl/index.php/download_file/view/125/158/</cse:formattedUrl>
+    <cse:PageMap>
+      <cse:DataObject type="metatags">
+        <cse:Attribute name="creationdate" value="D:20151216173713+01'00'"/>
+        <cse:Attribute name="creator" value="Adobe InDesign CS5 (7.0)"/>
+        <cse:Attribute name="moddate" value="D:20160418180546Z"/>
+        <cse:Attribute name="producer" value="3-Heights(TM) PDF Optimization Shell 4.6.23.0 (http://www.pdf-tools.com)"/>
+      </cse:DataObject>
+    </cse:PageMap>
+  </entry>
+</feed>
