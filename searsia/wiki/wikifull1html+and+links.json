@@ -12,7 +12,7 @@
     }
   ],
   "resource": {
-    "id": "wikifull",
+    "id": "wikifull1",
     "mimetype": "application\/xml",
     "urltemplate": "http:\/\/en.wikipedia.net\/w\/index.php?search={q}&title=Special%3ASearch&go=Go",
     "favicon": "https:\/\/en.wikipedia.org\/static\/apple-touch\/wikipedia.png",
