@@ -29,7 +29,6 @@
             <ul class="nav navbar-nav">
               <li class="active"><a href="about.html">About</a></li>
               <li><a href="start.html">Start</a></li>
-              <li><a href="engines.html">Engines</a></li>
               <li><a href="protocol.html">Protocol</a></li>
               <li><a href="people.html">People</a></li>
               <li><a href="/blog/">Blog</a></li>
@@ -67,14 +66,25 @@ Searsia provides an approach to search that:
 <li>Learns over time what kind of information each source provides.</li>
 </ul>
 <p>
-Searsia is demonstrated by <a target="_blank" href="https://search.utwente.nl">UTwente Search</a>, an enterprise 
-search engine for the University of Twente that combines the results of about 35 sources, 
+Searsia is demonstrated by <a target="_blank" href="https://search.utwente.nl">UTwente Search</a>,
+and <a target="_blank" href="https://drsheetmusic.com">Dr Sheet Music</a>.
+</p>
+<p> 
+UTwente Search is an enterprise 
+search engine for the University of Twente that combines the results of more than 40 sources, 
 including results from Google's web crawl, from Courses, from News, the Telephone directory, 
 the Timetables, as well as results from social media, such as Facebook, Twitter and Flickr. 
+</p>
+<p>
+Dr. Sheet Music is a federated search engine dedicated to sheet music.
+It combines the results of more than 50 resources, including advertisements from affiliate
+programs like Amazon, eBay and ShareASale and advertisements for charities like CharityChoice
+and GoedeDoelen.nl.
 </p>
 
         </div>
         <div class="col-sm-4">
+
           <div class="panel panel-default" style="margin-top:2em">
             <div class="panel-heading">
               <h3 class="panel-title">Search by Searsia</h3>
@@ -94,6 +104,28 @@ the Timetables, as well as results from social media, such as Facebook, Twitter 
               </form>
             </div>
           </div>
+
+          <div class="panel panel-default" style="margin-top:2em">
+            <div class="panel-heading">
+              <h3 class="panel-title">Search by Searsia</h3>
+            </div>
+            <div class="panel-body">
+              <p style="text-align:center;margin-top:2em;">
+                <a target="_blank" href="https://drsheetmusic.com"><img src="https://drsheetmusic.com/images/drsheetmusic-banner.jpg" alt="Dr. Sheet Music" width="192"></a>
+              </p>
+              <form class="navbar-form" action="https://drsheetmusic.com/search.html" method="get" style="text-align:center">
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" name="q" id="drs-query">
+                  <div class="input-group-btn">
+                    <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                  </div>
+                </div>
+                <p>&nbsp;</p>
+              </form>
+            </div>
+          </div>
+
+
         </div>
 
       </div> <!-- row -->

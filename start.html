@@ -32,7 +32,6 @@
             <ul class="nav navbar-nav">
               <li><a href="about.html">About</a></li>
               <li class="active"><a href="">Start</a></li>
-              <li><a href="engines.html">Engines</a></li>
               <li><a href="protocol.html">Protocol</a></li>
               <li><a href="people.html">People</a></li>
               <li><a href="/blog/">Blog</a></li>
@@ -51,7 +50,6 @@
         </div><!--/.container-fluid -->
       </nav>
 
-      <!-- Main component for a primary marketing message or call to action -->
       <div class="row">
         <div class="col-md-8"> 
         <h1>Start <img src="images/searsia.png" alt=""></h1>
@@ -60,56 +58,155 @@
         <h2 id="client">The client</h2>
 
 <p>The Searsia Web client can be downloaded as 
-<a href="https://github.com/searsia/searsiaclient/releases/download/v0.4.0/searsiaclient.zip" rel="nofollow"><strong>searsiaclient.zip</strong></a> 
-and unzipped on your local machine or web server. To use the web client, open the file 
-<code>index.html</code> in a web browser. Congratulations! You now run your 
-own web application for federated search.
-</p> 
-
-<h2 id="clientoptions">Client options</h2>
-
-<p> The client will automatically connect to the University of Twente search 
-server. To connect to another server, edit the second line in the file
-<code>js/searsia.js</code>, which contains the API template of the server.
+<a href="https://github.com/searsia/searsiaclient/releases/download/v1.0.2/searsiaclient.zip" rel="nofollow"><strong>searsiaclient.zip</strong></a> 
+and unzipped on your local machine or web server. To use the web client:
+</p>
+<ol>
+<li>Set the variable <code>API_TEMPLATE</code> in the second line of the file <code>js/searsia.js</code>;</li>
+<li>Open <code>index.html</code> in a web browser;</li>
+<li>Congratulations! You now run your own web application for federated search.</li>
+</ol>
+<p> The API template is a url with a placeholder for the query and possibly
+other parameters. Examples of API templates of on-line Searsia servers are 
+the University of Twente's site search engine, and Dr. Sheet Music:
 </p>
 <p>
-<code> var API_TEMPLATE = 'https://search.utwente.nl/searsia/search?q={q?}&amp;r={r?}'</code>
+<code>https://search.utwente.nl/searsia/index.json?q={searchTerms}&page={startPage?}</code>
+</p>
+<p> or </p>
+<p>
+<code>https://drsheetmusic.com/searsia/index.json?q={searchTerms}&page={startPage?}</code>
 </p>
 <p> 
-If you run a server on your local machine (see next section), you can connect
-to your own server by setting the API template to:
-<code>'http://localhost:16842/searsia/search?q={q?}&amp;r={r?}'</code>
+If you run Searsie Server on your local machine (see next section), you can 
+connect the client to your own server by setting the API template to something 
+like:<br>
+<code>'http://localhost:16842/searsia/index?q={searchTerms?}&page={startPage?}'</code>
 </p>
 
 <h2 id="server">The server</h2>
 <p>Download the Java server
-<a href="https://github.com/searsia/searsiaserver/releases/download/v0.4.0/searsiaserver.jar" rel="nofollow"><strong>searsiaserver.jar</strong></a>
+<a href="https://github.com/searsia/searsiaserver/releases/download/v1.0.2/searsiaserver.jar" rel="nofollow"><strong>searsiaserver.jar</strong></a>
 and use the following command to start the server:
 </p>
 <p>
 <code class="block"> java -jar searsiaserver.jar </code>
 </p>
 <p>
-The server requires Java 7 or higher. Just like the web client, the java 
-server will automatically connect to the University of Twente search server.
-The server displays the following message: 
+The server requires Java 8 or higher. Just like the web client, the java 
+server needs another Searsia server's API template to connect to. We call
+the other server the <em>mother</em>, because your server will learn
+what it needs to know from the other server.
+Your server will display the following message: 
 </p>
 <p>
 <code class="result">
-Searsia Server v0.4.0<br>
-Connected to: utwente<br>
-API Template: http://localhost:16842/searsia/search?q={q?}&amp;r={r?}<br>
-Use Ctrl+c to stop.
+Please provide mother's api template (use '-m').
 </code>
 </p>
 <p>
-Use the reported API Template in your <a href="#client">client</a> as 
-explained above to connect.
+Additionally, the server displays all <a href="#serveroptions">server options</a>.
+Use the option <code>-m</code> to provide the API template, for instance
+one of the example templates under <a href="#clientoptions">Client Options</a>
+above.
+</p>
+<p>
+Your Searsia server copies the Searsia search engine definitions of the
+server it connects to (specified by the API template).
+Your server will have its own API template, which it will display at 
+start up. For instance, connect to Dr. Sheet Music as follows:
+</p>
+<p>
+<code class="block"> java -jar searsiaserver.jar -m 'https://search.utwente.nl/searsia/index?q={searchTerms}&page={startPage}'</code>
+</p>
+<p>
+<code class="result">
+Searsia server v1.0.2<br>
+Starting: Dr. Sheet Music (index)<br>
+API end point: http://localhost:16842/searsia/index?q={q}<br>
+Use Ctrl+c to stop.
+</code>
+</p>
+Use the reported API end point template in your <a href="#client">client</a> as 
+explained above to connect your client to your server.
 </p> 
+
+<h2 id="federation">Federation: One server, many search engines</h2>
+<p>
+A Searsia server provides access to many search engines. Together, the search 
+engines form a federation. Like a federation of countries that form a country
+together, Searsia manages a federation of search engines that form a search 
+engine together. Each search engine in the federation has a unique identifier. 
+The identifier of the search engine in the examples above is '<code>index</code>'.
+Suppose there is another search engine in the federation that is called 
+'<code>didyoumean</code>', then we can access it by replacing '<code>index</code>' 
+by '<code>didyoumean</code>' as follows:
+</p>
+<p>
+<code> <a href="https://search.utwente.nl/searsia/didyoumean">https://search.utwente.nl/searsia/didyoumean</a> </code>
+</p>
+<p> If you look at the URL in your browser, you will see the JSON search engine 
+definition below:
+</p>
+<pre>
+{
+  "resource": {
+    "apitemplate": "https://search.utwente.nl/searsia/didyoumean.php?q={searchTerms}",
+    "favicon": "https://search.utwente.nl/ut-icons/ut.png",
+    "id": "didyoumean",
+    "mimetype": "application/searsia+json",
+    "name": "Did you mean:",
+    "testquery": "test"
+  },
+  "searsia": "v1.0.2"
+}
+</pre>
+<p>
+Searsia servers copy and share these search engine definition files.
+We might now start a local Searsia server that serves search results
+from '<code>didyoumean</code>' as follows:
+</p>
+<p>
+<code class="block"> java -jar searsiaserver.jar -m 'https://search.utwente.nl/searsia/didyoumean?q={searchTerms}'</code>
+</p>
+<p>
+Searsia retrieves the definition file and runs a local copy that 
+provides results from '<code>didyoumean</code>'.
+In fact, we might also download the JSON definition file to our machine
+and then start Searsia Server from there with the same effect:
+</p>
+<p>
+<code class="block"> 
+wget https://search.utwente.nl/searsia/didyoumean.json<br>
+java -jar searsiaserver.jar -m didyoumean.json
+</code>
+</p>
+
+
+<h2 id="testing">Testing a search engine</h2>
+<p>
+Searsia Server tests a search engine using the  <code>-t</code> option as follows:
+</p>
+<p>
+<code class="block">
+java -jar searsiaserver.jar -m didyoumean.json -t json
+</code>
+</p>
+<p>
+This will output the <code>json</code> search results for the <code>"testquery"</code> that 
+is specified in <code>didyoumean.json</code>, or an error if there is a 
+problem with the definition file or the <code>didyoumean</code> search engine.
+</p>
+<p>
+Testing search engines will be needed frequently when setting up a new Searsia 
+engine, or when maintaining an existing Searsia engine. More about adding
+engines to the federation can be found on the <a href="protocol.html">Protocol</a> 
+page.
+
 
 <h2 id="serveroptions">Server options</h2>
 <p>
-The java server supports several command line options, shown in the following
+Searsia server supports several command line options, shown in the following
 table. For convenience, each option has a short-hand consisting of one hyphen
 and the first letter of the option, for instance <code>-h</code> for 
 <code>--help</code>.
@@ -117,35 +214,41 @@ and the first letter of the option, for instance <code>-h</code> for
 
 <table class="table table-bordered">
 <tr><th>Option</th><th>Explanation</th></tr>
+<tr id="option-cache"><td>--cache &lt;arg&gt;</td>
+  <td> Set cache size (integer: number of result pages). The default is 500
+  pages.</td>
+</tr>
+<tr id="option-dontshare"><td>--dontshare</td>
+  <td> Do not share resource definitions. This will make it impossible for
+  other servers to meaningfully connect to your server.</td>
+</tr>
+<tr id="option-export"><td>--export</td>
+  <td>Export index to stdout and exit.</td>
+</tr>
 <tr id="option-help"><td> --help</td>
   <td> Show help.</td>
 </tr>
-<tr id="interval"><td style="white-space:nowrap">--interval &lt;arg&gt;</td>
+<tr id="option-interval"><td style="white-space:nowrap">--interval &lt;arg&gt;</td>
   <td>Takes as argument an integer, which is the poll interval (in seconds). The 
 server sends a random query each interval to a search engine. 
 The default value is <code>120</code> seconds. 
 If your server contains 30 resources (search engines), a polling interval of 120
 seconds will poll each resource on average once per 120 * 30 = 3600 seconds, 
 so once each 60 minutes, about 24 queries a day. In scientific literature on
-distributed information retrieval, polling is usually called query-based sampling.
+distributed information retrieval, polling is usually called <em>query-based sampling</em>.
 An interval of <code>0</code> disables polling.</td>
 </tr>
 <tr id="option-log"><td>--log &lt;arg&gt;</td><td>Takes as argument an integer, which is the 
 type of log messages produced by the server (to the <a href="#option-path">index directory</a>). 
 Supported levels are: 0 = no logging; 1 = only errors; 2 =  errors and warnings; 3 = errors, warnings, 
-and information, 4 = all of level 3 plus debug information. The default level is <code>2</code>.</td>
+and information, 4 = all of level 3 plus debug information. The default level is 2.</td>
 </tr>
 <tr id="option-mother"><td>--mother &lt;arg&gt;</td>
- <td>Sets the API template of the mother. Use <code>none</code> to run the in stand-alone mode. The default is currently '<code>https://search.utwente.nl/searsia/search?q={q?}&amp;r={r?}</code>'.
+ <td>REQUIRED. Sets the API template of the mother. See above for example values.
   </td>
 </tr>
-<tr id="option-name"><td>--name &lt;arg&gt;</td>
-  <td> Set the id (name) of this end point. The server generates a random string as its name
-if this setting is not provided.</td>
-</tr>
-<tr id="option-open"><td>--open </td>
-  <td>Enable on-line updates. This enables on-line updates for your server by anyone, 
-use this only for testing purposes.</td>
+<tr id="option-health"><td>--nohealth</td>
+  <td>Do not share health report.</td>
 </tr>
 <tr id="option-path"><td>--path &lt;arg&gt;</td>
   <td>Set the path on the file system where the index is stored. The default depends on your 
@@ -155,6 +258,12 @@ under <code>Library/Application Support/Searsia</code> if you are on Apple,
 and under <code>Application Data/Searsia</code> on many Windows versions.
 </td>
 </tr>
+<tr id="option-path"><td>--quiet</td>
+  <td>No output to console.</td>
+</tr>
+<tr id="option-test"><td>--test &lt;arg&gt;</td>
+  <td> Print test output and exit (argument: 'json', 'xml', 'response', or 'all').</td>
+</tr>
 <tr id="option-url"><td>--url &lt;arg&gt;</td>
   <td>Set the url of the web service endpoint. The default is '<code>http://localhost:16842/searsia/</code>'</td>
 </tr>
@@ -162,22 +271,22 @@ and under <code>Application Data/Searsia</code> on many Windows versions.
 
 
 <h2 id="troubleshooting">Server trouble shooting</h2>
-
+<p>
 The server might return the following error messages:
-
+</p>
 <ul>
-<li id="error-create-directory"><code>Setup failed: Cannot create directory: </code><br>
+<li id="error-create-directory"><code>Setup failed: index_75cbc797a03dfe0dd08780e6c68e7bbc </code><br>
 The server cannot create the index. Check if the server has write premissions in the reported directory. 
 Use the <a href="#option-path">--path</a> option to change the location of the index.
 </li>
 
 <li id="error-timed-out"><code>Setup failed: Lock obtain timed out: NativeFSLock</code><br>
 There is already an instance of the Searsia server running on the same index. 
-Kill the server, or run the server with a different name with the <a href="#option-name">--name</a> option.
+Kill the server and try again.
 </li>
 
 <li id="error-start-server"><code>Server failed: Failed to start Grizzly HTTP server: Address already in use</code><br>
-There is already running an instance of the Searsia server on the same url.
+There is already a running instance of the Searsia server on the same url.
 Kill the server, or run the server on a different url or port number with the <a href="#option-url">--url</a> option.
 </li>
 
@@ -187,15 +296,8 @@ The provided url is invalid, or the url does not belong to the machine that runs
 Change the url with the <a href="#option-url">--url</a> option.
 </li>
 
-<li id="error-resource-id"><code>Error: Local id conflict</code>, or<br>
-<code>Error: The server id 'X' already exists.</code><br>
-This usually happens if you give your engine a name with the <a href="#option-name">--name</a> option that is
-already used by the mother. Give your server another name.
-</li>
-
 <li id="error-unknownhost-exception"><code>Error: Connection failed: java.net.UnknownHostException</code>, or<br>
-<code>Error: Connection failed: java.io.FileNotFoundException</code>, or<br>
-<code>Error: Mother id conflict</code><br>
+<code>Error: Connection failed: java.io.FileNotFoundException</code><br>
 Connection to the mother failed. Check your internet connection. Check the mother engine and mother template.
 Change the mother template with the <a href="#option-mother">--mother</a> option.
 </li>
@@ -216,16 +318,16 @@ Change the mother with the <a href="#option-mother">--mother</a> option.
             </div>
             <div class="panel-body">
               <p>
-              <a href="http://github.com/searsia/searsiaclient/releases/download/v0.4.0/searsiaclient.zip" rel="nofollow">
+              <a href="http://github.com/searsia/searsiaclient/releases/download/v1.0.2/searsiaclient.zip" rel="nofollow">
               <img src="images/searsia.png" alt="" width="20"/>
               <strong>searsiaclient.zip</strong></a>
-              <span style="white-space:nowrap">(219 KB)</span>
+              <span style="white-space:nowrap">(213 KB)</span>
               </p>
               <p>
-              <a href="http://github.com/searsia/searsiaserver/releases/download/v0.4.0/searsiaserver.jar" rel="nofollow"> 
+              <a href="http://github.com/searsia/searsiaserver/releases/download/v1.0.2/searsiaserver.jar" rel="nofollow"> 
               <img src="images/searsia.png" alt="" width="20"/>
               <strong>searsiaserver.jar</strong></a>
-              <span style="white-space:nowrap">(11.1 MB)</span>
+              <span style="white-space:nowrap">(11.2 MB)</span>
               </p>
             </div>
           </div>
@@ -248,7 +350,7 @@ Change the mother with the <a href="#option-mother">--mother</a> option.
       </div> <!-- row -->
       <footer>
         <hr>
-        <p><strong>Next:</strong> <a href="engines.html">Adding search engines</a> to your server.</p>
+        <p><strong>Next:</strong> <a href="Protocol.html">The Searsia protocol</a>.</p>
       </footer>
     </div> <!-- /container -->
 

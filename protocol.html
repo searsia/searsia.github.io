@@ -32,7 +32,6 @@
             <ul class="nav navbar-nav">
               <li><a href="about.html">About</a></li>
               <li><a href="start.html">Start</a></li>
-              <li><a href="engines.html">Engines</a></li>
               <li class="active"><a href="protocol.html">Protocol</a></li>
               <li><a href="people.html">People</a></li>
               <li><a href="/blog/">Blog</a></li>
@@ -54,212 +53,462 @@
       <!-- Main component for a primary marketing message or call to action -->
       <div class="row">
         <div class="col-md-8"> 
+        <h1>Protocol <img src="images/searsia.png" alt=""></h1>
+<p>
+The Searsia protocol is a RESTful interface. The calls follow the <a href="start.html">API 
+templates introduced before</a>, that take a query and output JSON search results with three fields:
+<code>"resource"</code> containing the resource definition; <code>"hits"</code> containing
+the search results, and <code>"searsia"</code> containing the version number.
+</p>
+<p>The resource definition tells Searsia <em>how</em> to get search results from an external
+source. Searsia copies resource definitions from other Searsia search engines, or from 
+files from the local file system.
+</p>
+        <p>
+        This page explains how to configure Searsia by creating search engine definition files.
+        Searsia can add search engines that follow Searsia's JSON format,
+        as well as several other formats, including HTML.
+        </p>
 
-<h1>Protocol <img src="images/searsia.png" alt=""></h1>
-<p>
-Searsia is designed such that each Searsia server manages multiple resources.
-These resources can be existing web search engines, or they can be other 
-Searsia servers. A Searsia server has a single API query interface, which is 
-shared with other servers (and clients) by means of an API template. For 
-instance, the API template of the University of Twente search engine is:
-</p>
-<p>
-<code class="block">https://search.utwente.nl/searsia/search?q={q?}&amp;r={r?}</code>
-</p>
-<p>A search in Searsia typically follows the following stages:</p>
-<ol>
-<li>
-The client first calls the Searsia server <a href="#query-only">with only 
-a query</a>. The server returns search results, some (or all) of which were 
-previously found by the server's resources. The client may present the search 
-results, or get even better search results as follows;
-</li>
-<li>
-The client may <a href="#query-resource">call the server with the query and 
-the resource idenfitier</a> to request the server to forward the query to the 
-resources that previously found the search results, or;
-</li>
-<li>
-The client may query the resource directly after 
-<a href="#resource-only">requesting the server for the resource's contact 
-details</a>.
-</li>
-</ol>
-
-<h2 id="query-only">Call with only a query</h2>
-<p>
-A call to the server with only a query returns the server's local search 
-results. For instance, for the query <em>searsia</em>, the University of 
-Twente API:
-</p>
-<p>
- <code>
-  <a target="_blank" rel="nofollow" href="https://search.utwente.nl/searsia/search?q=searsia&amp;r=">
-   https://search.utwente.nl/searsia/search?q=searsia&amp;r=
-  </a>
- </code>
-</p>
-<p>
-produces a result that is similar to one below:
-</p>
+        <h2 id="adding-index">Adding the main engine</h2>
+        <p>
+        We will start by adding the main engine by making a file <code>index.json</code>.
+        The minimum information needed to add a search engine are:
+        </p>
+       <ol>
+         <li> The engine's definition (called <code>"resource"</code>), which needs the engine's identifier (<code>"id"</code>) that should match the file name, hence: <code>"index"</code> (excluding the file name extension).</li>
+         <li> The Searsia version number (<code>"searsia"</code>), which
+        will be <code>v1.0.0</code>.
+         <li> An API template (<code>"apitemplate"</code>) for getting the search results, or alternatively, the search results themselves, called <code>"hits"</code>. In this case, we add two hits containing only two other engine identifiers (called <code>"rid"</code> for "resource identifier"): <code>"engine1"</code> and <code>"engine2"</code></li>
+       </ol>
+        
+<p>The file <code>index.json</code> contains:</p>
 <pre>
 {
-  "hits": [
-    {
-      "title": "Searsia",
-      "description": "Search for noobs",
-      "score": 3.319267,
-      "url": "http:\/\/searsia.org"
-    },
-    {
-      "rid": "googlecustom",
-      "title": "Projecten | Organisatie",
-      "description": "UT Search is powered by Searsia ...",
-      "score": 2.9963183, 
-      "url": "https:\/\/www.utwente.nl\/organisatie\/nieuws-events\/dossier\/&#8230;"
-    },
-    {
-      "rid": "publications",
-      "score": 2.0
+  "resource": {
+    "id": "index",
+    "name": "My Engine"
+   },
+   "searsia": "v1.0.0",
+   "hits": [
+     { "rid": "engine1" },
+     { "rid": "engine2" },
+     { "rid": "engine3" }
+   ]
+}
+</pre>
+
+<p>We can test our engine definition <code>index.json</code> as follows:</p>
+<p>
+<code class="block"> java -jar searsiaserver.jar -m index.json -t json</code>
+</p>
+<p>which gives the following output:</p>
+
+<code class="result">
+Searsia server v1.0.2<br>
+Testing: index (My Engine)<br>
+{"hits": [
+  {"rid": "engine1"},
+  {"rid": "engine2"}
+]}<br>
+Warning: less than 10 results for query: searsia; see "testquery" or "rerank".<br>
+Test succeeded.
+</code>
+<p>
+So, our test succeeded. Instead of testing the JSON output of a single engine,
+we might also test all engines in the federated search engine as follows:
+</p>
+<p>
+<code class="block"> java -jar searsiaserver.jar -m index.json -t all</code>
+</p>
+<p>which results in 2 errors, because we have not yet added the engines <code>engine1</code> and <code>engine2</code>.
+</p>
+<code class="result">
+Searsia server v1.0.2<br>
+Testing: index (My Engine)<br>
+Warning: less than 10 results for query: searsia; see "testquery" or "rerank".<br>
+Testing: engine1<br>
+Test failed: FileNotFoundException: engine1.json (No such file or directory)<br>
+Testing: engine2<br>
+Test failed: FileNotFoundException: engine2.json (No such file or directory)<br>
+Testing: engine3<br>
+Test failed: FileNotFoundException: engine3.json (No such file or directory)<br>
+ERROR: Test failed: 3 engines failed.
+</code>
+<p>
+Let's add some more example engines below.
+</p>
+
+
+
+        <h2 id="adding-searsia">Adding a Searsia engine</h2>
+        <p>
+          To add an external Searsia resource (an engine that implements the Searsia protocol, returning results of mime-type <code>application/searsia+json</code>), add the engines API template to the resource definition.
+        </p>
+        <p>The file <code>engine1.json</code> contains:</p>
+<pre>
+{
+  "resource": {
+    "id": "engine1",
+    "name": "Sheet Music",
+    "favicon": "https://drsheetmusic.com/images/drsheetmusic-note.png",
+    "apitemplate": "https://drsheetmusic.com/searsia/index.json?q={searchTerms?}&page={startPage?}"
+   },
+   "searsia": "v1.0.0",
+}
+</pre>
+<p> The search engine definition may again be tested with:</p>
+<p>
+<code class="block"> java -jar searsiaserver.jar -m engine1.json -t json</code>
+</p> 
+
+<h2 id="adding-html">Adding an HTML engine</h2>
+<p>
+Searsia can provide search results by 
+<a target="_blank" href="https://en.wikipedia.org/wiki/Data_scraping">scraping</a> 
+the HTML that search engines return for their end users. To add an HTML 
+resource, use <code>text/html</code> in the field 
+<code><a href="#field-mime-type">"mimetype"</a></code>. 
+As the field <code><a href="#field-api-template">"apitemplate"</a></code>, 
+take the resource's URL from your browser after querying the search engine, 
+replacing the query in the url by <code>{searchTerms}</code>. If the URL 
+does not contain a query, the search engine probably uses a 
+<a target="_blank" href="https://en.wikipedia.org/wiki/POST_%28HTTP%29">POST 
+request</a>. To find out what the POST request is, we recommend 
+<a target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/live-http-headers/">Live HTTP Headers</a> for Firefox. 
+Put the POST string, replacing the query by <code>{searchTerms}</code> in the 
+field <code><a href="#field-post-string">"post"</a></code>.
+For a JSON post request, additionally use
+<code><a href="#field-post-encoding">"postencode"</a>: "application/json"</code>
+</p>
+<p id="scraping">
+Searsia uses <a target="_blank" href="https://en.wikipedia.org/wiki/XPath">XPath 1.0</a> to extract the search results from the web page. XPath is a query language for selecting elements of semi-structured data. Suppose the search results are displayed as list elements on the page, then these are encode as <code>&lt;li&gt;</code> ... <code>&lt;/li&gt;</code> on the page, and they can be extracted from the page with the XPath query <code>//li</code>. To find the most likely XPath query, we recommend <a target="_blank" href="http://dolf.trieschnigg.nl/srf/">Search Result Finder</a> for Firefox. Fill in the XPath query in the field <em><a href="#field-item-xpath">"itempath"</a></em>. To tell Searsia how to extract the components of the search result, add <em><a href="#field-extractors">"extractors"</a></em> for the fields <code>title</code>, <code>description</code>, <code>link</code>, or any other field you like (the client also supports <code>image</code>). 
+</p>
+<p>
+We recommend to incrementally define your HTML search engine by first
+adding a random <code>"itempath"</code> XPath query, for instance 
+<code>//foobar</code>. Add a test query <code><a href="">"testquery"</a></code> for which you are sure the search engine gives at least 10 results. 
+</p>
+
+<p>First attempt to incrementally define <code>engine2.json</code>:</p>
+<pre>
+{
+  "resource": {
+    "id": "engine2",
+    "name": "Djoerd's Page",
+    "apitemplate": "http://wwwhome.cs.utwente.nl/~hiemstra/?s={searchTerms}",
+    "mimetype": "text/html",
+    "testquery": "federated",
+    "itempath": "//foobar"
+   },
+   "searsia": "v1.0.0",
+}
+</pre>
+<p>
+Then test <code>engine2.json</code> with <code>-t xml</code> as follows.
+(This first attempt will not work, because the <code>"itempath"</code>
+is not yet correct, and the <code>"extractors"</code> that select the
+title, description and URL are still missing.)
+</p>
+<p>
+<code class="block"> java -jar searsiaserver.jar -m engine2.json -t xml</code>
+</p>
+<p>Tip: nicely format the XML with a tool like 
+<a href="http://xmlsoft.org/xmllint.html" target="_blank">xmllint</a>.</p>
+<p>Because the API template and mimetype are correct, this test outputs
+the HTML search result page converted to XML. We can now see that the 
+search results on this page are using &lt;h3&gt; header tags. These
+header tags contain the search title (XPath extractor: <code>.</code>),
+it contains the URL in the &lt;a&gt; anchor tag's href attribute 
+(XPath extractor: <code>./a/@href</code>), and the first text node that 
+follows is the description (XPath extractor: 
+<code>./following-sibling::text()[1]</code>).
+</p>
+<p>After editing, the file <code>engine2.json</code> contains:</p>
+<pre>
+{
+  "resource": {
+    "id": "engine2",
+    "name": "Djoerd's Page",
+    "apitemplate": "http://wwwhome.cs.utwente.nl/~hiemstra/?s={searchTerms}",
+    "mimetype": "text/html",
+    "testquery": "federated",
+    "itempath": "//h3",
+    "extractors": {
+      "title": ".",
+      "url": "./a/@href",
+      "description": "./following-sibling::text()[1]"
     }
-  ],
-  "resource": {
-    "id": "utwente",
-    "mimetype": "application\/searsia+json",
-    "urltemplate": "https:\/\/search.utwente.nl\/search.html?q={q}",
-    "favicon": "https:\/\/search.utwente.nl\/ut-icons\/ut.png",
-    "testquery": "twente",
-    "name": "University of Twente",
-    "prior": 2,
-    "apitemplate": "https:\/\/search.utwente.nl\/searsia\/search?q={q?}&amp;r={r?}",
-    "banner": "https:\/\/search.utwente.nl\/ut-icons\/utlogo-black.png"
-  },
-  "searsia": "v0.3.0"
+   },
+   "searsia": "v1.0.0",
 }
 </pre>
+<p> Testing the engine with JSON output gives the following result:</p>
 <p>
-The attribute <code>"hits"</code> contains search results that may have an 
-attribute <code>"rid"</code>, which is the resource identifier of the 
-resource that produced the result for a previous search. Searsia ranks the 
-results such that the resource identifiers are ranked by the relevance of 
-the resources to the query. The attribute <code>"resource"</code> contains 
-information about the server, such as its name and icon. The attribite 
-<code>"searsia"</code> contains the version number of the server. Based on 
-this results, the client may now decide to ask the server to forward the 
-query to <code>"googlecustom"</code> and <code>"publications"</code>, which 
-is done as follows:
-</p> 
+<code class="block"> java -jar searsiaserver.jar -m engine2.json -t json</code>
+</p>
+<p>
+<code class="result">
+Searsia server v1.0.2<br>
+Warning: Mother changed to http://wwwhome.cs.utwente.nl/~hiemstra/?s={searchTerms}<br>
+Testing: engine2 (Djoerd's Page)<br>
+{ "hits": [<br>
+&nbsp; {<br>
+&nbsp;&nbsp; "title": "Federated Search for Sheet Music",<br>
+&nbsp;&nbsp; "description": "Dr. Sheet Music is a federated search engine for sheet music.",<br>
+&nbsp;&nbsp; "url": "http://www.cs.utwente.nl/~hiemstra/2017/federated-search-for-sheet-music.html"<br>
+&nbsp; },<br>
+(...)<br>
+]}<br>
+Test succeeded.<br>
+</code>
 
-<h2 id="query-resource">Call with a query and a resource identifier</h2>
+
+<h2 id="adding-xml">Adding an XML or JSON resource</h2>
 <p>
-A call to the server with a query and a resource identifier will let the 
-server forward the query to the resource. For instance, for the query 
-<em>searsia</em>, a call to the University of Twente API:
+To add an XML resource, fill in <code>application/xml</code> in the field 
+<em><a href="#field-mime-type">"mimetype"</a></em>. Then proceed as 
+<a href="#adding-html">above</a>. The Firefox Search Result Finder cannot 
+be used in this case.
+</p>
+<p>To add a JSON resource, fill in <code>application/json</code> in the 
+field <em><a href="#field-mime-type">"mimetype"</a></em>. Searsia also 
+uses XPath queries to interpret JSON output, by internally converting JSON 
+to XML, where each JSON attribute name is converted to an XML element; 
+JSON lists are converted to repeated XML elements with the JSON list's 
+name. As above, test the resource with the <code>-t xml</code> switch
+for debugging.
 </p>
 <p>
- <code>
-  <a target="_blank" rel="nofollow" href="https://search.utwente.nl/searsia/search?q=searsia&amp;r=publications">
-    https://search.utwente.nl/searsia/search?q=searsia&amp;r=publications
-  </a>
- </code>
+The following example selects only the hits from a JSON search engine
+(Acttually, a search engine that produces Searsia's JSON) 
+that have a URL. This definition selects part of the search results, 
+because a Searsia engine might also show results without a URL, and
+it might show more fields than the once selected here:
+</p>  
 </p>
-<p>
-produces a result that is similar to one below:
-</p>
-<pre>
-{
-  "hits": [
-    {
-      "title": "Searsia Documentation",
-      "description": "Djoerd Hiemstra, Dolf Trieschnigg, Thomas Demeester, ...",
-      "url": "http:\/\/doc.utwente.nl\/970499\/"
-    }  
-  ],
-  "resource": {
-    "id": "publications",
-    "mimetype": "text\/html",
-    "urltemplate": "http:\/\/doc.utwente.nl\/cgi\/search\/archive\/simple?q={q}",
-    "favicon": "http:\/\/doc.utwente.nl\/style\/images\/fileicons\/pdf.png",
-    "itempath": "\/\/div[@id='content']\/div\/table\/tbody\/tr[.\/td\/span\/a]",
-    "extractors": {
-      "title": "(.\/\/a)[1]",
-      "description": ".",
-      "image": "(.\/\/img)[last()]\/@src",
-      "url": ".\/\/@href"
-    },
-    "testquery": "test",
-    "name": "Publications",
-    "prior": 1,
-    "apitemplate": "http:\/\/doc.utwente.nl\/cgi\/search\/archive\/simple?q={q}"
-  },
-  "searsia": "v0.3.0"
-}
-</pre>
-<p>
-The attribute <code>"hits"</code> contains search results of the resource 
-<code>"publications"</code>.  The attribute <code>"resource"</code> 
-contains contact information for the Publications search engine. In some 
-cases additional information such as API keys need to be provided. In this 
-example, however, the contact information suffices to contact Publications 
-directly. Instead of forwarding the query, a client may only ask for the 
-contact details, and then forward the query itself. A request for the 
-contact details is done by the call in the next section:
-</p> 
- 
-<h2 id="resource-only">Call with only a resource identifier</h2>
-<p>
-A call to the server with only a resource identifier returns the contact 
-information of the resource. For instance, for the resource 
-<em>googlecustom</em>, a call to the University of Twente API:
-</p>
-<p>
- <code>
-  <a target="_blank" rel="nofollow" href="https://search.utwente.nl/searsia/search?q=&amp;r=googlecustom">
-   https://search.utwente.nl/searsia/search?q=&amp;r=googlecustom
-  </a>
- </code>
-</p>
-<p>
-produces a result that is similar to one below:
-</p>
+<p>The file <code>engine3.json</code> contains:</p>
 <pre>
 {
   "resource": {
-    "id": "googlecustom",
-    "name": "University of Twente by Google",
-    "mimetype": "application\/json",
-    "urltemplate": "https:\/\/www.google.com\/cse?cx=003637895283361378319:95lv8knurmc",
-    "favicon": "http:\/\/www.google.com\/s2\/favicons?domain=google.com",
-    "itempath": "\/\/results",
+    "id": "engine3",
+    "name": "UT Search",
+    "apitemplate": "https://search.utwente.nl/searsia/index?q={searchTerms}",
+    "mimetype": "application/json",
+    "testquery": "campus",
+    "itempath": "//hits[./url]",
     "extractors": {
-      "title": ".\/titleNoFormatting",
-      "description": ".\/contentNoFormatting",
-      "image": ".\/richSnippet\/cseThumbnail\/src",
-      "url": ".\/unescapedUrl"
-    },
-    "testquery": "twente",
-    "prior": 2,
-    "apitemplate": "https:\/\/www.googleapis.com\/customsearch\/v1element?key={apikey}&#8230;
-  },
-  "searsia": "v0.3.0"
+      "title": "./title",
+      "url": "./url",
+      "description": "./description"
+    }
+   },
+   "searsia": "v1.0.0",
 }
-</pre> 
+</pre>
+<p> Now we can test all engines as follows: </p>
 <p>
-The attribute <code>"resource"</code> contains contact information for 
-Google's Custom search engine. To use this resource directly, you will 
-have to obtain a API key from Google, and add it as a
-<a href="engines.html#field-parameters">secret parameter</a>.
+<code class="block">
+java -jar ~/Workspace/searsiaserver/target/searsiaserver.jar -m index.json  -t all
+</code>
+</p>
+<code class="result">
+Searsia server v1.0.2<br>
+Testing: index (My Engine)<br>
+Warning: less than 10 results for query 'searsia'; see "testquery" or "rerank".<br>
+Testing: engine1 (Sheet Music)<br>
+Testing: engine2 (Djoerd's Page)<br>
+Testing: engine3 (UT Search)<br>
+Test succeeded.
+</code>
 </p>
 
 
+<h2 id="examples">Examples</h2>
+<p>
+Searsia supports many API's by including API keys as secret 
+<em><a href="#field-parameters">parameters</a></em> that will not be 
+shared, as well the possibility to add custom HTTP 
+<em><a href="#field-headers">headers</a></em>.
+Look at the API of UT Search at 
+<a target="_blank" href="https://search.utwente.nl/searsia/index.json">University of 
+Twente Searsia API</a> for examples of Searsia's resource configurations, 
+including several examples that use HTML scrapers, and examples for 
+accessing the API's of Google, Twitter, Facebook, Flickr, Instagram, and 
+more. If you believe that Searsia is unable to get search results from
+an existing resource that should be supported, please post your question
+under <a target="_blank" href="https://github.com/searsia/searsiaserver/issues">Searsia
+Server Issues</a>. Please, note that Searsia is not meant to scrape sites
+that do not want to be scraped, and therefore does not contain ways to
+circumvent for instance session cookies. 
+</p>
+<p>
+While the Searsia resource configurations provide a way to get the search
+results for a great variety of existing search engines, Searsia also 
+provides a flexible way to structure the search results from these engines.
+The search results, i.e., the objects in the <code>"hits"</code> list,
+may contain any attribute that seems appropriate, for instance an
+attribute <code>"phone_number"</code> for a telephone directory or
+an attribute <code>"nr_of_citations"</code> for a search engine
+that searches scientific papers. The following attributed are reserved:
+</p>
+<ul>
+<li><code>"title"</code>: The title of the search results, that can be 
+clicked to go to the web page that was found. Usually, the title is equals 
+to the title of the web page that was found.  The title is the only 
+attribute that is mandatory.</li>
+<li><code>"url"</code>: The link to the web page that was found.</li>
+<li><code>"description"</code>: A small summary describing the result. 
+This might be a snippet from the web site containing the query, or some 
+other summary.</li>
+<li><code>"image"</code>: The url of a (thumbnail) image, to be 
+displayed with the search result.</li>
+</ul>
+
+<p>
+The <a href="resultsdemo.html">Results demo mockup</a> below shows 7 ways to present 
+the search results from
+<a target="_blank" href="https://en.wikipedia.org/w/api.php?action=opensearch&amp;format=xml&amp;search=informat&amp;namespace=0" rel="nofollow">Wikipedia's search suggestions</a>, 
+that is the mockup shows the same search results 7 times using different
+configurations.
+</p>
+
+<div class="panel panel-default" style="margin-top:2em">
+  <div class="embed-responsive embed-responsive-resultsdemo">
+    <iframe class="embed-responsive-item" src="resultsdemo.html"></iframe>
+  </div>
+</div>
+
+<p>
+The 7 results presentations are achieved as follows:
+</p>
+<ul>
+<li>
+<a href="searsia/wiki--wikididyoumean.json"><strong>wikididyoumean</strong></a>,
+which' name is <em>"Did you mean:"</em>, 
+returns a single search result, that contains the title as well as 
+<code>"tags":"#suggestion"</code>, which tells the client to display the
+result as a query suggestion.
+</li>
+<li>
+<a href="searsia/wiki--wikifull.json"><strong>wikifull</strong></a>
+(<em>Wikipedia Pages</em>)
+returns title, description and URL. In this configuration, the domain of 
+<code>"urltemplate"</code> (wikipedia.net) does not match the results' 
+domains (wikipedia.org). Therefore, the client displays the URLs for each 
+aggregated result. The <code>"urltemplate"</code> is the url that the 
+user will use to search on the site, whereas the <code>"apitemplate"</code>
+will be used by the server.
+</li>
+<li> 
+<a href="searsia/wiki--wikiimage.json"><strong>wikiimage</strong></a>
+(<em>Wikipedia Images</em>) returns title and image and 
+<code>"tags":"#image"</code>, which tells the client to display the
+results as an image result. Note how the XPath functions <code>concat()</code>
+and <code>substring-after()</code> are used to create a custom image URL.
+</li>
+<li>
+<a href="searsia/wiki--wikismall2.json"><strong>wikismall2</strong></a>,
+which is called <em>Search Wikipedia for</em>, does not return URLs, which makes the client
+infer the URL from the <code>"title"</code> and the <code>"urltemplate"</code>,
+effectively creating a search engine that spawns a search on Wikipedia.
+</li>
+<li>
+<a href="searsia/wiki--wikifull2.json"><strong>wikifull2</strong></a>
+(<em>Wikipedia Again</em>) returns full search results with a thumbnail image, much
+like the Wikipedia Pages engine above.
+</li>
+<li>
+<a href="searsia/wiki--wikismall.json"><strong>wikismall</strong></a>
+(<em>Wikipedia Small</em>) returns search results with <code>"tags":"#small"</code>,
+telling the client to display the results on a single line.
+</li>
+<li>
+<a href="searsia/wiki--wikirelated.json"><strong>wikirelated</strong></a> is called
+<em>Related searches:</em>; It returns only the titles and <code>"tags":"#small"</code>.
+The header <em>Related searches:</em> cannot be clicked because the resource does
+not configure the <code>"urltemplate"</code> for the end user.
+</li>
+</ul>
+<p>
+Note that each configuration uses the same <code>"apitemplate"</code>: Each
+of the 7 results effectively use the exact same search engine. 
+Please <strong>do not</strong> use this example in a actual server configuration.
+Note that the configuration of the mockup, if used in an actual Searsia Server, 
+would send each query 7 times(!) to Wikipedia. 
+</p>
+
+        <h2 id="fields">An overview of all resource fields</h2>
+        <p>
+          The table below contains a quick reference for all fields that are supported inside the <code>"resource"</code> field:
+        </p>
+
+<table class="table table-bordered">
+<tr><th>Parameter</th><th>Explanation</th></tr>
+
+<tr id="field-apitemplate"><td style="white-space:nowrap">"apitemplate" *</td>
+  <td>A URL specified following the <a href="#adding-searsia">searsia URL template syntax</a>, to be used by the server.</td></tr>
+
+<tr id="field-deleted"><td>"deleted"</td>
+  <td>A boolean. Value: <code>true</code> (no quotes) if the resource is deleted (only used in files; the server will use HTTP status 410, Gone) </td></tr>
+
+<tr id="field-extractors"><td>"extractors"</td>
+  <td>Field names and XPath queries for selecting parts of search results such as the title, url, and description. For example, the <code>title</code> would typically be selected as the first anchor text in a search result, i.e., <code>(.//a)[1]</code>. The XPath queries are evaluated with respect to an Item XPath context node, and they typically start with <code>.</code> (the 'self' axis step).
+</td></tr>
+
+<tr id="field-favicon"><td>"favicon"</td>
+  <td>The url of the icon image, to be displayed to the user. Icons should have equal width and height.
+Icons are preferably png files, not smaller than 48x48 pixels. </td></tr>
+
+<tr id="field-headers"><td>"headers"</td>
+  <td>HTTP headers to be sent to the API Template, consisting of a field name (without ':') and the field value. Like API Template and Post String, the field value may include parameters. </td></tr>
+
+<tr id="field-id"><td>"id" *</td>
+  <td>A unique string identifying this resource. Should be locally unique (within the server). </td></tr>
+
+<tr id="field-itempath"><td>"itempath"</td>
+  <td>An <a target="_blank" href="https://en.wikipedia.org/wiki/XPath">XPath 1.0</a> query that selects the search results from an HTML or XML result. XPath is also used to select results from JSON results, assuming a standard conversion to XML, where JSON lists are converted to repeated XML elements. </td></tr>
+
+<tr id="field-maxqueriesperday"><td style="white-space:nowrap">"maxqueriesperday"</td>
+  <td>The maximum amount of queries per day that the search engine is allowed to query. If the maximum per day is reached, the engine gives an HTTP status 503, Service Unavailable. Default: 1000.</td></tr>
+
+<tr id="field-mimetype"><td>"mimetype"</td>
+  <td>The format returned by the API Template. Supported formats are: <code>application/searsia+json</code>, <code>text/html</code>, <code>application/xml</code>, <code>application/json</code>. If omitted, the mime type <code>application/searsia+json</code> is assumed.</td></tr>
+
+<tr id="field-name"><td>"name"</td>
+  <td>A short name for this resource, to be displayed to the user. </td></tr>
+
+<tr id="field-post"><td>"post"</td>
+  <td>Only set if the API template HTTP method is POST, empty if the HTTP method is GET. Like the template, the post string may include parameters, delimited by curly brackets.</td></tr>
+
+<tr id="field-postencode"><td>"postencode"</td>
+  <td>Will encode the <a href="#field-post">post string</a> using a certain mime-type. Possible values: <code>application/x-www-form-urlencoded</code> (default) or <code>application/json</code>. </td></tr>
+
+<tr><td id="field-prior">"prior"</td>
+  <td>A value between 0 and 1 indicating the prior score of a resource to be selected (prior to knowing the query). This score is added to the score that is computed for the result's match with the query. (Integer, so no quotes)</td></tr>
+
+<tr id="field-privateparameters"><td>"privateparameters"</td>
+  <td>Secret parameter names and their values. Occurrences of the parameter names in the API Template, Post String or Headers will be replaced by the value. The server will not share the parameter names and values with other clients, so it is safe to use them for API keys and secrets. </td></tr>
+
+<tr id="field-rerank"><td>"rerank"</td><td>Specifies a ranking algorithm or filter that is used to rerank/refilter the search results. Currently, <code>random</code> (randomly reorder the returned results), <code>best</code> (reorder by best match of query with result title and description), and <code>bestrandom</code> (reorder by best match, supplemented with random results if less than 10 matching results are found) are supported. All other strings are treated as <code>best</code>.</td></tr>
+
+<tr id="field-signature"><td>"signature"</td><td>Used to sign API requests. Takes a function and optionally a private parameter. Possible value: <code>HmacSHA256({key})</code> (used for Amazon's affiliate program).</td></tr>
+
+<tr id="field-testquery"><td>"testquery"</td>
+  <td>A query for which a search gives a non-empty result. If not set, the system should give a non-empty result for the query <code>searsia</code>.</td></tr>
+
+<tr id="field-usertemplate"><td style="white-space:nowrap">"usertemplate"</td>
+  <td>A url specified following the <a href="#adding-searsia">Opensearch url template syntax</a>, to be used by users. The mime type of this url must be <code>text/html</code> or <code>application/xml+xhtml</code>. </td></tr>
+
+</table>
+<p>* mandatory fieds</p>
 
         </div>
       </div>
       <footer>
         <hr>
-        <p><strong>Next:</strong> <a href="people.html">People</a>.</p>
+        <p><strong>Next:</strong> The <a href="people.html">People</a> that contributed to Searsia.</p>
       </footer>
- 
     </div> <!-- /container -->
 
     <script src="js/jquery.min.js"></script>
