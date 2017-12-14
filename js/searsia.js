@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * Searsia Client v1.0.0 spaghetti code:
+ * Searsia Client v1.0.2 spaghetti code:
  *   Set the value of API_TEMPLATE before to your Searsia Server.
  *
  *   The web page should call getResources(params) 
@@ -22,6 +22,7 @@
  *   Syntax checked with: jslint --eqeq --regexp --todo searsia.js
  */
 
+/* jshint esversion: 5 */
 /*global $, window, document, alert, jQuery, localStorage, Bloodhound*/
 
 "use strict";
@@ -32,9 +33,9 @@ var API_TEMPLATE = 'http://searsia.org/searsia/search.json';
 var AGG       = 1;   // 1=Aggregate results, 0=only boring links
 var pending   = 0;   // Number of search engines that are answering a query
 var nrResults = 0;   // Total number of results returned 
-var page      = 1;   // search result page
 var lang      = document.getElementsByTagName('html')[0].getAttribute('lang');    // used for language-dependent texts
 
+var proxyURL = 0; // url to proxy images
 var logClickDataUrl = 0; // url to log click data, undefined or 0 to disable click logging
 var sendSessionIdentifier = 0; // do not send anonymous session id with each click
 var suggestionsOn = 0; // Enables suggestions, if they are provided via the API template's server.
@@ -117,6 +118,13 @@ function setLocalStorage(field, value) {
             window.localStorage['searsia-' + field] = value;
         } catch (ignore) { }
     }
+}
+
+
+function deleteLocalStorage(field) {
+    try {
+        window.localStorage['searsia-' + field] = null;
+    } catch (ignore) { }
 }
 
 
@@ -249,6 +257,14 @@ function storeMother(data) {
 }
 
 
+function proxyUrl(url) {
+    if (proxyURL) {
+        url = proxyURL.replace(/\{u\}/g, encodeURIComponent(url.replace(/&amp;/g, '&')));
+    }
+    return url;
+}
+
+
 function placeBanner(data) {
     var banner = null;
     if (data.resource != null && data.resource.banner != null) {
@@ -258,7 +274,7 @@ function placeBanner(data) {
         banner = getLocalStorage('banner');
     }
     if (banner != null && $('#searsia-banner').length) {
-        $('#searsia-banner').html('<img src="' + banner + '" alt="" />');
+        $('#searsia-banner').html('<img src="' + proxyUrl(banner) + '" alt="" />');
         $("#searsia-banner").fadeIn();
     }
 }
@@ -415,7 +431,7 @@ function encodedQuery(text) {
 
 
 function fillForm(query) {
-    $('#searsia-form').find('input').attr('value', formQuery(query));
+    $('#searsia-input').val(formQuery(query));
 }
 
 
@@ -429,6 +445,8 @@ function fillUrlTemplate(template, query, resourceId) {
         }
     }
     template = template.replace(/\{q\??\}/g, query);
+    template = template.replace(/\{searchTerms\??\}/g, query);
+    template = template.replace('{startPage}', '1');
     return template.replace(/\{[A-Za-z]+\?\}/g, '');  // remove all optional
 }
 
@@ -662,12 +680,12 @@ function htmlFullResult(query, hit, rank) {
     result += '<h4><a ' + createOnClickElementforClickThrough(rank, 'html_result_full')
         + 'href="' + url + '">' + highlightTerms(title, query) + '</a>';
     if (hit.favicon != null) {
-        result += '<img src="' + hit.favicon + '" alt="">';
+        result += '<img src="' + proxyUrl(hit.favicon) + '" alt="" onerror="this.style=\'display:none\'">';
     }
     result += '</h4>';
     if (image != null) {
         result += '<a ' + createOnClickElementforClickThrough(rank, 'html_result_full')
-            + 'href="' + url + '"><img src="' + image + '" /></a>';
+            + 'href="' + url + '"><img src="' + proxyUrl(image) + '" /></a>';
     }
     result += '<p>';
     if (descr == null) { descr = hit.title; }
@@ -677,7 +695,7 @@ function htmlFullResult(query, hit, rank) {
         result += '&#151;';
     }
     result += '<br><a ' + createOnClickElementforClickThrough(rank, 'html_result_full')
-        + 'href="' + url + '">' + highlightTerms(restrict(url, 90), query) + '</a></p>';
+        + 'href="' + url + '">' + highlightTerms(restrict(decodeURIComponent(url), 90), query) + '</a></p>';
     return result;
 }
 
@@ -714,13 +732,13 @@ function moreResultsText() {
 
 
 function noMoreResultsText() {
-    var result = "Done.";
+    var result = "No more results.";
     if (lang === "nl") {
-        result = "Klaar.";
+        result = "Geen andere resultaten.";
     } else if (lang === "de") {
-        result =  "Fertig.";
+        result =  "Keine Ergebnisse mehr.";
     } else if (lang === "fr") {
-        result = "Prêt.";
+        result = "Pas plus de résultats.";
     }
     return result;
 }
@@ -811,14 +829,13 @@ function inferMissingData(data, query) {
         typeImages = true,
         typeSmall = true,
         typeFull = false,
+        typeTitleOnly = true,
+        typeAdvertisement = false,
         count = data.hits.length - 1;
 
     resource = data.resource;
     if (resource.urltemplate != null) {
         rhost = getHost(resource.urltemplate);
-        if (resource.favicon == null) {
-            resource.favicon = correctUrl(resource.urltemplate, '/favicon.ico');
-        }
     }
     for (i = count; i >= 0; i -= 1) {
         hit = data.hits[i];
@@ -833,7 +850,7 @@ function inferMissingData(data, query) {
             if (resource.urltemplate != null) {
                 hit.url = fillUrlTemplate(resource.urltemplate, encodedQuery(hit.title), '');
             } else {
-                hit.url = fillUrlTemplate('?q={q}', encodedQuery(hit.title), '');
+                hit.url = fillUrlTemplate('?q={searchTerms}', encodedQuery(hit.title), '');
             }
         } else {
             hit.url = correctUrl(resource.urltemplate, hit.url); //TODO: what if urltemplate is null?
@@ -844,9 +861,11 @@ function inferMissingData(data, query) {
         }
         if (hit.description != null) {
             hit.description = noHTMLelement(hit.description);
+            typeTitleOnly = false;
         }
         if (hit.image != null) {
             hit.image = noHTMLattribute(correctUrl(resource.urltemplate, hit.image));
+            typeTitleOnly = false;
         }
         if (hit.favicon == null && resource.favicon != null) {
             hit.favicon = resource.favicon;
@@ -860,15 +879,20 @@ function inferMissingData(data, query) {
         if (hit.tags == null || hit.tags.indexOf('image') === -1) {
             typeImages = false;
         }
+        if (hit.tags != null && hit.tags.indexOf('advertisement') !== -1) {
+            typeAdvertisement = true;
+        }
         if (i < count && data.hits[i + 1].score > hit.score) {
             data.hits[i] = data.hits[i + 1]; // bubbling the best scoring hit up
             data.hits[i + 1] = hit;
         }
     }
-    if (typeSmall) {
-        resource.type = 'small';
+    if (typeAdvertisement) {
+        resource.type = 'advertisement'; // TODO: resourc with mix of ads & web
     } else if (typeImages) {
         resource.type = 'images';
+    } else if (typeSmall || typeTitleOnly) {
+        resource.type = 'small';
     } else if (typeFull) {
         resource.type = 'full';
     } else {
@@ -876,24 +900,6 @@ function inferMissingData(data, query) {
     }
 }
 
-
-/*
- * Updates data.hits, removing hits that have a 
- * foundBefore date that is more than 2 weeks ago.
- */
-function removeTooOldResults(data) {
-    var i, hit,
-        newHits = [],
-        count = data.hits.length;
-    if (count > 15) { count = 15; }
-    for (i = 0; i < count; i += 1) {
-        hit = data.hits[i];
-        if (hit.foundBefore == null || Date.now() - new Date(hit.foundBefore).getTime() < 1209600000) { // 1209600000 is two weeks in miliseconds
-            newHits.push(hit);
-        }
-    }
-    data.hits = newHits;
-}
 
 /*
  * Returns html sub result, properly length-restricted
@@ -924,7 +930,7 @@ function htmlSubResultWeb(query, hit, rank) {
     result += '<div class="sub-result">';
     if (image != null) {
         result += '<a ' + createOnClickElementforClickThrough(rank, 'subresult_html_web')
-            + 'href="' + url + '"><img src="' + image + '"/></a>';
+            + 'href="' + url + '"><img src="' + proxyUrl(image) + '"/></a>';
     }
     result += '<p><a ' + createOnClickElementforClickThrough(rank, 'subresult_html_web')
         + 'href="' + url + '">' + highlightTerms(title, query) + '</a> ';
@@ -951,7 +957,7 @@ function htmlSubResultWebFull(query, hit, rank) { // duplicate code with htmlSub
     result += '<div class="sub-result">';
     if (image != null) {
         result += '<a ' + createOnClickElementforClickThrough(rank, 'subresult_web_full')
-            + 'href="' + url + '"><img src="' + image + '"/></a>';
+            + 'href="' + url + '"><img src="' + proxyUrl(image) + '"/></a>';
     }
     result += '<div class="descr"><a ' + createOnClickElementforClickThrough(rank, 'subresult_web_full')
         + 'href="' + url + '">' + highlightTerms(title, query) + '</a> ';
@@ -961,7 +967,7 @@ function htmlSubResultWebFull(query, hit, rank) { // duplicate code with htmlSub
     result += '</div>';
     if (url != null) {
         result += '<div class="url"><a ' + createOnClickElementforClickThrough(rank, 'subresult_web_full')
-            + 'href="' + url + '">' + highlightTerms(url, query) + '</a></div>';
+            + 'href="' + url + '">' + highlightTerms(decodeURIComponent(url), query) + '</a></div>';
     }
     result += '</div>';
     return result;
@@ -994,7 +1000,7 @@ function htmlSubResultImage(hit, rank) {
         result = '';
     title = restrict(title, 80);
     result += '<a ' + createOnClickElementforClickThrough(rank, 'subresult_image')
-        + 'href="' + url + '"><img class="sub-image" src="' + image + '" alt="[image]" title="' + title + '"/></a>\n';
+        + 'href="' + url + '"><img class="sub-image" src="' + proxyUrl(image) + '" alt="[image]" title="' + title + '"/></a>\n';
     return result;
 }
 
@@ -1050,7 +1056,7 @@ function htmlResource(query, resource, printQuery, rank) {
         result = '<h4>';
     if (resource.urltemplate != null) {
         title = resource.name;
-        if (printQuery && resource.urltemplate.indexOf('{q}') > -1) {
+        if (printQuery && (resource.urltemplate.indexOf('{q}') > -1 || resource.urltemplate.indexOf('{searchTerms}') > -1)) {
             title += ' - ' + printableQuery(query);
             url = fillUrlTemplate(resource.urltemplate, query, '');
         } else {
@@ -1061,7 +1067,7 @@ function htmlResource(query, resource, printQuery, rank) {
         title = restrict(title, 80);
         result += highlightTerms(title, query) + '</a>';
         if (resource.favicon != null) {
-            result += '<img src="' + resource.favicon + '" alt="">';
+            result += '<img src="' + proxyUrl(resource.favicon) + '" alt="" onerror="this.style=\'display:none\'">';
         }
     } else {
         console.log("Warning, no template: " + resource.name);
@@ -1073,7 +1079,7 @@ function htmlResource(query, resource, printQuery, rank) {
     }
     if (url != null) {
         result += '<a ' + createOnClickElementforClickThrough(rank, 'html_resource_header')
-            + 'href="' + url + '">' + highlightTerms(restrict(url, 90), query) + '</a>';
+            + 'href="' + url + '">' + highlightTerms(restrict(decodeURIComponent(url), 90), query) + '</a>';
     }
     result += '</p>';
     return result;
@@ -1109,8 +1115,56 @@ function printAggregatedResults(query, data, rank, printQuery) {
         }
         result += '</div>';
         if (rank < 1) { rank = 1; }
+        if (rank === 4) { rank = 3; }
         if (rank > 4) { rank = 4; }
         $('#searsia-results-' + rank).append(result); // there are four divs for results, 1=top, 2=subtop, 3=rest, 4=more.
+    } else {
+        //Remove this resource from the ranking because it is not shown to the user
+        searsiaStore.removeFromRanking(rank);
+    }
+}
+
+
+function printAdvertisements(query, data, rank) {
+    var i, j, filled, result = '',
+        count = data.hits.length;
+    if (count > 0) {
+        if (rank < 4) {
+            count = 1;
+        } else {
+            if (count > 3) { count = 3; }
+            filled = 0;
+            for (j = 1; j < 4; j += 1) {
+                if (!$('#searsia-results-' + j).is(':empty')) {
+                    filled += 1;
+                }
+            }
+            if (count > filled) {
+                count = filled;
+                if (count === 0) {
+                    count = 1;
+                }
+            }
+        }
+        result += '<div class="panel panel-default"><div class="panel-heading">advertisements';
+        if (data.resource != null && data.resource.name != null) {
+            result += ' by ' + data.resource.name;
+        }
+        result += ' </div><div class="panel-body">';
+        for (i = 0; i < count; i += 1) {
+            result += '<div class="search-result">';
+            result += htmlFullResult(query, data.hits[i], rank);
+            result += '</div>';
+        }
+        result += '</div>';
+        if (rank < 1) { rank = 1; }
+        if (rank < 4) {
+            $('#searsia-results-' + rank).append(result);
+        } else if ($('#searsia-sidebar-1').is(':empty')) {
+            $('#searsia-sidebar-1').append(result);
+        } else {
+            $('#searsia-sidebar-2').append(result);
+        }
     } else {
         //Remove this resource from the ranking because it is not shown to the user
         searsiaStore.removeFromRanking(rank);
@@ -1129,6 +1183,7 @@ function printNormalResults(query, data, rank) {
         result += '</div>';
         where = rank + i;
         if (where < 1) { where = 1; }
+        if (where === 4) { where = 3; }
         if (where > 4) { where = 4; }
         $('#searsia-results-' + where).append(result); // there are four divs for results, 1=top, 2=subtop, 3=rest, 4=more.
     }
@@ -1138,25 +1193,29 @@ function printNormalResults(query, data, rank) {
 
 function printResults(query, data, rank, olddata) {
     var nrDisplayed,
+        printQuery = true,
         count = data.hits.length; // TODO: also includes 'rid'-only results from searsia engines
     if (data.resource != null && data.resource.apitemplate != null) {
         localSetResource(data.resource);
+    }
+    if (count === 0) {
+        data = olddata;
+        printQuery = false;
+        count = data.hits.length;
     }
     if (count > 0) {
         inferMissingData(data, query);
         $('#searsia-alert-bottom').html('');
         if (count > 15) { count = 15; } // no more than 15 per resource
         nrResults += count; // global
-        if (AGG === 0 || data.resource.name == null) {
+        if (data.resource != null && data.resource.type != null && data.resource.type === 'advertisement') {
+            printAdvertisements(query, data, rank);
+        } else if (AGG === 0 || data.resource.name == null) {
             nrDisplayed = printNormalResults(query, data, rank);
             addToStore(data, nrDisplayed, count);
         } else {
-            printAggregatedResults(query, data, rank, true); // TODO: addToStore now happens deep inside printAggregatedResults...
+            printAggregatedResults(query, data, rank, printQuery); // TODO: addToStore now happens deep inside printAggregatedResults...
         }
-    } else {
-        inferMissingData(olddata, query);
-        removeTooOldResults(olddata);
-        printAggregatedResults(query, olddata, rank, false);
     }
     pending -= 1; // global
     if (pending <= 0) {
@@ -1171,10 +1230,14 @@ function getResults(query, rid, rank, olddata) {
         url: fillUrlTemplate(API_TEMPLATE, query, rid),
         success: function (data) { printResults(query, data, rank, olddata); },
         error: function (xhr, options, err) {
-            printResults(query, olddata, rank, olddata);
+            if (xhr.status == 410) {
+                deleteLocalStorage(rid);
+            } else {
+                printResults(query, olddata, rank, olddata);
+            }
             resultsError(rid, err);
         },
-        timout: 12000,
+        timeout: 12000,
         dataType: 'json'
     });
     /*jslint unparam: false*/
@@ -1183,7 +1246,6 @@ function getResults(query, rid, rank, olddata) {
 
 function queryResources(query, data) {
     var rid, hits, olddata,
-        oldquery = "",
         i = 0,
         rank = 1,
         done = [];
@@ -1204,13 +1266,13 @@ function queryResources(query, data) {
             nrResults += 1; // global
             rank += 1;
         } else if (done[rid] !== 1) {
-            //oldquery = hits[i].query; // remove comment to enable 'cached' result
             olddata = { hits: [] };
             if (localExistsResource(rid)) {
                 olddata.resource = localGetResource(rid);
                 while (i < hits.length && hits[i].rid === rid) {
                     if (hits[i].title != null && hits[i].title != "" && // too many exceptions?
-                            (hits[i].url != null || olddata.resource.urltemplate != null)) {
+                            (hits[i].url != null || olddata.resource.urltemplate != null) &&
+                            (hits[i].foundBefore == null || Date.now() - new Date(hits[i].foundBefore).getTime() < 1209600000)) { // 1209600000 is 2 weeks in ms
                         olddata.hits.push(hits[i]);
                     }
                     i += 1;
@@ -1219,12 +1281,11 @@ function queryResources(query, data) {
             } else {
                 olddata.resource = { id: rid }; // TODO: get it?
             }
-            if (oldquery === query && localExistsResource(rid) && olddata.hits.length > 0) {  // a 'cached' result.
-                printResults(query, olddata, rank, olddata);
-            } else {                         // some result, but not the best
-                getResults(query, rid, rank, olddata);
-                pending += 1; // global
+            if (olddata.hits.length > 0 && rank < 4) {
+                $('#searsia-results-' + rank).append(" "); // We know this will be filled (for checks in printAdvertisements)
             }
+            getResults(query, rid, rank, olddata);
+            pending += 1; // global
             done[rid] = 1;
             rank += 1;
         }
@@ -1236,22 +1297,67 @@ function queryResources(query, data) {
     placeSuggestions(data);
 }
 
+/**
+ *  fill Template, allowing for instance "!duckduckgo test"
+ *  where 'duckduckgo' is the resource identifier
+ *  returns url, changes params.q
+ *  TODOOOO: @bang only works from main page
+ *           bangs do not work when resource not in localStorage
+ */
+function fillTemplateCheckBangs(template, params) {
+    var query = params.q,
+        bangQuery = "",
+        bangRid = "",
+        bangUrl = null,
+        resource,
+        i,
+        terms;
+    terms = query.split(/\++/); // This might not work for all char encodings
+    for (i = 0; i < terms.length; i += 1) {
+        if (terms[i].startsWith('%21') || terms[i].startsWith('%40')) {
+            bangRid = terms[i].substring(3, terms[i].length).toLowerCase();
+            resource = localGetResource(bangRid);
+            if (resource) {
+                if (terms[i].startsWith('%21')) {
+                    bangUrl = resource.urltemplate;
+                }
+            } else {
+                bangRid = '';
+            }
+        } else {
+            if (bangQuery) { bangQuery += "+"; }
+            bangQuery += terms[i];
+        }
+    }
+    if (bangUrl) {
+        bangUrl = fillUrlTemplate(bangUrl, bangQuery, '');
+        window.location.replace(bangUrl);
+        return fillUrlTemplate(template, '', '');
+    }
+    if (bangRid) {
+        params.q = bangQuery;
+    }
+    return fillUrlTemplate(template, params.q, bangRid);
+}
+
 
 function getResources(params) {
     /*jslint unparam: true*/
+    var url;
     if (params.q.length > 150) {
         searsiaError('Query too long.');
         return;
     }
+    url = fillTemplateCheckBangs(API_TEMPLATE, params);
     searsiaStore.setQuery(params.q);
     $.ajax({
-        url: fillUrlTemplate(API_TEMPLATE, params.q, ''),
+        url: url,
         success: function (data) { queryResources(params.q, data); },
         error: function (xhr, options, error) { searsiaError('Temporarily out of order. Please try again later.'); },
         timeout: 10000,
         dataType: 'json'
     });
-    $('#searsia-alert-bottom').html('<img src="/images/progress.gif" alt="searching...">');
+    $('#searsia-alert-bottom').html('<img src="images/progress.gif" alt="searching...">');
     /*jslint unparam: false*/
 }
 

@@ -78,10 +78,12 @@ the University of Twente's site search engine, and Dr. Sheet Music:
 <code>https://drsheetmusic.com/searsia/index.json?q={searchTerms}&page={startPage?}</code>
 </p>
 <p> 
-If you run Searsie Server on your local machine (see next section), you can 
+If you run Searsia Server on your local machine (see next section), you can 
 connect the client to your own server by setting the API template to something 
-like:<br>
-<code>'http://localhost:16842/searsia/index?q={searchTerms?}&page={startPage?}'</code>
+like:
+</p>
+<p>
+<code>http://localhost:16842/searsia/index?q={searchTerms?}&page={startPage?}</code>
 </p>
 
 <h2 id="server">The server</h2>
@@ -123,11 +125,11 @@ start up. For instance, connect to Dr. Sheet Music as follows:
 <code class="result">
 Searsia server v1.0.2<br>
 Starting: Dr. Sheet Music (index)<br>
-API end point: http://localhost:16842/searsia/index?q={q}<br>
+API template: http://localhost:16842/searsia/index?q={searchTerms}&page={startPage?}<br>
 Use Ctrl+c to stop.
 </code>
 </p>
-Use the reported API end point template in your <a href="#client">client</a> as 
+Use the reported API template in your <a href="#client">client</a> as 
 explained above to connect your client to your server.
 </p> 
 

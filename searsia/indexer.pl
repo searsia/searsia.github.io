@@ -145,7 +145,7 @@ sub json_end {
     "name": "Searsia",
     "rerank": "lm",
     "apitemplate": "http:\\/\\/searsia.org\\/searsia\\/search.json",
-    "usertemplate": "http:\\/\\/searsia.org\\/searsiaclient\\/search.html?q={q}"
+    "usertemplate": "http:\\/\\/searsia.org\\/searsiaclient\\/search.html?q={searchTerms}"
   },
   "searsia": "v1.0.0"
 }
