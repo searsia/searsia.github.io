@@ -109,7 +109,8 @@ Searsia server v1.0.2<br>
 Testing: index (My Engine)<br>
 {"hits": [
   {"rid": "engine1"},
-  {"rid": "engine2"}
+  {"rid": "engine2"},
+  {"rid": "engine3"}
 ]}<br>
 Warning: less than 10 results for query: searsia; see "testquery" or "rerank".<br>
 Test succeeded.
@@ -182,7 +183,7 @@ For a JSON post request, additionally use
 <code><a href="#field-post-encoding">"postencode"</a>: "application/json"</code>
 </p>
 <p id="scraping">
-Searsia uses <a target="_blank" href="https://en.wikipedia.org/wiki/XPath">XPath 1.0</a> to extract the search results from the web page. XPath is a query language for selecting elements of semi-structured data. Suppose the search results are displayed as list elements on the page, then these are encode as <code>&lt;li&gt;</code> ... <code>&lt;/li&gt;</code> on the page, and they can be extracted from the page with the XPath query <code>//li</code>. To find the most likely XPath query, we recommend <a target="_blank" href="http://dolf.trieschnigg.nl/srf/">Search Result Finder</a> for Firefox. Fill in the XPath query in the field <em><a href="#field-item-xpath">"itempath"</a></em>. To tell Searsia how to extract the components of the search result, add <em><a href="#field-extractors">"extractors"</a></em> for the fields <code>title</code>, <code>description</code>, <code>link</code>, or any other field you like (the client also supports <code>image</code>). 
+Searsia uses <a target="_blank" href="https://en.wikipedia.org/wiki/XPath">XPath 1.0</a> to extract the search results from the web page. XPath is a query language for selecting elements of semi-structured data. Suppose the search results are displayed as list elements on the page, then these are encode as <code>&lt;li&gt;</code> ... <code>&lt;/li&gt;</code> on the page, and they can be extracted from the page with the XPath query <code>//li</code>. To find the most likely XPath query, we recommend <a target="_blank" href="http://dolf.trieschnigg.nl/srf/">Search Result Finder</a> for Firefox. Fill in the XPath query in the field <code><a href="#field-item-xpath">"itempath"</a></code>. To tell Searsia how to extract the components of the search result, add <code><a href="#field-extractors">"extractors"</a></code> for the fields <code>title</code>, <code>description</code>, <code>link</code>, or any other field you like (the client also supports <code>image</code>). 
 </p>
 <p>
 We recommend to incrementally define your HTML search engine by first
@@ -267,12 +268,12 @@ Test succeeded.<br>
 <h2 id="adding-xml">Adding an XML or JSON resource</h2>
 <p>
 To add an XML resource, fill in <code>application/xml</code> in the field 
-<em><a href="#field-mime-type">"mimetype"</a></em>. Then proceed as 
+<code><a href="#field-mime-type">"mimetype"</a></code>. Then proceed as 
 <a href="#adding-html">above</a>. The Firefox Search Result Finder cannot 
 be used in this case.
 </p>
 <p>To add a JSON resource, fill in <code>application/json</code> in the 
-field <em><a href="#field-mime-type">"mimetype"</a></em>. Searsia also 
+field <code><a href="#field-mime-type">"mimetype"</a></code>. Searsia also 
 uses XPath queries to interpret JSON output, by internally converting JSON 
 to XML, where each JSON attribute name is converted to an XML element; 
 JSON lists are converted to repeated XML elements with the JSON list's 
@@ -286,7 +287,6 @@ that have a URL. This definition selects part of the search results,
 because a Searsia engine might also show results without a URL, and
 it might show more fields than the once selected here:
 </p>  
-</p>
 <p>The file <code>engine3.json</code> contains:</p>
 <pre>
 {
@@ -312,6 +312,7 @@ it might show more fields than the once selected here:
 java -jar ~/Workspace/searsiaserver/target/searsiaserver.jar -m index.json  -t all
 </code>
 </p>
+<p>
 <code class="result">
 Searsia server v1.0.2<br>
 Testing: index (My Engine)<br>
@@ -328,7 +329,7 @@ Test succeeded.
 <p>
 Searsia supports many API's by including API keys as secret 
 <em><a href="#field-parameters">parameters</a></em> that will not be 
-shared, as well the possibility to add custom HTTP 
+shared, as well as the possibility to add custom HTTP 
 <em><a href="#field-headers">headers</a></em>.
 Look at the API of UT Search at 
 <a target="_blank" href="https://search.utwente.nl/searsia/index.json">University of 
