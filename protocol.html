@@ -79,7 +79,7 @@ files from the local file system.
          <li> The engine's definition (called <code>"resource"</code>), which needs the engine's identifier (<code>"id"</code>) that should match the file name, hence: <code>"index"</code> (excluding the file name extension).</li>
          <li> The Searsia version number (<code>"searsia"</code>), which
         will be <code>v1.0.0</code>.
-         <li> An API template (<code>"apitemplate"</code>) for getting the search results, or alternatively, the search results themselves, called <code>"hits"</code>. In this case, we add two hits containing only two other engine identifiers (called <code>"rid"</code> for "resource identifier"): <code>"engine1"</code> and <code>"engine2"</code></li>
+         <li> An API template (<code>"apitemplate"</code>) for getting the search results, or alternatively, the search results themselves, called <code>"hits"</code>. In this case, we add three hits containing each only an engine identifier (called <code>"rid"</code> for "resource identifier"): <code>"engine1"</code>, <code>"engine2"</code>, and <code>"engine3"</code></li>
        </ol>
         
 <p>The file <code>index.json</code> contains:</p>
@@ -122,7 +122,7 @@ we might also test all engines in the federated search engine as follows:
 <p>
 <code class="block"> java -jar searsiaserver.jar -m index.json -t all</code>
 </p>
-<p>which results in 2 errors, because we have not yet added the engines <code>engine1</code> and <code>engine2</code>.
+<p>which results in 3 errors, because we have not yet added the engines <code>engine1</code>, <code>engine2</code> and <code>engine3</code>.
 </p>
 <code class="result">
 Searsia server v1.0.2<br>
@@ -282,7 +282,7 @@ for debugging.
 </p>
 <p>
 The following example selects only the hits from a JSON search engine
-(Acttually, a search engine that produces Searsia's JSON) 
+(Actually, a search engine that produces Searsia's JSON) 
 that have a URL. This definition selects part of the search results, 
 because a Searsia engine might also show results without a URL, and
 it might show more fields than the once selected here:
@@ -309,7 +309,7 @@ it might show more fields than the once selected here:
 <p> Now we can test all engines as follows: </p>
 <p>
 <code class="block">
-java -jar ~/Workspace/searsiaserver/target/searsiaserver.jar -m index.json  -t all
+java -jar searsiaserver.jar -m index.json  -t all
 </code>
 </p>
 <p>
@@ -502,7 +502,7 @@ Icons are preferably png files, not smaller than 48x48 pixels. </td></tr>
   <td>A url specified following the <a href="#adding-searsia">Opensearch url template syntax</a>, to be used by users. The mime type of this url must be <code>text/html</code> or <code>application/xml+xhtml</code>. </td></tr>
 
 </table>
-<p>* mandatory fieds</p>
+<p>* mandatory fields</p>
 
         </div>
       </div>
