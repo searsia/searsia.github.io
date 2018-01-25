@@ -1,0 +1,15 @@
+{
+  "resource": {
+    "id": "cse2",
+    "apitemplate": "http://searsia.org/searsia/wiki/cse2{searchTerms}.json",
+    "itempath": "//div[@class='search-result']",
+    "extractors": {
+        "description": "./p/br/preceding-sibling::*",
+        "title": "./h4",
+        "url": "./h4/a/@href"
+    },
+    "mimetype": "application/html+json",
+    "name": "Wiki Full 1",
+    "testquery": "html json"
+  }
+}
