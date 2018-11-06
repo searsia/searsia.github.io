@@ -11,6 +11,6 @@
     "mimetype": "application/html+json",
     "name": "Wiki Full 1",
     "testquery": "html json",
-    "urltemplate": "http://searsia.org/searsia/wiki/cse2.json"
+    "urltemplate": "http://searsia.org/blog/?q={searchTerms}"
   }
 }
