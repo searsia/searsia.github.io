@@ -504,11 +504,27 @@ Icons are preferably png files, not smaller than 48x48 pixels. </td></tr>
 </table>
 <p>* mandatory fields</p>
 
-        </div>
-      </div>
-      <footer>
-        <hr>
-        <p><strong>Next:</strong> The <a href="people.html">People</a> that contributed to Searsia.</p>
+<h2>Trouble shooting</h2>
+
+<p>
+If your error is: <code>SLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target</code>: 
+Your Java version does not have the right SSL certificate to connect to the site. 
+Updating Java might solve this problem. If not, 
+get the certificate in Firefox by clicking on the lock in the browser address bar. 
+Choose "More Information", "View Certificate", "General Details", "Export" and 
+save the certificate (for instance as MySite.crt). 
+Then, on your machine, locate your java certificate files; On Ubuntu 18.04, they
+can be found here: <code>/usr/lib/jvm/default-java/lib/security/cacerts</code>.
+Then update your certificates as follows: 
+<code> sudo keytool -import -noprompt -trustcacerts -alias MySite -file MySite.crt -keystore /usr/lib/jvm/default-java/lib/security/cacerts</code>
+(use the password: changeit)
+</p>
+
+</div>
+</div>
+<footer>
+<hr>
+<p><strong>Next:</strong> The <a href="people.html">People</a> that contributed to Searsia.</p>
       </footer>
     </div> <!-- /container -->
 
