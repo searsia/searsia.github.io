@@ -622,7 +622,7 @@
     }
   ],
   "resource": {
-    "id": "searsia",
+    "id": "search",
     "mimetype": "application\/searsia+json",
     "favicon": "http:\/\/searsia.org\/images\/searsia.png",
     "banner": "http:\/\/searsia.org\/images\/banner.png",

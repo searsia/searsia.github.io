@@ -1,0 +1,16 @@
+{
+  "resource": {
+    "id": "cse3",
+    "mimetype": "application\/json+html",
+    "apitemplate": "http:\/\/searsia.org\/searsia\/wiki\/cse3{searchTerms}.html",
+    "extractors": {
+        "description": "./description",
+        "title": "./title",
+        "url": "./url"
+    },
+    "itempath": "//div/data-content/hits",
+    "testquery": "great",
+    "name": "CSE 3"
+  },
+  "searsia": "v1.0.0"
+}
