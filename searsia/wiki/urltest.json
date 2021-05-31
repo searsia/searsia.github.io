@@ -1,0 +1,23 @@
+{
+  "hits": [
+    { 
+      "title": "Searsia - Start",
+      "description": "... will display the following message: Please provide mother's api template (use '-m'). ...... If you look at the URL in your browser, you will see the JSON search ...",
+      "url": "http://searsia.org/pagedoesnotexist.html"
+    },
+    {
+      "title": "Searsia - Protocol: Examples",
+      "description": "... API templates now follow the OpenSearch URL template syntax ; Old templates are still ...... various affiliate advertising programs; Please read information on how to get started with ...",
+      "url": "http://searsia.org/blog/2017-12-14-searsia-version-1/index.html"
+    }
+  ],
+  "resource": {
+    "id": "urltest",
+    "mimetype": "application\/searsia+json",
+    "testquery": "wrong url please",
+    "name": "Test wrong 1st link",
+    "apitemplate": "http:\/\/searsia.org\/searsia\/wiki\/urltest.json",
+    "rerank": "lm"
+  },
+  "searsia": "v1.0.0"
+}
