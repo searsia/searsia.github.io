@@ -1,21 +1,36 @@
 {
   "hits": [
     { 
-      "title": "Searsia - Start",
+      "title": "Searsia - Wrong URL",
       "description": "... will display the following message: Please provide mother's api template (use '-m'). ...... If you look at the URL in your browser, you will see the JSON search ...",
       "url": "http://searsia.org/pagedoesnotexist.html"
     },
     {
-      "title": "Searsia - Protocol: Examples",
+      "title": "Searsia - Absolute URL",
       "description": "... API templates now follow the OpenSearch URL template syntax ; Old templates are still ...... various affiliate advertising programs; Please read information on how to get started with ...",
       "url": "http://searsia.org/blog/2017-12-14-searsia-version-1/index.html"
+    },
+    {
+      "title": "Searsia - Relative URL Root",
+      "description": "This post is based on the Searsia lightning talk for the 2018 New Year meeting of the Dutch Internet Society, for which the slides were appropriately made in HTML.",
+      "url": "/blog/2018-01-19-web-search-no-tracking/index.html"
+    },
+    {
+      "title": "Searsia - Relative URL Map",
+      "description": "The past months Searsia investigated ways for small search engines to provide search advertisements without participating in the large advertisement networks of Google and Facebook, and more importantly, without the need for small search engines to track their users.",
+      "url": "2017-11-30-ethical-search-advertising/"
+    },
+    {
+      "title": "Searsia - Relative URL Protocol",
+      "description": "We presented Searsia at the 16th Annual Dutch-Belgian Information Retrieval Workshop DIR 2017 which was hosted today by the Netherlands Institute for Sound and Vision.",
+      "url": "//searsia.org/blog/2017-11-24-searsia-at-dir/"
     }
   ],
   "resource": {
     "id": "urltest",
     "mimetype": "application\/searsia+json",
-    "testquery": "wrong url please",
-    "name": "Test wrong 1st link",
+    "testquery": "url please",
+    "name": "Test links",
     "apitemplate": "http:\/\/searsia.org\/searsia\/wiki\/urltest.json",
     "rerank": "lm"
   },
