@@ -32,6 +32,7 @@
     "testquery": "url please",
     "name": "Test links",
     "apitemplate": "http:\/\/searsia.org\/searsia\/wiki\/urltest.json",
+    "urltemplate": "http:\/\/searsia.org\/searsia\/wiki\/urltest.json",
     "rerank": "lm"
   },
   "searsia": "v1.0.0"
