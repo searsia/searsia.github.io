@@ -1,0 +1,36 @@
+{
+  "hits": [
+    {
+      "title": "ÉÉN test Searsia",
+      "description": "Naïeve ingrediënten überhaupt vóór hè?",
+      "url": "https:\/\/searsia.org\/blog"
+    },
+    {
+      "title": "عشق و صلح",
+      "description": "فقط چک کردن این شخصیت های چینی با استفاده از بهترین کلمات.",
+      "url": "https:\/\/searsia.org\/about.html"
+    },
+    {
+      "title": "愛與和平",
+      "description": "只是使用最好的單詞檢查這些漢字。",
+      "url": "https:\/\/searsia.org\/search.html"
+    }
+  ],
+  "resource": {
+    "id": "wikifull1",
+    "mimetype": "application\/xml",
+    "urltemplate": "http:\/\/en.wikipedia.net\/w\/index.php?search={q}&title=Special%3ASearch&go=Go",
+    "favicon": "https:\/\/en.wikipedia.org\/static\/apple-touch\/wikipedia.png",
+    "itempath": "\/\/Item",
+    "extractors": {
+      "title": ".\/Text",
+      "description": ".\/Description",
+      "url": ".\/Url"
+    },
+    "testquery": "information",
+    "name": "Wikipedia Pages",
+    "prior": 2,
+    "apitemplate": "https:\/\/en.wikipedia.org\/w\/api.php?action=opensearch&format=xml&search={q}&namespace=0"
+  },
+  "searsia": "v1.0.0"
+}
